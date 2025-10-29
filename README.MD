@@ -1,0 +1,125 @@
+# 🧭 Instalación y Configuración del Proyecto
+
+## 🧩 Instalar Paquetes Necesarios
+
+Ejecuta este comando para agregar **AutoMapper**:
+
+```bash
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+```
+
+Libreria para generar pdf
+```bash 
+dotnet add package DinkToPdf
+```
+
+Si aún no tienes instalado **Entity Framework Core** para SQL Server, agrega también:
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.EntityFrameworkCore.Design
+```
+
+💡 Estos paquetes permiten crear, aplicar y administrar migraciones con EF Core en SQL Server.
+
+## 🔐 Configurar la Base de Datos
+
+Antes de trabajar con la base de datos, asegúrate de que SQL Server esté corriendo correctamente en Docker:
+
+```bash
+docker compose up -d
+```
+
+Luego, valida que el contenedor esté activo:
+
+```bash
+docker ps
+```
+
+El usuario `sa` ya está configurado en el `docker-compose.yml` con la contraseña definida.
+
+### Conexión al Servidor
+
+En tu archivo `appsettings.json`, define la conexión así:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost,1433;Database=ComplianceGuard_DB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+}
+```
+
+⚠️ Importante: Si cambiaste la contraseña en Docker, actualízala aquí también.
+
+## ⚙️ Migraciones con Entity Framework Core
+
+Asegúrate de estar en el proyecto donde se encuentra el `DbContext` (por ejemplo, la carpeta `API` o `Infrastructure`).
+
+1. Crear la primera migración:
+
+   ```bash
+   dotnet ef migrations add InitialCreate
+   ```
+
+2. Aplicar las migraciones a la base de datos:
+
+   ```bash
+   dotnet ef database update
+
+   dotnet ef database drop 
+
+   ```
+
+3. Ver lista de migraciones aplicadas:
+
+   ```bash
+   dotnet ef migrations list
+   ```
+
+4. Eliminar una migración (si aún no se ha aplicado):
+
+   ```bash
+   dotnet ef migrations remove
+   ```
+
+## 🚀 Levantar la API
+
+Ejecuta el proyecto normalmente:
+
+```bash
+dotnet run
+```
+
+O si tienes múltiples proyectos en la solución:
+
+```bash
+dotnet run --project ComplianceGuardPro.API
+```
+
+Por defecto, la API quedará disponible en:
+
+- 🌐 HTTP: http://localhost:5000
+- 🔒 HTTPS: https://localhost:5001
+
+## 🧰 Comandos Útiles
+
+- Crear una nueva migración: `dotnet ef migrations add NombreMigracion`
+- Aplicar todas las migraciones pendientes: `dotnet ef database update`
+- Eliminar la última migración: `dotnet ef migrations remove`
+- Ejecutar la API: `dotnet run`
+- Compilar la solución: `dotnet build`
+- Restaurar dependencias: `dotnet restore`
+
+## ✅ Recomendación Final
+
+- Mantén sincronizado el SA_PASSWORD del `docker-compose.yml` con tu `appsettings.json`.
+- Usa `TrustServerCertificate=True` mientras desarrollas en local.
+- Si deseas acceder al SQL Server desde **Azure Data Studio** o **SSMS**, usa las mismas credenciales:
+  - Server: localhost,1433
+  - User: sa
+  - Password: YourStrong@Passw0rd
+  - Database: ComplianceGuard_DB
+
+
+

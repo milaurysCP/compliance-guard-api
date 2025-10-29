@@ -1,0 +1,491 @@
+// Se recomienda colocar estos modelos en una carpeta llamada "Models" o "Data/Entities"
+// dentro de tu proyecto de .NET Core.
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EsquemaCumplimiento.Models
+{
+    // ===========================================
+    // Roles y Usuarios
+    // ===========================================
+
+    public class Rol
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Nombre { get; set; }
+
+        [StringLength(255)]
+        public string? Descripcion { get; set; }
+
+        // Propiedad de navegación: Un rol puede tener muchos usuarios
+        public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
+    }
+
+    public class Usuario
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string UsuarioLogin { get; set; } // Renombrado para evitar conflicto con el nombre de la clase
+
+        [Required]
+        [StringLength(255)]
+        public string ClaveHash { get; set; }
+
+        [StringLength(255)]
+        public string? Token { get; set; }
+
+        public long RolId { get; set; }
+
+        // Propiedades de navegación
+        [ForeignKey("RolId")]
+        public virtual Rol Rol { get; set; }
+        
+        public virtual ICollection<ProgresoCapacitacion> ProgresosCapacitacion { get; set; } = new List<ProgresoCapacitacion>();
+        public virtual ICollection<MensajeChat> MensajesChat { get; set; } = new List<MensajeChat>();
+    }
+
+    // ===========================================
+    // Clientes y Entidades Relacionadas
+    // ===========================================
+
+    public class Cliente
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string TipoCliente { get; set; } // Persona / Empresa
+
+        [Required]
+        [StringLength(200)]
+        public string Nombre { get; set; }
+
+        [StringLength(50)]
+        public string? Telefono { get; set; }
+
+        [StringLength(150)]
+        public string? Correo { get; set; }
+
+        [StringLength(255)]
+        public string? Url { get; set; }
+
+        [StringLength(50)]
+        public string? DocumentoIdentidad { get; set; }
+
+        [StringLength(100)]
+        public string? RegistroComercial { get; set; }
+
+        public DateTime? FechaNacimiento { get; set; }
+
+        // Propiedades de navegación para todas las tablas relacionadas
+        public virtual ICollection<BeneficiarioFinal> BeneficiariosFinales { get; set; } = new List<BeneficiarioFinal>();
+        public virtual ICollection<Intermediario> Intermediarios { get; set; } = new List<Intermediario>();
+        public virtual ICollection<Direccion> Direcciones { get; set; } = new List<Direccion>();
+        public virtual ICollection<Contacto> Contactos { get; set; } = new List<Contacto>();
+        public virtual ICollection<ActividadEconomica> ActividadesEconomicas { get; set; } = new List<ActividadEconomica>();
+        public virtual ICollection<PerfilFinanciero> PerfilesFinancieros { get; set; } = new List<PerfilFinanciero>();
+        public virtual ICollection<Operacion> Operaciones { get; set; } = new List<Operacion>();
+        public virtual ICollection<Transaccion> Transacciones { get; set; } = new List<Transaccion>();
+        public virtual ICollection<Referencia> Referencias { get; set; } = new List<Referencia>();
+        public virtual ICollection<PersonaExpuestaPoliticamente> PersonasExpuestasPoliticamente { get; set; } = new List<PersonaExpuestaPoliticamente>();
+        public virtual ICollection<Responsable> Responsables { get; set; } = new List<Responsable>();
+        public virtual ICollection<Evaluacion> Evaluaciones { get; set; } = new List<Evaluacion>();
+    }
+
+    public class BeneficiarioFinal
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Nombre { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    public class Intermediario
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Nombre { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    // ===========================================
+    // Direcciones y Contactos
+    // ===========================================
+
+    public class Direccion
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Calle { get; set; }
+
+        [StringLength(20)]
+        public string? Numero { get; set; }
+
+        [StringLength(100)]
+        public string? Sector { get; set; }
+
+        [StringLength(100)]
+        public string? Municipio { get; set; }
+
+        [StringLength(100)]
+        public string? Provincia { get; set; }
+
+        [StringLength(100)]
+        public string? Pais { get; set; }
+
+        [StringLength(20)]
+        public string? CodigoPostal { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    public class Contacto
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(50)]
+        public string? Tipo { get; set; } // Teléfono / Móvil / Correo
+
+        [StringLength(200)]
+        public string? Valor { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    // ===========================================
+    // Actividades Económicas y Perfil Financiero
+    // ===========================================
+
+    public class ActividadEconomica
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(100)]
+        public string? Tipo { get; set; }
+
+        [StringLength(255)]
+        public string? Descripcion { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    public class PerfilFinanciero
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(100)]
+        public string? NivelIngreso { get; set; }
+
+        [StringLength(200)]
+        public string? Fuente { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    // ===========================================
+    // Operaciones y Transacciones
+    // ===========================================
+
+    public class Operacion
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(100)]
+        public string? Tipo { get; set; }
+
+        [StringLength(50)]
+        public string? Codigo { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+
+        // Propiedad de navegación: Una operación puede tener muchos pagos
+        public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
+    }
+
+    public class Pago
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(100)]
+        public string? Tipo { get; set; }
+
+        [StringLength(50)]
+        public string? Codigo { get; set; }
+
+        [StringLength(50)]
+        public string? Moneda { get; set; }
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal? Monto { get; set; }
+
+        public long OperacionId { get; set; }
+
+        [ForeignKey("OperacionId")]
+        public virtual Operacion Operacion { get; set; }
+    }
+
+    public class Transaccion
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(100)]
+        public string? Tipo { get; set; }
+
+        [StringLength(200)]
+        public string? InstitucionFinanciera { get; set; }
+
+        [StringLength(255)]
+        public string? Descripcion { get; set; }
+
+        [StringLength(200)]
+        public string? PropositoProducto { get; set; }
+
+        [StringLength(100)]
+        public string? FormaDeposito { get; set; }
+
+        [StringLength(100)]
+        public string? FormaExpectativa { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    // ===========================================
+    // Cumplimiento: Referencias, PEP, Responsables
+    // ===========================================
+
+    public class Referencia
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Recomendacion { get; set; }
+
+        [StringLength(255)]
+        public string? Descripcion { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    public class PersonaExpuestaPoliticamente
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Nombre { get; set; }
+
+        [StringLength(100)]
+        public string? Cargo { get; set; }
+
+        [StringLength(100)]
+        public string? Ordenanza { get; set; }
+
+        [StringLength(200)]
+        public string? Institucion { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    public class Responsable
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(100)]
+        public string? Nombre { get; set; }
+
+        [StringLength(100)]
+        public string? Apellido { get; set; }
+
+        [StringLength(200)]
+        public string? Direccion { get; set; }
+
+        [StringLength(50)]
+        public string? Telefono { get; set; }
+
+        [StringLength(100)]
+        public string? Cargo { get; set; }
+
+        [StringLength(150)]
+        public string? Correo { get; set; }
+
+        [StringLength(100)]
+        public string? DocumentoIdentificacion { get; set; }
+
+        public long ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    // ===========================================
+    // Políticas, Riesgos y Cumplimiento
+    // ===========================================
+
+    public class Politica
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Nombre { get; set; }
+
+        [StringLength(255)]
+        public string? Descripcion { get; set; }
+
+        public DateTime FechaCreacion { get; set; }
+    }
+
+    public class Riesgo
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Nombre { get; set; }
+
+        [StringLength(255)]
+        public string? Descripcion { get; set; }
+
+        [StringLength(255)]
+        public string? Mitigacion { get; set; }
+
+        public DateTime FechaCreacion { get; set; }
+        
+        // Propiedad de navegación: Un riesgo puede estar en muchas evaluaciones
+        public virtual ICollection<Evaluacion> Evaluaciones { get; set; } = new List<Evaluacion>();
+    }
+
+    public class Evaluacion
+    {
+        [Key]
+        public long Id { get; set; }
+
+        public long RiesgoId { get; set; }
+        public long ClienteId { get; set; }
+
+        public int? Puntaje { get; set; }
+        public DateTime FechaEvaluacion { get; set; }
+
+        // Propiedades de navegación
+        [ForeignKey("RiesgoId")]
+        public virtual Riesgo Riesgo { get; set; }
+
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
+    }
+
+    // ===========================================
+    // Entrenamiento y Registros
+    // ===========================================
+
+    public class Capacitacion
+    {
+        [Key]
+        public long Id { get; set; }
+
+        [StringLength(200)]
+        public string? Titulo { get; set; }
+
+        [StringLength(255)]
+        public string? Descripcion { get; set; }
+
+        public DateTime FechaCreacion { get; set; }
+        
+        // Propiedad de navegación: Una capacitación puede tener muchos progresos de usuarios
+        public virtual ICollection<ProgresoCapacitacion> Progresos { get; set; } = new List<ProgresoCapacitacion>();
+    }
+
+    public class ProgresoCapacitacion
+    {
+        [Key]
+        public long Id { get; set; }
+
+        public long CapacitacionId { get; set; }
+        public long UsuarioId { get; set; }
+
+        [StringLength(50)]
+        public string? Estado { get; set; }
+
+        public DateTime? FechaCompletado { get; set; }
+
+        // Propiedades de navegación
+        [ForeignKey("CapacitacionId")]
+        public virtual Capacitacion Capacitacion { get; set; }
+
+        [ForeignKey("UsuarioId")]
+        public virtual Usuario Usuario { get; set; }
+    }
+
+    public class MensajeChat
+    {
+        [Key]
+        public long Id { get; set; }
+
+        public long UsuarioId { get; set; }
+
+        [StringLength(500)]
+        public string? Mensaje { get; set; }
+
+        public DateTime FechaEnvio { get; set; }
+
+        [ForeignKey("UsuarioId")]
+        public virtual Usuario Usuario { get; set; }
+    }
+}
