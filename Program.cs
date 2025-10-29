@@ -35,10 +35,10 @@ builder.Services.AddSingleton<JwtService>();
 // Agrega los servicios necesarios para habilitar el soporte de controladores en la API
 builder.Services.AddControllers();
 
-// Configura el DbContext de Entity Framework Core para usar SQL Server con la cadena de conexión especificada
+// Registrar el DbContext
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Configura AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
