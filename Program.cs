@@ -36,7 +36,32 @@ builder.Services.AddSingleton<JwtService>();
 builder.Services.AddControllers();
 
 // Registrar el DbContext
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// ==============================
+// 🔹 Determinar el origen de la conexión
+// ==============================
+string connectionString;
+
+var host = Environment.GetEnvironmentVariable("MYSQLHOST");
+var port = Environment.GetEnvironmentVariable("MYSQLPORT");
+var user = Environment.GetEnvironmentVariable("MYSQLUSER");
+var password = Environment.GetEnvironmentVariable("MYSQLPASSWORD");
+var database = Environment.GetEnvironmentVariable("MYSQLDATABASE");
+
+if (!string.IsNullOrEmpty(host) &&
+    !string.IsNullOrEmpty(user) &&
+    !string.IsNullOrEmpty(password) &&
+    !string.IsNullOrEmpty(database))
+{
+    // ✅ Usar las variables de entorno (Railway)
+    connectionString = $"server={host};port={port};database={database};user={user};password={password};";
+}
+else
+{
+    // ✅ Usar la conexión local del appsettings.json
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+        ?? throw new InvalidOperationException("DefaultConnection string not found in configuration");
+}
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

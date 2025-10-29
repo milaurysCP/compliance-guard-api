@@ -79,5 +79,8 @@ namespace ComplianceGuardPro.Data
             // Esto lo unico que hace es cambiar el nombre de la tabla en la base de datos
             // modelBuilder.Entity<Customer>().ToTable("Customers");
         }
+
+
+       
     }
 }
