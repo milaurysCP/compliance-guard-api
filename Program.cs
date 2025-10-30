@@ -4,6 +4,50 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ComplianceGuardPro.Modules.Usuarios.Services;
+using ComplianceGuardPro.Modules.Usuarios.Mappings;
+using ComplianceGuardPro.Modules.Clientes.Services;
+using ComplianceGuardPro.Modules.Clientes.Mappings;
+using ComplianceGuardPro.Modules.Direcciones.Services;
+using ComplianceGuardPro.Modules.Direcciones.Mappings;
+using ComplianceGuardPro.Modules.Contactos.Services;
+using ComplianceGuardPro.Modules.Contactos.Mappings;
+using ComplianceGuardPro.Modules.Beneficiarios.Services;
+using ComplianceGuardPro.Modules.Beneficiarios.Mappings;
+using ComplianceGuardPro.Modules.Intermediarios.Services;
+using ComplianceGuardPro.Modules.Intermediarios.Mappings;
+using ComplianceGuardPro.Modules.ActividadesEconomicas.Services;
+using ComplianceGuardPro.Modules.ActividadesEconomicas.Mappings;
+using ComplianceGuardPro.Modules.PerfilesFinancieros.Services;
+using ComplianceGuardPro.Modules.PerfilesFinancieros.Mappings;
+using ComplianceGuardPro.Modules.Operaciones.Services;
+using ComplianceGuardPro.Modules.Operaciones.Mappings;
+using ComplianceGuardPro.Modules.Pagos.Services;
+using ComplianceGuardPro.Modules.Pagos.Mappings;
+using ComplianceGuardPro.Modules.Transacciones.Services;
+using ComplianceGuardPro.Modules.Transacciones.Mappings;
+using ComplianceGuardPro.Modules.DebidaDiligencia.Services;
+using ComplianceGuardPro.Modules.DebidaDiligencia.Mappings;
+using ComplianceGuardPro.Modules.Riesgos.Services;
+using ComplianceGuardPro.Modules.Riesgos.Mappings;
+using ComplianceGuardPro.Modules.Mitigacion.Services;
+using ComplianceGuardPro.Modules.Mitigacion.Mappings;
+using ComplianceGuardPro.Modules.Evaluaciones.Services;
+using ComplianceGuardPro.Modules.Evaluaciones.Mappings;
+using ComplianceGuardPro.Modules.MensajesChat.Services;
+using ComplianceGuardPro.Modules.MensajesChat.Mappings;
+using ComplianceGuardPro.Modules.Referencia.Services;
+using ComplianceGuardPro.Modules.Referencia.Mappings;
+using ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Services;
+using ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Mappings;
+using ComplianceGuardPro.Modules.Responsable.Services;
+using ComplianceGuardPro.Modules.Responsable.Mappings;
+using ComplianceGuardPro.Modules.Politica.Services;
+using ComplianceGuardPro.Modules.Politica.Mappings;
+using ComplianceGuardPro.Modules.ProgresoCapacitacion.Services;
+using ComplianceGuardPro.Modules.ProgresoCapacitacion.Mappings;
+using ComplianceGuardPro.Modules.Capacitacion.Services;
+using ComplianceGuardPro.Modules.Capacitacion.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,19 +59,26 @@ builder.Services.AddScoped<IContacto, ContactoImpl>();
 builder.Services.AddScoped<IActividadEconomica, ActividadEconomicaImpl>();
 builder.Services.AddScoped<IPerfilFinanciero, PerfilFinancieroImpl>();
 builder.Services.AddScoped<IOperacion, OperacionImpl>();
+builder.Services.AddScoped<IOperacion, OperacionImpl>();
+builder.Services.AddScoped<IPago, PagoImpl>();
 builder.Services.AddScoped<ITransaccion, TransaccionImpl>();
+builder.Services.AddScoped<IDebidaDiligencia, DebidaDiligenciaImpl>();
 builder.Services.AddScoped<IBeneficiarioFinal, BeneficiarioFinalImpl>();
+builder.Services.AddScoped<IIntermediario, IntermediarioImpl>();
 builder.Services.AddScoped<IEvaluacion, EvaluacionImpl>();
 builder.Services.AddScoped<IRiesgo, RiesgoImpl>();
+builder.Services.AddScoped<IMitigacion, MitigacionImpl>();
+builder.Services.AddScoped<IEvaluacion, EvaluacionImpl>();
 builder.Services.AddScoped<IPersonaExpuestaPoliticamente, PersonaExpuestaPoliticamenteImpl>();
 builder.Services.AddScoped<IPolitica, PoliticaImpl>();
 builder.Services.AddScoped<IIntermediario, IntermediarioImpl>();
-builder.Services.AddScoped<ICapacitacion, CapacitacionImpl>();
+builder.Services.AddScoped<IActividadEconomica, ActividadEconomicaImpl>();
 builder.Services.AddScoped<IReferencia, ReferenciaImpl>();
 builder.Services.AddScoped<IResponsable, ResponsableImpl>();
 builder.Services.AddScoped<IRol, RolImpl>();
 builder.Services.AddScoped<IProgresoCapacitacion, ProgresoCapacitacionImpl>();
-builder.Services.AddScoped<IMensajeChat, MensajeChatImpl>();
+builder.Services.AddScoped<ICapacitacion, CapacitacionImpl>();
+builder.Services.AddScoped<ComplianceGuardPro.Modules.MensajesChat.Services.IMensajeChat, ComplianceGuardPro.Modules.MensajesChat.Services.MensajeChatImpl>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddSingleton<JwtService>();
 
@@ -66,7 +117,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Configura AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(ClienteMappingProfile), typeof(DireccionMappingProfile), typeof(ContactoMappingProfile), typeof(BeneficiarioMappingProfile), typeof(IntermediarioMappingProfile), typeof(ActividadEconomicaMappingProfile), typeof(PerfilFinancieroMappingProfile), typeof(OperacionMappingProfile), typeof(PagoMappingProfile), typeof(TransaccionMappingProfile), typeof(DebidaDiligenciaMappingProfile), typeof(RiesgoMappingProfile), typeof(MitigacionMappingProfile), typeof(EvaluacionMappingProfile), typeof(MensajeChatMappingProfile), typeof(ReferenciaMappingProfile), typeof(PersonaExpuestaPoliticamenteMappingProfile), typeof(ResponsableMappingProfile), typeof(PoliticaMappingProfile), typeof(ProgresoCapacitacionMappingProfile), typeof(CapacitacionMappingProfile));
 
 // Configura JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

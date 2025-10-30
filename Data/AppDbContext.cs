@@ -1,4 +1,26 @@
 using Microsoft.EntityFrameworkCore;
+using ComplianceGuardPro.Modules.Usuarios.Models;
+using ComplianceGuardPro.Modules.Clientes.Models;
+using ComplianceGuardPro.Modules.Direcciones.Models;
+using ComplianceGuardPro.Modules.Contactos.Models;
+using ComplianceGuardPro.Modules.Beneficiarios.Models;
+using ComplianceGuardPro.Modules.Intermediarios.Models;
+using ComplianceGuardPro.Modules.ActividadesEconomicas.Models;
+using ComplianceGuardPro.Modules.PerfilesFinancieros.Models;
+using ComplianceGuardPro.Modules.Operaciones.Models;
+using ComplianceGuardPro.Modules.Pagos.Models;
+using ComplianceGuardPro.Modules.Transacciones.Models;
+using ComplianceGuardPro.Modules.DebidaDiligencia.Models;
+using ComplianceGuardPro.Modules.Riesgos.Models;
+using ComplianceGuardPro.Modules.Mitigacion.Models;
+using ComplianceGuardPro.Modules.Evaluaciones.Models;
+using ComplianceGuardPro.Modules.MensajesChat.Models;
+using ComplianceGuardPro.Modules.Referencia.Models;
+using ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Models;
+using ComplianceGuardPro.Modules.Responsable.Models;
+using ComplianceGuardPro.Modules.Politica.Models;
+using ComplianceGuardPro.Modules.ProgresoCapacitacion.Models;
+using ComplianceGuardPro.Modules.Capacitacion.Models;
 
 namespace ComplianceGuardPro.Data
 {
@@ -10,7 +32,7 @@ namespace ComplianceGuardPro.Data
         // Ejemplo de entidades adicionales:
         public DbSet<ActividadEconomica> ActividadesEconomicas { get; set; }
         public DbSet<BeneficiarioFinal> BeneficiariosFinales { get; set; }
-        public DbSet<Capacitacion> Capacitaciones { get; set; }
+        public DbSet<ComplianceGuardPro.Modules.Capacitacion.Models.Capacitacion> Capacitaciones { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Contacto> Contactos { get; set; }
         public DbSet<Direccion> Direcciones { get; set; }
@@ -26,8 +48,10 @@ namespace ComplianceGuardPro.Data
         public DbSet<Referencia> Referencias { get; set; }
         public DbSet<Responsable> Responsables { get; set; }
         public DbSet<Riesgo> Riesgos { get; set; }
+        public DbSet<Mitigacion> Mitigaciones { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Transaccion> Transacciones { get; set; }
+        public DbSet<DebidaDiligencia> DebidaDiligencias { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,15 +77,15 @@ namespace ComplianceGuardPro.Data
                 {
                     Id = 1,
                     UsuarioLogin = "admin",
-                    ClaveHash = passwordService.HashPassword("password123"),
+                    ClaveHash = passwordService.HashPassword("12345678"),
                     RolId = 1,
                     EstaActivo = true
                 },
                 new Usuario
                 {
                     Id = 2,
-                    UsuarioLogin = "usuario1",
-                    ClaveHash = passwordService.HashPassword("Usuario123!"),
+                    UsuarioLogin = "empleado1",
+                    ClaveHash = passwordService.HashPassword("12345678"),
                     RolId = 1,
                     EstaActivo = true
                 },
