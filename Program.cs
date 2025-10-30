@@ -34,7 +34,7 @@ using ComplianceGuardPro.Modules.Mitigacion.Services;
 using ComplianceGuardPro.Modules.Mitigacion.Mappings;
 using ComplianceGuardPro.Modules.Evaluaciones.Services;
 using ComplianceGuardPro.Modules.Evaluaciones.Mappings;
-using ComplianceGuardPro.Modules.MensajesChat.Services;
+using ComplianceGuardPro.Shared.Services;
 using ComplianceGuardPro.Modules.MensajesChat.Mappings;
 using ComplianceGuardPro.Modules.Referencia.Services;
 using ComplianceGuardPro.Modules.Referencia.Mappings;

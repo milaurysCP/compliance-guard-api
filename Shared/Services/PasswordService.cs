@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 
-public class PasswordService
+namespace ComplianceGuardPro.Shared.Services
+{
+    public class PasswordService
 {
     private readonly PasswordHasher<object> _hasher = new();
 
@@ -14,4 +16,5 @@ public class PasswordService
         var result = _hasher.VerifyHashedPassword(null!, hashedPassword, password);
         return result == PasswordVerificationResult.Success;
     }
+}
 }

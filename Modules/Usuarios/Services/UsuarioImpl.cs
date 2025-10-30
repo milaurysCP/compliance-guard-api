@@ -4,6 +4,7 @@ using AutoMapper;
 using ComplianceGuardPro.Data;
 using ComplianceGuardPro.Modules.Usuarios.DTOs;
 using ComplianceGuardPro.Modules.Usuarios.Models;
+using ComplianceGuardPro.Shared.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 

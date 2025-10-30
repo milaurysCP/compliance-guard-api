@@ -21,6 +21,7 @@ using ComplianceGuardPro.Modules.Responsable.Models;
 using ComplianceGuardPro.Modules.Politica.Models;
 using ComplianceGuardPro.Modules.ProgresoCapacitacion.Models;
 using ComplianceGuardPro.Modules.Capacitacion.Models;
+using ComplianceGuardPro.Shared.Services;
 
 namespace ComplianceGuardPro.Data
 {
