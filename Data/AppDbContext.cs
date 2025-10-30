@@ -20,8 +20,9 @@ using ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Models;
 using ComplianceGuardPro.Modules.Responsable.Models;
 using ComplianceGuardPro.Modules.Politica.Models;
 using ComplianceGuardPro.Modules.ProgresoCapacitacion.Models;
-using ComplianceGuardPro.Modules.Capacitacion.Models;
-using ComplianceGuardPro.Shared.Services;
+using ComplianceGuardPro.Modules.Documentos.Models;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace ComplianceGuardPro.Data
 {
@@ -29,10 +30,30 @@ namespace ComplianceGuardPro.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        // Constructor sin parámetros para Design-time (EF Migrations)
+        public AppDbContext() : base(CreateDesignTimeOptions())
+        { }
+
+        private static DbContextOptions<AppDbContext> CreateDesignTimeOptions()
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+
+            return optionsBuilder.Options;
+        }
+
         // Aquí se agregan las entidades que se van a mapear a la base de datos
         // Ejemplo de entidades adicionales:
         public DbSet<ActividadEconomica> ActividadesEconomicas { get; set; }
         public DbSet<BeneficiarioFinal> BeneficiariosFinales { get; set; }
+        //! TODO: ComplianceGuardPro.Modules.Capacitacion.Models.Capacitacion.  no es correcto hacer así, debeosmo corregir  en todo el proyecto esta practica. 
         public DbSet<ComplianceGuardPro.Modules.Capacitacion.Models.Capacitacion> Capacitaciones { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Contacto> Contactos { get; set; }
@@ -53,6 +74,7 @@ namespace ComplianceGuardPro.Data
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Transaccion> Transacciones { get; set; }
         public DbSet<DebidaDiligencia> DebidaDiligencias { get; set; }
+        public DbSet<Documento> Documentos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -60,7 +82,7 @@ namespace ComplianceGuardPro.Data
             base.OnModelCreating(modelBuilder);
 
             // Crear instancia del servicio de contraseñas para hashear
-            var passwordService = new PasswordService();
+            var passwordService = new ComplianceGuardPro.Shared.Services.PasswordService();
 
             // Datos iniciales para roles
             modelBuilder.Entity<Rol>().HasData(

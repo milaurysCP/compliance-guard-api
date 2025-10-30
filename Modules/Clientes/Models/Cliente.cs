@@ -35,6 +35,13 @@ public class Cliente
 
         public DateTime? FechaNacimiento { get; set; }
 
+        public bool EstaActivo { get; set; } = true;
+
+        [StringLength(50)]
+        public string? Estado { get; set; } = "Activo";
+
+        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+
         // Propiedades de navegación para todas las tablas relacionadas
         public virtual ICollection<BeneficiarioFinal> BeneficiariosFinales { get; set; } = new List<BeneficiarioFinal>();
         public virtual ICollection<Intermediario> Intermediarios { get; set; } = new List<Intermediario>();

@@ -1,0 +1,83 @@
+using Microsoft.AspNetCore.Mvc;
+using ComplianceGuardPro.Modules.Reportes.DTOs;
+using ComplianceGuardPro.Modules.Reportes.Services;
+
+namespace ComplianceGuardPro.Modules.Reportes.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ReportesController : ControllerBase
+    {
+        private readonly IReportes _reportesService;
+
+        public ReportesController(IReportes reportesService)
+        {
+            _reportesService = reportesService;
+        }
+
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboardReport()
+        {
+            try
+            {
+                var reportData = await _reportesService.GetDashboardDataAsync();
+                var pdfBytes = await _reportesService.GenerateDashboardPdfAsync(reportData);
+                return File(pdfBytes, "application/pdf", "dashboard-report.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte de dashboard: {ex.Message}");
+            }
+        }
+
+        [HttpGet("clientes")]
+        public async Task<IActionResult> GetClientesReport()
+        {
+            try
+            {
+                var reportData = await _reportesService.GetClientesDataAsync();
+                var pdfBytes = await _reportesService.GenerateClientesPdfAsync(reportData);
+                return File(pdfBytes, "application/pdf", "clientes-report.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte de clientes: {ex.Message}");
+            }
+        }
+
+        [HttpGet("riesgos")]
+        public async Task<IActionResult> GetRiesgosReport()
+        {
+            try
+            {
+                var reportData = await _reportesService.GetRiesgosDataAsync();
+                var pdfBytes = await _reportesService.GenerateRiesgosPdfAsync(reportData);
+                return File(pdfBytes, "application/pdf", "riesgos-report.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte de riesgos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("debida-diligencia/{id}")]
+        public async Task<IActionResult> GetDebidaDiligenciaReport(long id)
+        {
+            try
+            {
+                var reportData = await _reportesService.GetDebidaDiligenciaDataAsync(id);
+                if (reportData == null)
+                {
+                    return NotFound($"Debida diligencia con ID {id} no encontrada");
+                }
+
+                var pdfBytes = await _reportesService.GenerateDebidaDiligenciaPdfAsync(reportData);
+                return File(pdfBytes, "application/pdf", $"debida-diligencia-{id}-report.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte de debida diligencia: {ex.Message}");
+            }
+        }
+    }
+}
