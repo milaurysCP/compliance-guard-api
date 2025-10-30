@@ -53,8 +53,7 @@ namespace ComplianceGuardPro.Data
         // Ejemplo de entidades adicionales:
         public DbSet<ActividadEconomica> ActividadesEconomicas { get; set; }
         public DbSet<BeneficiarioFinal> BeneficiariosFinales { get; set; }
-        //! TODO: ComplianceGuardPro.Modules.Capacitacion.Models.Capacitacion.  no es correcto hacer así, debeosmo corregir  en todo el proyecto esta practica. 
-        public DbSet<ComplianceGuardPro.Modules.Capacitacion.Models.Capacitacion> Capacitaciones { get; set; }
+        public DbSet<Capacitacion> Capacitaciones { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Contacto> Contactos { get; set; }
         public DbSet<Direccion> Direcciones { get; set; }
