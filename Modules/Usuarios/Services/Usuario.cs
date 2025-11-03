@@ -11,5 +11,5 @@ public interface Iusuario
     Task<bool> cambiarEstado(long id, CambiarEstadoDto cambiarEstadoDto);
     Task<LoginResponseDto?> autenticarUsuario(LoginDto loginDto);
     Task<DetalleUsuarioDto?> obtenerDetalleUsuario(long id);
-
+    Task<bool> eliminarUsuario(long id);
 }

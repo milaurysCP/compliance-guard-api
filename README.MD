@@ -13,20 +13,27 @@ Libreria para generar pdf
 dotnet add package DinkToPdf
 ```
 
-Si aún no tienes instalado **Entity Framework Core** para SQL Server, agrega también:
+Libreria para generar excel
+```bash 
+dotnet add package EPPlus
+```
+
+
+
+Si aún no tienes instalado **Entity Framework Core** para MySQL, agrega también:
 
 ```bash
 dotnet add package Microsoft.EntityFrameworkCore
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Pomelo.EntityFrameworkCore.MySql
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
 
-💡 Estos paquetes permiten crear, aplicar y administrar migraciones con EF Core en SQL Server.
+💡 Estos paquetes permiten crear, aplicar y administrar migraciones con EF Core en MySQL.
 
 ## 🔐 Configurar la Base de Datos
 
-Antes de trabajar con la base de datos, asegúrate de que SQL Server esté corriendo correctamente en Docker:
+Antes de trabajar con la base de datos, asegúrate de que MySQL esté corriendo correctamente en Docker:
 
 ```bash
 docker compose up -d
@@ -38,7 +45,7 @@ Luego, valida que el contenedor esté activo:
 docker ps
 ```
 
-El usuario `sa` ya está configurado en el `docker-compose.yml` con la contraseña definida.
+El usuario `root` ya está configurado en el `docker-compose.yml` con la contraseña definida.
 
 ### Conexión al Servidor
 
@@ -46,7 +53,7 @@ En tu archivo `appsettings.json`, define la conexión así:
 
 ```json
 "ConnectionStrings": {
-  "DefaultConnection": "Server=localhost,1433;Database=ComplianceGuard_DB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
+  "DefaultConnection": "Server=localhost;Port=3306;Database=ComplianceGuard_DB;User=root;Password=YourStrong@Passw0rd;"
 }
 ```
 
@@ -113,11 +120,11 @@ Por defecto, la API quedará disponible en:
 
 ## ✅ Recomendación Final
 
-- Mantén sincronizado el SA_PASSWORD del `docker-compose.yml` con tu `appsettings.json`.
-- Usa `TrustServerCertificate=True` mientras desarrollas en local.
-- Si deseas acceder al SQL Server desde **Azure Data Studio** o **SSMS**, usa las mismas credenciales:
-  - Server: localhost,1433
-  - User: sa
+- Mantén sincronizado el MYSQL_ROOT_PASSWORD del `docker-compose.yml` con tu `appsettings.json`.
+- Si deseas acceder al MySQL desde **MySQL Workbench** o **phpMyAdmin**, usa las mismas credenciales:
+  - Server: localhost
+  - Port: 3306
+  - User: root
   - Password: YourStrong@Passw0rd
   - Database: ComplianceGuard_DB
 

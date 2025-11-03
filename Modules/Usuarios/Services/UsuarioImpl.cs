@@ -25,14 +25,37 @@ public class UsuarioImpl : Iusuario
         _jwtService = jwtService;
     }
 
-    public Task<bool> actualizarClave(long id, UpdatePasswordDto updatePasswordDto)
+    public async Task<bool> actualizarClave(long id, UpdatePasswordDto updatePasswordDto)
     {
-        throw new NotImplementedException();
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null)
+        {
+            return false;
+        }
+
+        usuario.ClaveHash = _passwordService.HashPassword(updatePasswordDto.NuevaClave);
+
+        _context.Usuarios.Update(usuario);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
-    public Task<bool> actualizarUsuario(long id, UpdateUsuarioDto updateUsuarioDto)
+    public async Task<bool> actualizarUsuario(long id, UpdateUsuarioDto updateUsuarioDto)
     {
-        throw new NotImplementedException();
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null)
+        {
+            return false;
+        }
+
+        usuario.Nombre = updateUsuarioDto.Nombre;
+        usuario.RolId = updateUsuarioDto.RolId;
+
+        _context.Usuarios.Update(usuario);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<LoginResponseDto?> autenticarUsuario(LoginDto loginDto)
@@ -65,9 +88,20 @@ public class UsuarioImpl : Iusuario
         };
     }
 
-    public Task<bool> cambiarEstado(long id, CambiarEstadoDto cambiarEstadoDto)
+    public async Task<bool> cambiarEstado(long id, CambiarEstadoDto cambiarEstadoDto)
     {
-        throw new NotImplementedException();
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null)
+        {
+            return false;
+        }
+
+        usuario.EstaActivo = cambiarEstadoDto.EstaActivo;
+
+        _context.Usuarios.Update(usuario);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task crearUsuario(CreateUsuarioDto createUsuarioDto)
@@ -84,13 +118,41 @@ public class UsuarioImpl : Iusuario
 
     }
 
-    public Task<DetalleUsuarioDto?> obtenerDetalleUsuario(long id)
+    public async Task<DetalleUsuarioDto?> obtenerDetalleUsuario(long id)
     {
-        throw new NotImplementedException();
+        var usuario = await _context.Usuarios
+            .Include(u => u.Rol)
+            .Include(u => u.MensajesChat)
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (usuario == null)
+        {
+            return null;
+        }
+
+        return _mapper.Map<DetalleUsuarioDto>(usuario);
     }
 
-    public Task<List<UsuarioDto>> obtenerUsuarios()
+    public async Task<List<UsuarioDto>> obtenerUsuarios()
     {
-        throw new NotImplementedException();
+        var usuarios = await _context.Usuarios
+            .Include(u => u.Rol)
+            .ToListAsync();
+
+        return _mapper.Map<List<UsuarioDto>>(usuarios);
+    }
+
+    public async Task<bool> eliminarUsuario(long id)
+    {
+        var usuario = await _context.Usuarios.FindAsync(id);
+        if (usuario == null)
+        {
+            return false;
+        }
+
+        _context.Usuarios.Remove(usuario);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 }

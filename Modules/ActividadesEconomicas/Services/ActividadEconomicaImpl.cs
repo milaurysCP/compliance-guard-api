@@ -27,10 +27,10 @@ namespace ComplianceGuardPro.Modules.ActividadesEconomicas.Services
         return actividades;
     }
 
-    public async Task crearActividadEconomica(CreateActividadEconomicaDto createActividadDto, long clienteId)
+    public async Task crearActividadEconomica(CreateActividadEconomicaDto createActividadDto)
     {
         var actividad = _mapper.Map<ActividadEconomica>(createActividadDto);
-        actividad.ClienteId = clienteId;
+        // ClienteId is now in the DTO
 
         _context.ActividadesEconomicas.Add(actividad);
         await _context.SaveChangesAsync();

@@ -8,6 +8,7 @@ namespace ComplianceGuardPro.Modules.Pagos.DTOs
         public string? Tipo { get; set; }
         public string? Moneda { get; set; }
         public decimal? Monto { get; set; }
+        public long ClienteId { get; set; }
     }
 
     public class CreatePagoDto
@@ -26,5 +27,8 @@ namespace ComplianceGuardPro.Modules.Pagos.DTOs
 
         [Required]
         public long OperacionId { get; set; }
+
+        [Required]
+        public long ClienteId { get; set; }
     }
 }

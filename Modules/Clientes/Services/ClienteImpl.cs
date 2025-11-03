@@ -90,4 +90,18 @@ public class ClienteImpl : ICliente
 
         return _mapper.Map<ClienteDetailDto>(cliente);
     }
+
+    public async Task<bool> eliminarCliente(long id)
+    {
+        var cliente = await _context.Clientes.FindAsync(id);
+        if (cliente == null)
+        {
+            return false;
+        }
+
+        _context.Clientes.Remove(cliente);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }

@@ -24,20 +24,9 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Services
         {
             var mitigaciones = await _context.Mitigaciones
                 .Include(m => m.Riesgo)
+                    .ThenInclude(r => r.DebidaDiligencia)
                 .Where(m => m.RiesgoId == riesgoId)
-                .Select(m => new MitigacionDto
-                {
-                    Id = m.Id,
-                    RiesgoId = m.RiesgoId,
-                    Accion = m.Accion,
-                    Responsable = m.Responsable,
-                    Estado = m.Estado,
-                    FechaInicio = m.FechaInicio,
-                    FechaCierre = m.FechaCierre,
-                    Observaciones = m.Observaciones,
-                    Eficacia = m.Eficacia,
-                    RiesgoNombre = m.Riesgo.Nombre
-                })
+                .Select(m => _mapper.Map<MitigacionDto>(m))
                 .ToListAsync();
 
             return mitigaciones;
@@ -82,6 +71,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Services
         {
             var mitigacion = await _context.Mitigaciones
                 .Include(m => m.Riesgo)
+                    .ThenInclude(r => r.DebidaDiligencia)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (mitigacion == null)
@@ -89,19 +79,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Services
                 return null;
             }
 
-            return new MitigacionDto
-            {
-                Id = mitigacion.Id,
-                RiesgoId = mitigacion.RiesgoId,
-                Accion = mitigacion.Accion,
-                Responsable = mitigacion.Responsable,
-                Estado = mitigacion.Estado,
-                FechaInicio = mitigacion.FechaInicio,
-                FechaCierre = mitigacion.FechaCierre,
-                Observaciones = mitigacion.Observaciones,
-                Eficacia = mitigacion.Eficacia,
-                RiesgoNombre = mitigacion.Riesgo.Nombre
-            };
+            return _mapper.Map<MitigacionDto>(mitigacion);
         }
     }
 }

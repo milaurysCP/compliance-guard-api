@@ -4,20 +4,19 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ComplianceGuardPro.Data;
 using ComplianceGuardPro.Modules.Reportes.DTOs;
-using DinkToPdf;
-using DinkToPdf.Contracts;
+using ClosedXML.Excel;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace ComplianceGuardPro.Modules.Reportes.Services
 {
     public class ReportesImpl : IReportes
     {
         private readonly AppDbContext _context;
-        private readonly IConverter _pdfConverter;
 
-        public ReportesImpl(AppDbContext context, IConverter pdfConverter)
+        public ReportesImpl(AppDbContext context)
         {
             _context = context;
-            _pdfConverter = pdfConverter;
         }
 
         public async Task<DashboardDto> GetDashboardDataAsync()
@@ -103,19 +102,20 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
         public async Task<List<RiesgoReporteDto>> GetRiesgosDataAsync()
         {
             var riesgos = await _context.Riesgos
-                .Include(r => r.Cliente)
+                .Include(r => r.DebidaDiligencia)
+                    .ThenInclude(dd => dd.Cliente)
                 .Include(r => r.Mitigaciones)
                 .ToListAsync();
 
             return riesgos.Select(r => new RiesgoReporteDto
             {
                 Id = r.Id,
-                Descripcion = r.Descripcion,
-                Nivel = r.Nivel,
+                Descripcion = r.DescripcionRiesgo,
+                Nivel = r.Categoria,
                 Estado = r.Estado,
-                ClienteNombre = r.Cliente?.Nombre ?? "N/A",
+                ClienteNombre = r.DebidaDiligencia?.Cliente?.Nombre ?? "N/A",
                 Mitigacion = r.Mitigaciones.FirstOrDefault()?.Accion ?? "Sin mitigación",
-                FechaIdentificacion = r.FechaCreacion,
+                FechaIdentificacion = r.FechaCreacion ?? DateTime.MinValue,
                 FechaMitigacion = r.Mitigaciones.FirstOrDefault()?.FechaCierre
             }).ToList();
         }
@@ -153,332 +153,329 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
 
         private byte[] GenerateClientesPdf(List<ClienteReporteDto> clientes)
         {
-            var html = GenerateClientesHtml(clientes);
-
-            var doc = new HtmlToPdfDocument()
+            using (var memoryStream = new MemoryStream())
             {
-                GlobalSettings = {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Landscape,
-                    PaperSize = PaperKind.A4
-                },
-                Objects = {
-                    new ObjectSettings() {
-                        PagesCount = true,
-                        HtmlContent = html,
-                        WebSettings = { DefaultEncoding = "utf-8" }
-                    }
-                }
-            };
+                var document = new Document(PageSize.A4.Rotate(), 25, 25, 30, 30);
+                var writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
 
-            return _pdfConverter.Convert(doc);
+                // Título
+                var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+                var title = new Paragraph("Reporte de Clientes", titleFont);
+                title.Alignment = Element.ALIGN_CENTER;
+                document.Add(title);
+
+                // Fecha de generación
+                var dateFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                var date = new Paragraph($"Fecha de generación: {DateTime.Now:dd/MM/yyyy HH:mm}", dateFont);
+                date.Alignment = Element.ALIGN_CENTER;
+                document.Add(date);
+                document.Add(new Paragraph("\n"));
+
+                // Crear tabla
+                var table = new PdfPTable(8);
+                table.WidthPercentage = 100;
+                table.SetWidths(new float[] { 10, 25, 15, 15, 15, 15, 15, 15 });
+
+                // Headers
+                var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+                table.AddCell(new PdfPCell(new Phrase("ID", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Nombre", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Tipo", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Estado", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Fecha Registro", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Total Operaciones", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Monto Total", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Nivel Riesgo", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+
+                // Data
+                var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                foreach (var cliente in clientes)
+                {
+                    table.AddCell(new Phrase(cliente.Id.ToString(), dataFont));
+                    table.AddCell(new Phrase(cliente.Nombre, dataFont));
+                    table.AddCell(new Phrase(cliente.TipoCliente, dataFont));
+                    table.AddCell(new Phrase(cliente.Estado, dataFont));
+                    table.AddCell(new Phrase(cliente.FechaRegistro.ToString("dd/MM/yyyy"), dataFont));
+                    table.AddCell(new Phrase(cliente.TotalOperaciones.ToString(), dataFont));
+                    table.AddCell(new Phrase($"${cliente.MontoTotalOperaciones:N2}", dataFont));
+                    table.AddCell(new Phrase(cliente.NivelRiesgo, dataFont));
+                }
+
+                document.Add(table);
+                document.Close();
+
+                return memoryStream.ToArray();
+            }
         }
 
         private byte[] GenerateRiesgosPdf(List<RiesgoReporteDto> riesgos)
         {
-            var html = GenerateRiesgosHtml(riesgos);
-
-            var doc = new HtmlToPdfDocument()
+            using (var memoryStream = new MemoryStream())
             {
-                GlobalSettings = {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Portrait,
-                    PaperSize = PaperKind.A4
-                },
-                Objects = {
-                    new ObjectSettings() {
-                        PagesCount = true,
-                        HtmlContent = html,
-                        WebSettings = { DefaultEncoding = "utf-8" }
-                    }
-                }
-            };
+                var document = new Document(PageSize.A4, 25, 25, 30, 30);
+                var writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
 
-            return _pdfConverter.Convert(doc);
+                // Título
+                var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+                var title = new Paragraph("Reporte de Riesgos", titleFont);
+                title.Alignment = Element.ALIGN_CENTER;
+                document.Add(title);
+
+                // Fecha de generación
+                var dateFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                var date = new Paragraph($"Fecha de generación: {DateTime.Now:dd/MM/yyyy HH:mm}", dateFont);
+                date.Alignment = Element.ALIGN_CENTER;
+                document.Add(date);
+                document.Add(new Paragraph("\n"));
+
+                // Crear tabla
+                var table = new PdfPTable(8);
+                table.WidthPercentage = 100;
+                table.SetWidths(new float[] { 8, 20, 10, 10, 15, 15, 12, 12 });
+
+                // Headers
+                var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
+                table.AddCell(new PdfPCell(new Phrase("ID", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Descripción", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Nivel", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Estado", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Cliente", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Mitigación", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Fecha Identificación", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Fecha Mitigación", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+
+                // Data
+                var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 8);
+                foreach (var riesgo in riesgos)
+                {
+                    table.AddCell(new Phrase(riesgo.Id.ToString(), dataFont));
+                    table.AddCell(new Phrase(riesgo.Descripcion, dataFont));
+                    table.AddCell(new Phrase(riesgo.Nivel, dataFont));
+                    table.AddCell(new Phrase(riesgo.Estado, dataFont));
+                    table.AddCell(new Phrase(riesgo.ClienteNombre, dataFont));
+                    table.AddCell(new Phrase(riesgo.Mitigacion, dataFont));
+                    table.AddCell(new Phrase(riesgo.FechaIdentificacion.ToString("dd/MM/yyyy"), dataFont));
+                    table.AddCell(new Phrase(riesgo.FechaMitigacion?.ToString("dd/MM/yyyy") ?? "N/A", dataFont));
+                }
+
+                document.Add(table);
+                document.Close();
+
+                return memoryStream.ToArray();
+            }
         }
 
         private byte[] GenerateDebidaDiligenciaPdf(DebidaDiligenciaReporteDto dd)
         {
-            var html = GenerateDebidaDiligenciaHtml(dd);
-
-            var doc = new HtmlToPdfDocument()
+            using (var memoryStream = new MemoryStream())
             {
-                GlobalSettings = {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Portrait,
-                    PaperSize = PaperKind.A4
-                },
-                Objects = {
-                    new ObjectSettings() {
-                        PagesCount = true,
-                        HtmlContent = html,
-                        WebSettings = { DefaultEncoding = "utf-8" }
+                var document = new Document(PageSize.A4, 25, 25, 30, 30);
+                var writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+
+                // Título
+                var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 20);
+                var title = new Paragraph("Informe de Debida Diligencia", titleFont);
+                title.Alignment = Element.ALIGN_CENTER;
+                document.Add(title);
+                document.Add(new Paragraph("\n"));
+
+                // Información general
+                var infoFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+                document.Add(new Paragraph($"Cliente: {dd.ClienteNombre}", infoFont));
+                document.Add(new Paragraph($"Estado: {dd.Estado}", infoFont));
+                document.Add(new Paragraph($"Fecha Inicio: {dd.FechaInicio:dd/MM/yyyy}", infoFont));
+                document.Add(new Paragraph($"Fecha Completado: {dd.FechaCompletado?.ToString("dd/MM/yyyy") ?? "En proceso"}", infoFont));
+                document.Add(new Paragraph($"Responsable: {dd.Responsable}", infoFont));
+                document.Add(new Paragraph($"Fecha de generación: {DateTime.Now:dd/MM/yyyy HH:mm}", infoFont));
+                document.Add(new Paragraph("\n"));
+
+                // Documentos
+                if (dd.Documentos.Any())
+                {
+                    var sectionTitleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
+                    document.Add(new Paragraph("Documentos", sectionTitleFont));
+                    document.Add(new Paragraph("\n"));
+
+                    var docTable = new PdfPTable(3);
+                    docTable.WidthPercentage = 100;
+                    docTable.SetWidths(new float[] { 25, 50, 25 });
+
+                    var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+                    docTable.AddCell(new PdfPCell(new Phrase("Tipo", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                    docTable.AddCell(new PdfPCell(new Phrase("Nombre", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                    docTable.AddCell(new PdfPCell(new Phrase("Verificado", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+
+                    var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                    foreach (var doc in dd.Documentos)
+                    {
+                        docTable.AddCell(new Phrase(doc.Tipo, dataFont));
+                        docTable.AddCell(new Phrase(doc.Nombre, dataFont));
+                        docTable.AddCell(new Phrase(doc.Verificado ? "Sí" : "No", dataFont));
                     }
+
+                    document.Add(docTable);
+                    document.Add(new Paragraph("\n"));
                 }
-            };
 
-            return _pdfConverter.Convert(doc);
-        }
+                // Evaluaciones
+                if (dd.Evaluaciones.Any())
+                {
+                    var sectionTitleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
+                    document.Add(new Paragraph("Evaluaciones Realizadas", sectionTitleFont));
+                    document.Add(new Paragraph("\n"));
 
-        private string GenerateClientesHtml(List<ClienteReporteDto> clientes)
-        {
-            var html = @"
-            <html>
-            <head>
-                <style>
-                    body { font-family: Arial, sans-serif; margin: 20px; }
-                    h1 { color: #333; text-align: center; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                    th { background-color: #f2f2f2; font-weight: bold; }
-                    tr:nth-child(even) { background-color: #f9f9f9; }
-                </style>
-            </head>
-            <body>
-                <h1>Reporte de Clientes</h1>
-                <p>Fecha de generación: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + @"</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Estado</th>
-                            <th>Fecha Registro</th>
-                            <th>Total Operaciones</th>
-                            <th>Monto Total</th>
-                            <th>Nivel Riesgo</th>
-                        </tr>
-                    </thead>
-                    <tbody>";
+                    var evalTable = new PdfPTable(3);
+                    evalTable.WidthPercentage = 100;
+                    evalTable.SetWidths(new float[] { 30, 40, 30 });
 
-            foreach (var cliente in clientes)
-            {
-                html += $@"
-                        <tr>
-                            <td>{cliente.Id}</td>
-                            <td>{cliente.Nombre}</td>
-                            <td>{cliente.TipoCliente}</td>
-                            <td>{cliente.Estado}</td>
-                            <td>{cliente.FechaRegistro:dd/MM/yyyy}</td>
-                            <td>{cliente.TotalOperaciones}</td>
-                            <td>${cliente.MontoTotalOperaciones:N2}</td>
-                            <td>{cliente.NivelRiesgo}</td>
-                        </tr>";
+                    var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+                    evalTable.AddCell(new PdfPCell(new Phrase("Tipo", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                    evalTable.AddCell(new PdfPCell(new Phrase("Resultado", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                    evalTable.AddCell(new PdfPCell(new Phrase("Fecha", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+
+                    var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                    foreach (var eval in dd.Evaluaciones)
+                    {
+                        evalTable.AddCell(new Phrase(eval.Tipo, dataFont));
+                        evalTable.AddCell(new Phrase(eval.Resultado, dataFont));
+                        evalTable.AddCell(new Phrase(eval.FechaEvaluacion.ToString("dd/MM/yyyy"), dataFont));
+                    }
+
+                    document.Add(evalTable);
+                    document.Add(new Paragraph("\n"));
+                }
+
+                // Referencias
+                if (dd.Referencias.Any())
+                {
+                    var sectionTitleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
+                    document.Add(new Paragraph("Referencias Verificadas", sectionTitleFont));
+                    document.Add(new Paragraph("\n"));
+
+                    var refTable = new PdfPTable(4);
+                    refTable.WidthPercentage = 100;
+                    refTable.SetWidths(new float[] { 20, 30, 30, 20 });
+
+                    var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+                    refTable.AddCell(new PdfPCell(new Phrase("Tipo", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                    refTable.AddCell(new PdfPCell(new Phrase("Nombre", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                    refTable.AddCell(new PdfPCell(new Phrase("Contacto", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                    refTable.AddCell(new PdfPCell(new Phrase("Verificada", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+
+                    var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 9);
+                    foreach (var refItem in dd.Referencias)
+                    {
+                        refTable.AddCell(new Phrase(refItem.Tipo, dataFont));
+                        refTable.AddCell(new Phrase(refItem.Nombre, dataFont));
+                        refTable.AddCell(new Phrase(refItem.Contacto, dataFont));
+                        refTable.AddCell(new Phrase(refItem.Verificada ? "Sí" : "No", dataFont));
+                    }
+
+                    document.Add(refTable);
+                    document.Add(new Paragraph("\n"));
+                }
+
+                // Conclusión
+                var conclusionTitleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
+                document.Add(new Paragraph("Conclusión", conclusionTitleFont));
+                document.Add(new Paragraph("\n"));
+                var conclusionFont = FontFactory.GetFont(FontFactory.HELVETICA, 11);
+                document.Add(new Paragraph(dd.Conclusion ?? "Pendiente de conclusión", conclusionFont));
+
+                document.Close();
+                return memoryStream.ToArray();
             }
-
-            html += @"
-                    </tbody>
-                </table>
-            </body>
-            </html>";
-
-            return html;
-        }
-
-        private string GenerateRiesgosHtml(List<RiesgoReporteDto> riesgos)
-        {
-            var html = @"
-            <html>
-            <head>
-                <style>
-                    body { font-family: Arial, sans-serif; margin: 20px; }
-                    h1 { color: #333; text-align: center; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                    th { background-color: #f2f2f2; font-weight: bold; }
-                    tr:nth-child(even) { background-color: #f9f9f9; }
-                </style>
-            </head>
-            <body>
-                <h1>Reporte de Riesgos</h1>
-                <p>Fecha de generación: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm") + @"</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Descripción</th>
-                            <th>Nivel</th>
-                            <th>Estado</th>
-                            <th>Cliente</th>
-                            <th>Mitigación</th>
-                            <th>Fecha Identificación</th>
-                            <th>Fecha Mitigación</th>
-                        </tr>
-                    </thead>
-                    <tbody>";
-
-            foreach (var riesgo in riesgos)
-            {
-                html += $@"
-                        <tr>
-                            <td>{riesgo.Id}</td>
-                            <td>{riesgo.Descripcion}</td>
-                            <td>{riesgo.Nivel}</td>
-                            <td>{riesgo.Estado}</td>
-                            <td>{riesgo.ClienteNombre}</td>
-                            <td>{riesgo.Mitigacion}</td>
-                            <td>{riesgo.FechaIdentificacion:dd/MM/yyyy}</td>
-                            <td>{riesgo.FechaMitigacion?.ToString("dd/MM/yyyy") ?? "N/A"}</td>
-                        </tr>";
-            }
-
-            html += @"
-                    </tbody>
-                </table>
-            </body>
-            </html>";
-
-            return html;
-        }
-
-        private string GenerateDebidaDiligenciaHtml(DebidaDiligenciaReporteDto dd)
-        {
-            var html = $@"
-            <html>
-            <head>
-                <style>
-                    body {{ font-family: Arial, sans-serif; margin: 20px; }}
-                    h1 {{ color: #333; text-align: center; }}
-                    h2 {{ color: #666; margin-top: 30px; }}
-                    .section {{ margin-bottom: 20px; }}
-                    table {{ width: 100%; border-collapse: collapse; margin-top: 10px; }}
-                    th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
-                    th {{ background-color: #f2f2f2; font-weight: bold; }}
-                    tr:nth-child(even) {{ background-color: #f9f9f9; }}
-                </style>
-            </head>
-            <body>
-                <h1>Informe de Debida Diligencia</h1>
-                <p><strong>Cliente:</strong> {dd.ClienteNombre}</p>
-                <p><strong>Estado:</strong> {dd.Estado}</p>
-                <p><strong>Fecha Inicio:</strong> {dd.FechaInicio:dd/MM/yyyy}</p>
-                <p><strong>Fecha Completado:</strong> {dd.FechaCompletado?.ToString("dd/MM/yyyy") ?? "En proceso"}</p>
-                <p><strong>Responsable:</strong> {dd.Responsable}</p>
-                <p><strong>Fecha de generación:</strong> {DateTime.Now:dd/MM/yyyy HH:mm}</p>
-
-                <div class='section'>
-                    <h2>Evaluaciones Realizadas</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Resultado</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
-
-            foreach (var evaluacion in dd.Evaluaciones)
-            {
-                html += $@"
-                            <tr>
-                                <td>{evaluacion.Tipo}</td>
-                                <td>{evaluacion.Resultado}</td>
-                                <td>{evaluacion.FechaEvaluacion:dd/MM/yyyy}</td>
-                            </tr>";
-            }
-
-            html += @"
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class='section'>
-                    <h2>Referencias Verificadas</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tipo</th>
-                                <th>Nombre</th>
-                                <th>Contacto</th>
-                                <th>Verificada</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
-
-            foreach (var referencia in dd.Referencias)
-            {
-                html += $@"
-                            <tr>
-                                <td>{referencia.Tipo}</td>
-                                <td>{referencia.Nombre}</td>
-                                <td>{referencia.Contacto}</td>
-                                <td>{(referencia.Verificada ? "Sí" : "No")}</td>
-                            </tr>";
-            }
-
-            html += $@"
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class='section'>
-                    <h2>Conclusión</h2>
-                    <p>{dd.Conclusion ?? "Pendiente de conclusión"}</p>
-                </div>
-            </body>
-            </html>";
-
-            return html;
         }
 
         public async Task<byte[]> GenerateDashboardPdfAsync(DashboardDto data)
         {
-            var html = $@"
-            <html>
-            <head>
-                <style>
-                    body {{ font-family: Arial, sans-serif; margin: 20px; }}
-                    h1 {{ color: #333; text-align: center; }}
-                    .metric {{ background: #f5f5f5; padding: 20px; margin: 15px 0; border-radius: 8px; text-align: center; }}
-                    .metric h3 {{ margin: 0 0 10px 0; color: #007bff; }}
-                    .metric p {{ margin: 0; font-size: 32px; font-weight: bold; color: #333; }}
-                </style>
-            </head>
-            <body>
-                <h1>Dashboard - Compliance Guard Pro</h1>
-                <p style='text-align: center;'>Fecha de generación: {DateTime.Now:dd/MM/yyyy HH:mm}</p>
-
-                <div class='metric'>
-                    <h3>Total de Clientes</h3>
-                    <p>{data.TotalClientes}</p>
-                </div>
-
-                <div class='metric'>
-                    <h3>Total de Operaciones</h3>
-                    <p>{data.TotalOperaciones}</p>
-                </div>
-
-                <div class='metric'>
-                    <h3>Riesgos de Alto Nivel</h3>
-                    <p>{data.TotalRiesgosAltos}</p>
-                </div>
-
-                <div class='metric'>
-                    <h3>Debida Diligencia Pendiente</h3>
-                    <p>{data.TotalDebidaDiligenciaPendiente}</p>
-                </div>
-            </body>
-            </html>";
-
-            var doc = new HtmlToPdfDocument()
+            using (var memoryStream = new MemoryStream())
             {
-                GlobalSettings = {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Portrait,
-                    PaperSize = PaperKind.A4
-                },
-                Objects = {
-                    new ObjectSettings() {
-                        PagesCount = true,
-                        HtmlContent = html,
-                        WebSettings = { DefaultEncoding = "utf-8" }
-                    }
-                }
-            };
+                var document = new Document(PageSize.A4, 25, 25, 30, 30);
+                var writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
 
-            return _pdfConverter.Convert(doc);
+                // Título
+                var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 20);
+                var title = new Paragraph("Dashboard - Compliance Guard Pro", titleFont);
+                title.Alignment = Element.ALIGN_CENTER;
+                document.Add(title);
+
+                // Fecha de generación
+                var dateFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                var date = new Paragraph($"Fecha de generación: {DateTime.Now:dd/MM/yyyy HH:mm}", dateFont);
+                date.Alignment = Element.ALIGN_CENTER;
+                document.Add(date);
+                document.Add(new Paragraph("\n\n"));
+
+                // Crear tabla de métricas
+                var table = new PdfPTable(2);
+                table.WidthPercentage = 80;
+                table.HorizontalAlignment = Element.ALIGN_CENTER;
+
+                var metricFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
+                var valueFont = FontFactory.GetFont(FontFactory.HELVETICA, 18);
+
+                // Total de Clientes
+                table.AddCell(new PdfPCell(new Phrase("Total de Clientes", metricFont))
+                {
+                    BackgroundColor = BaseColor.LIGHT_GRAY,
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+                table.AddCell(new PdfPCell(new Phrase(data.TotalClientes.ToString(), valueFont))
+                {
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                // Total de Operaciones
+                table.AddCell(new PdfPCell(new Phrase("Total de Operaciones", metricFont))
+                {
+                    BackgroundColor = BaseColor.LIGHT_GRAY,
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+                table.AddCell(new PdfPCell(new Phrase(data.TotalOperaciones.ToString(), valueFont))
+                {
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                // Riesgos de Alto Nivel
+                table.AddCell(new PdfPCell(new Phrase("Riesgos de Alto Nivel", metricFont))
+                {
+                    BackgroundColor = BaseColor.LIGHT_GRAY,
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+                table.AddCell(new PdfPCell(new Phrase(data.TotalRiesgosAltos.ToString(), valueFont))
+                {
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                // Debida Diligencia Pendiente
+                table.AddCell(new PdfPCell(new Phrase("Debida Diligencia Pendiente", metricFont))
+                {
+                    BackgroundColor = BaseColor.LIGHT_GRAY,
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+                table.AddCell(new PdfPCell(new Phrase(data.TotalDebidaDiligenciaPendiente.ToString(), valueFont))
+                {
+                    Padding = 10,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                document.Add(table);
+                document.Close();
+
+                return memoryStream.ToArray();
+            }
         }
 
         public async Task<byte[]> GenerateClientesPdfAsync(List<ClienteReporteDto> data)
@@ -494,6 +491,219 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
         public async Task<byte[]> GenerateDebidaDiligenciaPdfAsync(DebidaDiligenciaReporteDto data)
         {
             return await Task.FromResult(GenerateDebidaDiligenciaPdf(data));
+        }
+
+        public async Task<byte[]> GenerateDashboardExcelAsync(DashboardDto data)
+        {
+            return await Task.FromResult(GenerateDashboardExcel(data));
+        }
+
+        public async Task<byte[]> GenerateClientesExcelAsync(List<ClienteReporteDto> data)
+        {
+            return await Task.FromResult(GenerateClientesExcel(data));
+        }
+
+        public async Task<byte[]> GenerateRiesgosExcelAsync(List<RiesgoReporteDto> data)
+        {
+            return await Task.FromResult(GenerateRiesgosExcel(data));
+        }
+
+        public async Task<byte[]> GenerateDebidaDiligenciaExcelAsync(DebidaDiligenciaReporteDto data)
+        {
+            return await Task.FromResult(GenerateDebidaDiligenciaExcel(data));
+        }
+
+        private byte[] GenerateDashboardExcel(DashboardDto data)
+        {
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Dashboard");
+
+            // Headers
+            worksheet.Cell(1, 1).Value = "Métrica";
+            worksheet.Cell(1, 2).Value = "Valor";
+            worksheet.Cell(1, 3).Value = "Fecha de Generación";
+
+            // Data
+            worksheet.Cell(2, 1).Value = "Total de Clientes";
+            worksheet.Cell(2, 2).Value = data.TotalClientes;
+            worksheet.Cell(2, 3).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+            worksheet.Cell(3, 1).Value = "Total de Operaciones";
+            worksheet.Cell(3, 2).Value = data.TotalOperaciones;
+
+            worksheet.Cell(4, 1).Value = "Riesgos de Alto Nivel";
+            worksheet.Cell(4, 2).Value = data.TotalRiesgosAltos;
+
+            worksheet.Cell(5, 1).Value = "Debida Diligencia Pendiente";
+            worksheet.Cell(5, 2).Value = data.TotalDebidaDiligenciaPendiente;
+
+            worksheet.Cell(6, 1).Value = "Monto Total de Operaciones";
+            worksheet.Cell(6, 2).Value = data.MontoTotalOperaciones;
+
+            // Auto-fit columns
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return stream.ToArray();
+        }
+
+        private byte[] GenerateClientesExcel(List<ClienteReporteDto> clientes)
+        {
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Clientes");
+
+            // Headers
+            worksheet.Cell(1, 1).Value = "ID";
+            worksheet.Cell(1, 2).Value = "Nombre";
+            worksheet.Cell(1, 3).Value = "Tipo";
+            worksheet.Cell(1, 4).Value = "Estado";
+            worksheet.Cell(1, 5).Value = "Fecha Registro";
+            worksheet.Cell(1, 6).Value = "Total Operaciones";
+            worksheet.Cell(1, 7).Value = "Monto Total";
+            worksheet.Cell(1, 8).Value = "Nivel Riesgo";
+
+            // Data
+            for (int i = 0; i < clientes.Count; i++)
+            {
+                var cliente = clientes[i];
+                worksheet.Cell(i + 2, 1).Value = cliente.Id;
+                worksheet.Cell(i + 2, 2).Value = cliente.Nombre;
+                worksheet.Cell(i + 2, 3).Value = cliente.TipoCliente;
+                worksheet.Cell(i + 2, 4).Value = cliente.Estado;
+                worksheet.Cell(i + 2, 5).Value = cliente.FechaRegistro.ToString("dd/MM/yyyy");
+                worksheet.Cell(i + 2, 6).Value = cliente.TotalOperaciones;
+                worksheet.Cell(i + 2, 7).Value = cliente.MontoTotalOperaciones;
+                worksheet.Cell(i + 2, 8).Value = cliente.NivelRiesgo;
+            }
+
+            // Auto-fit columns
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return stream.ToArray();
+        }
+
+        private byte[] GenerateRiesgosExcel(List<RiesgoReporteDto> riesgos)
+        {
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Riesgos");
+
+            // Headers
+            worksheet.Cell(1, 1).Value = "ID";
+            worksheet.Cell(1, 2).Value = "Descripción";
+            worksheet.Cell(1, 3).Value = "Nivel";
+            worksheet.Cell(1, 4).Value = "Estado";
+            worksheet.Cell(1, 5).Value = "Cliente";
+            worksheet.Cell(1, 6).Value = "Mitigación";
+            worksheet.Cell(1, 7).Value = "Fecha Identificación";
+            worksheet.Cell(1, 8).Value = "Fecha Mitigación";
+
+            // Data
+            for (int i = 0; i < riesgos.Count; i++)
+            {
+                var riesgo = riesgos[i];
+                worksheet.Cell(i + 2, 1).Value = riesgo.Id;
+                worksheet.Cell(i + 2, 2).Value = riesgo.Descripcion;
+                worksheet.Cell(i + 2, 3).Value = riesgo.Nivel;
+                worksheet.Cell(i + 2, 4).Value = riesgo.Estado;
+                worksheet.Cell(i + 2, 5).Value = riesgo.ClienteNombre;
+                worksheet.Cell(i + 2, 6).Value = riesgo.Mitigacion;
+                worksheet.Cell(i + 2, 7).Value = riesgo.FechaIdentificacion.ToString("dd/MM/yyyy");
+                worksheet.Cell(i + 2, 8).Value = riesgo.FechaMitigacion?.ToString("dd/MM/yyyy") ?? "N/A";
+            }
+
+            // Auto-fit columns
+            worksheet.Columns().AdjustToContents();
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return stream.ToArray();
+        }
+
+        private byte[] GenerateDebidaDiligenciaExcel(DebidaDiligenciaReporteDto dd)
+        {
+            using var workbook = new XLWorkbook();
+
+            // Información general
+            var infoWorksheet = workbook.Worksheets.Add("Información General");
+            infoWorksheet.Cell(1, 1).Value = "Campo";
+            infoWorksheet.Cell(1, 2).Value = "Valor";
+
+            infoWorksheet.Cell(2, 1).Value = "ID";
+            infoWorksheet.Cell(2, 2).Value = dd.Id;
+            infoWorksheet.Cell(3, 1).Value = "Cliente";
+            infoWorksheet.Cell(3, 2).Value = dd.ClienteNombre;
+            infoWorksheet.Cell(4, 1).Value = "Estado";
+            infoWorksheet.Cell(4, 2).Value = dd.Estado;
+            infoWorksheet.Cell(5, 1).Value = "Fecha Inicio";
+            infoWorksheet.Cell(5, 2).Value = dd.FechaInicio.ToString("dd/MM/yyyy");
+            infoWorksheet.Cell(6, 1).Value = "Fecha Completado";
+            infoWorksheet.Cell(6, 2).Value = dd.FechaCompletado?.ToString("dd/MM/yyyy") ?? "En proceso";
+            infoWorksheet.Cell(7, 1).Value = "Responsable";
+            infoWorksheet.Cell(7, 2).Value = dd.Responsable;
+            infoWorksheet.Cell(8, 1).Value = "Fecha de Generación";
+            infoWorksheet.Cell(8, 2).Value = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+
+            // Documentos
+            var docsWorksheet = workbook.Worksheets.Add("Documentos");
+            docsWorksheet.Cell(1, 1).Value = "Tipo";
+            docsWorksheet.Cell(1, 2).Value = "Nombre";
+            docsWorksheet.Cell(1, 3).Value = "Verificado";
+
+            for (int i = 0; i < dd.Documentos.Count; i++)
+            {
+                var doc = dd.Documentos[i];
+                docsWorksheet.Cell(i + 2, 1).Value = doc.Tipo;
+                docsWorksheet.Cell(i + 2, 2).Value = doc.Nombre;
+                docsWorksheet.Cell(i + 2, 3).Value = doc.Verificado ? "Sí" : "No";
+            }
+
+            // Evaluaciones
+            var evalWorksheet = workbook.Worksheets.Add("Evaluaciones");
+            evalWorksheet.Cell(1, 1).Value = "Tipo";
+            evalWorksheet.Cell(1, 2).Value = "Resultado";
+            evalWorksheet.Cell(1, 3).Value = "Fecha";
+
+            for (int i = 0; i < dd.Evaluaciones.Count; i++)
+            {
+                var eval = dd.Evaluaciones[i];
+                evalWorksheet.Cell(i + 2, 1).Value = eval.Tipo;
+                evalWorksheet.Cell(i + 2, 2).Value = eval.Resultado;
+                evalWorksheet.Cell(i + 2, 3).Value = eval.FechaEvaluacion.ToString("dd/MM/yyyy");
+            }
+
+            // Referencias
+            var refWorksheet = workbook.Worksheets.Add("Referencias");
+            refWorksheet.Cell(1, 1).Value = "Tipo";
+            refWorksheet.Cell(1, 2).Value = "Nombre";
+            refWorksheet.Cell(1, 3).Value = "Contacto";
+            refWorksheet.Cell(1, 4).Value = "Verificada";
+
+            for (int i = 0; i < dd.Referencias.Count; i++)
+            {
+                var refItem = dd.Referencias[i];
+                refWorksheet.Cell(i + 2, 1).Value = refItem.Tipo;
+                refWorksheet.Cell(i + 2, 2).Value = refItem.Nombre;
+                refWorksheet.Cell(i + 2, 3).Value = refItem.Contacto;
+                refWorksheet.Cell(i + 2, 4).Value = refItem.Verificada ? "Sí" : "No";
+            }
+
+            // Conclusión
+            var conclusionWorksheet = workbook.Worksheets.Add("Conclusión");
+            conclusionWorksheet.Cell(1, 1).Value = "Conclusión";
+            conclusionWorksheet.Cell(2, 1).Value = dd.Conclusion ?? "Pendiente de conclusión";
+
+            // Auto-fit columns for all worksheets
+            foreach (var worksheet in workbook.Worksheets)
+            {
+                worksheet.Columns().AdjustToContents();
+            }
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return stream.ToArray();
         }
     }
 }

@@ -27,10 +27,10 @@ public class DireccionImpl : IDireccion
         return direcciones;
     }
 
-    public async Task crearDireccion(CreateDireccionDto createDireccionDto, long clienteId)
+    public async Task crearDireccion(CreateDireccionDto createDireccionDto)
     {
         var direccion = _mapper.Map<Direccion>(createDireccionDto);
-        direccion.ClienteId = clienteId;
+        // ClienteId is now in the DTO
 
         _context.Direcciones.Add(direccion);
         await _context.SaveChangesAsync();

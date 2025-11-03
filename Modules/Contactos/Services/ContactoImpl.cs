@@ -27,10 +27,10 @@ public class ContactoImpl : IContacto
         return contactos;
     }
 
-    public async Task crearContacto(CreateContactoDto createContactoDto, long clienteId)
+    public async Task crearContacto(CreateContactoDto createContactoDto)
     {
         var contacto = _mapper.Map<Contacto>(createContactoDto);
-        contacto.ClienteId = clienteId;
+        // ClienteId is now in the DTO
 
         _context.Contactos.Add(contacto);
         await _context.SaveChangesAsync();

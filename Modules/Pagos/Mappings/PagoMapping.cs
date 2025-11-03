@@ -8,7 +8,9 @@ namespace ComplianceGuardPro.Modules.Pagos.Mappings
     {
         public PagoMappingProfile()
         {
-            CreateMap<Pago, PagoDto>();
+            CreateMap<Pago, PagoDto>()
+                .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(src => src.Operacion.ClienteId));
+
             CreateMap<CreatePagoDto, Pago>();
         }
     }

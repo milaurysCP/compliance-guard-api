@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+// using ComplianceGuardPro.Modules.ProgresoCapacitacion.Models;
 using ComplianceGuardPro.Modules.MensajesChat.Models;
-using ComplianceGuardPro.Modules.ProgresoCapacitacion.Models;
 
 namespace ComplianceGuardPro.Modules.Usuarios.Models;
 
@@ -31,8 +31,7 @@ public class Usuario
     [ForeignKey("RolId")]
     public virtual Rol Rol { get; set; } = null!;
 
-
     // public virtual ICollection<ProgresoCapacitacion> ProgresosCapacitacion { get; set; } = new List<ProgresoCapacitacion>(); // TODO: Crear módulo ProgresoCapacitacion
-    public virtual ICollection<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion> ProgresosCapacitacion { get; set; } = new List<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion>();
+    // public virtual ICollection<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion> ProgresosCapacitacion { get; set; } = new List<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion>();
     public virtual ICollection<MensajeChat> MensajesChat { get; set; } = new List<MensajeChat>();
 }

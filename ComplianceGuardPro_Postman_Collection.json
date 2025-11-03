@@ -1,0 +1,2503 @@
+{
+  "info": {
+    "name": "Compliance Guard Pro API",
+    "description": "Colección completa de endpoints para el sistema de Compliance Guard Pro",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "compliance-guard-api"
+  },
+  "item": [
+    {
+      "name": "01. Autenticación",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuarioLogin\": \"admin\",\n  \"clave\": \"12345678\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Usuarios/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Usuarios",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuarioLogin\": \"nuevo_usuario\",\n  \"clave\": \"password123\",\n  \"rolId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Usuarios/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Usuarios",
+                "register"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Roles",
+      "item": [
+        {
+          "name": "Obtener todos los roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Rol",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Rol"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener rol por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Rol/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Rol",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear nuevo rol",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Supervisor\",\n  \"descripcion\": \"Supervisión de operaciones de compliance\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Rol",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Rol"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar rol",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Supervisor Senior\",\n  \"descripcion\": \"Supervisión avanzada de operaciones de compliance\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Rol/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Rol",
+                "3"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar rol",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Rol/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Rol",
+                "3"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Usuarios",
+      "item": [
+        {
+          "name": "Obtener todos los usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Usuarios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Usuarios",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener perfil",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Usuarios/perfil",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Usuarios",
+                "perfil"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuarioLogin\": \"admin\",\n  \"nombre\": \"Administrador\",\n  \"rolId\": 1,\n  \"estaActivo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Usuarios",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Usuarios",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Clientes",
+      "item": [
+        {
+          "name": "Obtener todos los clientes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener cliente por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Clientes/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Clientes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener cliente con detalle",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Clientes/1/detalle",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Clientes",
+                "1",
+                "detalle"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoCliente\": \"Empresa\",\n  \"nombre\": \"Empresa ABC S.A.\",\n  \"fechaRegistro\": \"2024-01-01T00:00:00Z\",\n  \"estaActivo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoCliente\": \"Empresa\",\n  \"nombre\": \"Empresa ABC S.A. Actualizada\",\n  \"fechaRegistro\": \"2024-01-01T00:00:00Z\",\n  \"estaActivo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Clientes/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Clientes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar cliente",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Clientes/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Clientes",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. Direcciones",
+      "item": [
+        {
+          "name": "Obtener direcciones por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Direcciones/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Direcciones",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear dirección",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"calle\": \"Av. Principal 123\",\n  \"ciudad\": \"Ciudad de México\",\n  \"estado\": \"CDMX\",\n  \"codigoPostal\": \"01000\",\n  \"pais\": \"México\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Direcciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Direcciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar dirección",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"calle\": \"Av. Principal 456\",\n  \"ciudad\": \"Ciudad de México\",\n  \"estado\": \"CDMX\",\n  \"codigoPostal\": \"01000\",\n  \"pais\": \"México\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Direcciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Direcciones",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar dirección",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Direcciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Direcciones",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06. Contactos",
+      "item": [
+        {
+          "name": "Obtener contactos por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Contactos/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Contactos",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear contacto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan Pérez\",\n  \"apellido\": \"García\",\n  \"email\": \"juan.perez@email.com\",\n  \"telefono\": \"+52551234567\",\n  \"cargo\": \"Gerente General\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Contactos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Contactos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar contacto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Pérez García\",\n  \"email\": \"juan.perez@email.com\",\n  \"telefono\": \"+52551234567\",\n  \"cargo\": \"Director General\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Contactos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Contactos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar contacto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Contactos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Contactos",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07. Beneficiarios Finales",
+      "item": [
+        {
+          "name": "Obtener beneficiarios por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/BeneficiariosFinales/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "BeneficiariosFinales",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear beneficiario final",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"María González\",\n  \"apellido\": \"Rodríguez\",\n  \"porcentajeParticipacion\": 75.5,\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/BeneficiariosFinales",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "BeneficiariosFinales"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar beneficiario final",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"María\",\n  \"apellido\": \"González Rodríguez\",\n  \"porcentajeParticipacion\": 80.0,\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/BeneficiariosFinales/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "BeneficiariosFinales",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar beneficiario final",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/BeneficiariosFinales/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "BeneficiariosFinales",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08. Intermediarios",
+      "item": [
+        {
+          "name": "Obtener intermediarios por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Intermediarios/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Intermediarios",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear intermediario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Banco Intermediario S.A.\",\n  \"tipoIntermediario\": \"Banco\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Intermediarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Intermediarios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar intermediario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Banco Intermediario S.A. de C.V.\",\n  \"tipoIntermediario\": \"Banco\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Intermediarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Intermediarios",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar intermediario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Intermediarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Intermediarios",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09. Actividades Económicas",
+      "item": [
+        {
+          "name": "Obtener actividades por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ActividadesEconomicas/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ActividadesEconomicas",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear actividad económica",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"6201\",\n  \"descripcion\": \"Desarrollo de software\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ActividadesEconomicas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ActividadesEconomicas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar actividad económica",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"6201\",\n  \"descripcion\": \"Desarrollo y consultoría de software\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ActividadesEconomicas/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ActividadesEconomicas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar actividad económica",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ActividadesEconomicas/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ActividadesEconomicas",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Perfiles Financieros",
+      "item": [
+        {
+          "name": "Obtener perfiles por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/PerfilesFinancieros/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PerfilesFinancieros",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear perfil financiero",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ingresosAnuales\": 5000000.00,\n  \"activosTotales\": 15000000.00,\n  \"pasivosTotales\": 3000000.00,\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/PerfilesFinancieros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PerfilesFinancieros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar perfil financiero",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ingresosAnuales\": 6000000.00,\n  \"activosTotales\": 18000000.00,\n  \"pasivosTotales\": 4000000.00,\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/PerfilesFinancieros/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PerfilesFinancieros",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar perfil financiero",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/PerfilesFinancieros/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PerfilesFinancieros",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11. Operaciones",
+      "item": [
+        {
+          "name": "Obtener operaciones por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Operaciones/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Operaciones",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear operación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoOperacion\": \"Transferencia\",\n  \"monto\": 100000.00,\n  \"moneda\": \"MXN\",\n  \"fechaOperacion\": \"2024-01-15T10:00:00Z\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Operaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Operaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar operación",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoOperacion\": \"Transferencia Internacional\",\n  \"monto\": 150000.00,\n  \"moneda\": \"MXN\",\n  \"fechaOperacion\": \"2024-01-15T10:00:00Z\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Operaciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Operaciones",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar operación",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Operaciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Operaciones",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12. Pagos",
+      "item": [
+        {
+          "name": "Obtener pagos por operación",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Pagos/operacion/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Pagos",
+                "operacion",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear pago",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monto\": 50000.00,\n  \"metodoPago\": \"Transferencia\",\n  \"fechaPago\": \"2024-01-16T14:00:00Z\",\n  \"operacionId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Pagos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Pagos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar pago",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monto\": 75000.00,\n  \"metodoPago\": \"Transferencia Electrónica\",\n  \"fechaPago\": \"2024-01-16T14:00:00Z\",\n  \"operacionId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Pagos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Pagos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar pago",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Pagos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Pagos",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13. Transacciones",
+      "item": [
+        {
+          "name": "Obtener transacciones por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Transacciones/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Transacciones",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear transacción",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoTransaccion\": \"Depósito\",\n  \"monto\": 250000.00,\n  \"moneda\": \"MXN\",\n  \"fechaTransaccion\": \"2024-01-17T09:00:00Z\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Transacciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Transacciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar transacción",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoTransaccion\": \"Depósito a Plazo\",\n  \"monto\": 300000.00,\n  \"moneda\": \"MXN\",\n  \"fechaTransaccion\": \"2024-01-17T09:00:00Z\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Transacciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Transacciones",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar transacción",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Transacciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Transacciones",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "14. Riesgos",
+      "item": [
+        {
+          "name": "Obtener todos los riesgos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Riesgos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Riesgos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener riesgo por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Riesgos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Riesgos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener riesgos por debida diligencia",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Riesgos/debidadiligencia/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Riesgos",
+                "debidadiligencia",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear riesgo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Riesgo de lavado de dinero\",\n  \"nivelRiesgo\": \"Alto\",\n  \"categoria\": \"Operativo\",\n  \"debidaDiligenciaId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Riesgos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Riesgos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar riesgo",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Riesgo de lavado de dinero - Actualizado\",\n  \"nivelRiesgo\": \"Medio\",\n  \"categoria\": \"Operativo\",\n  \"debidaDiligenciaId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Riesgos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Riesgos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar riesgo",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Riesgos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Riesgos",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "15. Evaluaciones",
+      "item": [
+        {
+          "name": "Obtener evaluaciones por cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Evaluaciones/cliente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Evaluaciones",
+                "cliente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear evaluación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntuacion\": 85,\n  \"observaciones\": \"Cliente con buen historial\",\n  \"fechaEvaluacion\": \"2024-01-20T11:00:00Z\",\n  \"clienteId\": 1,\n  \"riesgoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Evaluaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Evaluaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar evaluación",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntuacion\": 90,\n  \"observaciones\": \"Cliente con excelente historial\",\n  \"fechaEvaluacion\": \"2024-01-20T11:00:00Z\",\n  \"clienteId\": 1,\n  \"riesgoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Evaluaciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Evaluaciones",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar evaluación",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Evaluaciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Evaluaciones",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "16. Mensajes Chat",
+      "item": [
+        {
+          "name": "Obtener mensajes recientes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/MensajesChat",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "MensajesChat"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener mensajes por usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/MensajesChat/usuario/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "MensajesChat",
+                "usuario",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Enviar mensaje",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contenido\": \"Mensaje de prueba\",\n  \"tipoMensaje\": \"Texto\",\n  \"usuarioId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/MensajesChat",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "MensajesChat"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "17. Debida Diligencia",
+      "item": [
+        {
+          "name": "Obtener todas las debidas diligencias",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/DebidaDiligencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "DebidaDiligencia"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener debida diligencia por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/DebidaDiligencia/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "DebidaDiligencia",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear debida diligencia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Debida Diligencia Cliente Nuevo\",\n  \"descripcion\": \"Evaluación completa de riesgos\",\n  \"fechaInicio\": \"2024-01-25T09:00:00Z\",\n  \"estado\": \"En Progreso\",\n  \"clienteId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/DebidaDiligencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "DebidaDiligencia"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar debida diligencia",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Debida Diligencia Cliente Nuevo - Actualizada\",\n  \"descripcion\": \"Evaluación completa de riesgos\",\n  \"fechaInicio\": \"2024-01-25T09:00:00Z\",\n  \"fechaFin\": \"2024-01-30T17:00:00Z\",\n  \"estado\": \"Completada\",\n  \"clienteId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/DebidaDiligencia/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "DebidaDiligencia",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar debida diligencia",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/DebidaDiligencia/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "DebidaDiligencia",
+                "2"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "18. Persona Expuesta Políticamente",
+      "item": [
+        {
+          "name": "Obtener todas las PEP",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/PersonasExpuestasPoliticamente",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PersonasExpuestasPoliticamente"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener PEP por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/PersonasExpuestasPoliticamente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PersonasExpuestasPoliticamente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear PEP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos Martínez\",\n  \"cargo\": \"Senador\",\n  \"ordenanza\": \"Decreto Legislativo 456/2023\",\n  \"institucion\": \"Senado de la República\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/PersonasExpuestasPoliticamente",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PersonasExpuestasPoliticamente"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar PEP",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos Martínez\",\n  \"cargo\": \"Ex-Senador\",\n  \"ordenanza\": \"Decreto Legislativo 456/2023\",\n  \"institucion\": \"Senado de la República\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/PersonasExpuestasPoliticamente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PersonasExpuestasPoliticamente",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar PEP",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/PersonasExpuestasPoliticamente/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "PersonasExpuestasPoliticamente",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "19. Referencia",
+      "item": [
+        {
+          "name": "Obtener todas las referencias",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Referencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Referencias"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener referencia por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Referencias/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Referencias",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear referencia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recomendacion\": \"Cliente confiable\",\n  \"descripcion\": \"Ha mantenido operaciones limpias por 3 años\",\n  \"clienteId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Referencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Referencias"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar referencia",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recomendacion\": \"Cliente muy confiable\",\n  \"descripcion\": \"Ha mantenido operaciones limpias por 5 años\",\n  \"clienteId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Referencias/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Referencias",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar referencia",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Referencias/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Referencias",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "20. Reportes",
+      "item": [
+        {
+          "name": "Generar reporte del dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reportes/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reportes",
+                "dashboard"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generar reporte de clientes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reportes/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reportes",
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generar reporte de riesgos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reportes/riesgos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reportes",
+                "riesgos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generar reporte de debida diligencia",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reportes/debida-diligencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reportes",
+                "debida-diligencia"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "21. Responsable",
+      "item": [
+        {
+          "name": "Obtener todos los responsables",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Responsables",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Responsables"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener responsable por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Responsables/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Responsables",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear responsable",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ana\",\n  \"apellido\": \"López\",\n  \"cargo\": \"Jefa de Cumplimiento\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Responsables",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Responsables"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar responsable",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ana María\",\n  \"apellido\": \"López García\",\n  \"cargo\": \"Directora de Cumplimiento\",\n  \"clienteId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Responsables/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Responsables",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar responsable",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Responsables/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Responsables",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5271",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
+

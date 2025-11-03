@@ -7,6 +7,7 @@ public class UsuarioDto
 {
     public long Id { get; set; }
     public required string UsuarioLogin { get; set; }
+    public string? Nombre { get; set; }
     public long RolId { get; set; }
     public string? NombreRol { get; set; } 
     public bool EstaActivo { get; set; }
@@ -19,6 +20,9 @@ public class CreateUsuarioDto
     [StringLength(100)]
     public required string UsuarioLogin { get; set; }
 
+    [StringLength(200)]
+    public string? Nombre { get; set; }
+
     [Required]
     [StringLength(100, MinimumLength = 8, ErrorMessage = "La clave debe tener al menos 8 caracteres.")]
     public required string Clave { get; set; } // Recibimos la clave en texto plano, el hash se hace en el backend.
@@ -29,6 +33,9 @@ public class CreateUsuarioDto
 
 public class UpdateUsuarioDto
 {
+
+    [StringLength(200)]
+    public string? Nombre { get; set; }
 
     [Required]
     public long RolId { get; set; }
@@ -67,6 +74,7 @@ public class DetalleUsuarioDto
 {
     public long Id { get; set; }
     public required string UsuarioLogin { get; set; }
+    public string? Nombre { get; set; }
     public long RolId { get; set; }
     public string? NombreRol { get; set; }
     public bool EstaActivo { get; set; }

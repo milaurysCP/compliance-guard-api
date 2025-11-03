@@ -12,6 +12,10 @@ public class MappingProfile : Profile
         CreateMap<Usuario, UsuarioDto>()
             .ForMember(dest => dest.NombreRol, opt => opt.MapFrom(src => src.Rol.Nombre));
 
+        CreateMap<Usuario, DetalleUsuarioDto>()
+            .ForMember(dest => dest.NombreRol, opt => opt.MapFrom(src => src.Rol.Nombre))
+            .ForMember(dest => dest.MensajeChat, opt => opt.MapFrom(src => src.MensajesChat));
+
         CreateMap<CreateUsuarioDto, Usuario>();
         CreateMap<UpdateUsuarioDto, Usuario>();
 

@@ -27,10 +27,10 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Services
         return perfiles;
     }
 
-    public async Task crearPerfilFinanciero(CreatePerfilFinancieroDto createPerfilDto, long clienteId)
+    public async Task crearPerfilFinanciero(CreatePerfilFinancieroDto createPerfilDto)
     {
         var perfil = _mapper.Map<PerfilFinanciero>(createPerfilDto);
-        perfil.ClienteId = clienteId;
+        // ClienteId is now in the DTO
 
         _context.PerfilesFinancieros.Add(perfil);
         await _context.SaveChangesAsync();

@@ -79,5 +79,70 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
                 return StatusCode(500, $"Error generando reporte de debida diligencia: {ex.Message}");
             }
         }
+
+        [HttpGet("dashboard/excel")]
+        public async Task<IActionResult> GetDashboardReportExcel()
+        {
+            try
+            {
+                var reportData = await _reportesService.GetDashboardDataAsync();
+                var excelBytes = await _reportesService.GenerateDashboardExcelAsync(reportData);
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "dashboard-report.xlsx");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte Excel de dashboard: {ex.Message}");
+            }
+        }
+
+        [HttpGet("clientes/excel")]
+        public async Task<IActionResult> GetClientesReportExcel()
+        {
+            try
+            {
+                var reportData = await _reportesService.GetClientesDataAsync();
+                var excelBytes = await _reportesService.GenerateClientesExcelAsync(reportData);
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "clientes-report.xlsx");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte Excel de clientes: {ex.Message}");
+            }
+        }
+
+        [HttpGet("riesgos/excel")]
+        public async Task<IActionResult> GetRiesgosReportExcel()
+        {
+            try
+            {
+                var reportData = await _reportesService.GetRiesgosDataAsync();
+                var excelBytes = await _reportesService.GenerateRiesgosExcelAsync(reportData);
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "riesgos-report.xlsx");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte Excel de riesgos: {ex.Message}");
+            }
+        }
+
+        [HttpGet("debida-diligencia/{id}/excel")]
+        public async Task<IActionResult> GetDebidaDiligenciaReportExcel(long id)
+        {
+            try
+            {
+                var reportData = await _reportesService.GetDebidaDiligenciaDataAsync(id);
+                if (reportData == null)
+                {
+                    return NotFound($"Debida diligencia con ID {id} no encontrada");
+                }
+
+                var excelBytes = await _reportesService.GenerateDebidaDiligenciaExcelAsync(reportData);
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"debida-diligencia-{id}-report.xlsx");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error generando reporte Excel de debida diligencia: {ex.Message}");
+            }
+        }
     }
 }

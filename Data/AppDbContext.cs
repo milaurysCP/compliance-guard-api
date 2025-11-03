@@ -19,7 +19,7 @@ using ComplianceGuardPro.Modules.Referencia.Models;
 using ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Models;
 using ComplianceGuardPro.Modules.Responsable.Models;
 using ComplianceGuardPro.Modules.Politica.Models;
-using ComplianceGuardPro.Modules.ProgresoCapacitacion.Models;
+using ComplianceGuardPro.Modules.Capacitacion.Models;
 using ComplianceGuardPro.Modules.Documentos.Models;
 using Microsoft.Extensions.Configuration;
 using System.IO;
@@ -44,7 +44,7 @@ namespace ComplianceGuardPro.Data
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            optionsBuilder.UseSqlServer(connectionString);
 
             return optionsBuilder.Options;
         }
@@ -53,7 +53,7 @@ namespace ComplianceGuardPro.Data
         // Ejemplo de entidades adicionales:
         public DbSet<ActividadEconomica> ActividadesEconomicas { get; set; }
         public DbSet<BeneficiarioFinal> BeneficiariosFinales { get; set; }
-        public DbSet<Capacitacion> Capacitaciones { get; set; }
+        public DbSet<ComplianceGuardPro.Modules.Capacitacion.Models.Capacitacion> Capacitaciones { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Contacto> Contactos { get; set; }
         public DbSet<Direccion> Direcciones { get; set; }
@@ -65,7 +65,7 @@ namespace ComplianceGuardPro.Data
         public DbSet<PerfilFinanciero> PerfilesFinancieros { get; set; }
         public DbSet<PersonaExpuestaPoliticamente> PersonasExpuestasPoliticamente { get; set; }
         public DbSet<Politica> Politicas { get; set; }
-        public DbSet<ProgresoCapacitacion> ProgresoCapacitaciones { get; set; }
+        // public DbSet<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion> ProgresoCapacitaciones { get; set; }
         public DbSet<Referencia> Referencias { get; set; }
         public DbSet<Responsable> Responsables { get; set; }
         public DbSet<Riesgo> Riesgos { get; set; }
@@ -80,50 +80,17 @@ namespace ComplianceGuardPro.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Crear instancia del servicio de contraseñas para hashear
-            var passwordService = new ComplianceGuardPro.Shared.Services.PasswordService();
+            // Configurar tipos decimales para SQL Server
+            modelBuilder.Entity<ComplianceGuardPro.Modules.Mitigacion.Models.Mitigacion>()
+                .Property(e => e.Eficacia)
+                .HasPrecision(5, 2);
 
-            // Datos iniciales para roles
-            modelBuilder.Entity<Rol>().HasData(
-                new Rol
-                {
-                    Id = 1,
-                    Nombre = "ADMIN",
-                    Descripcion = "Administrador"
-                }
-            );
+            // modelBuilder.Entity<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion>()
+            //     .Property(e => e.ProgresoPorcentaje)
+            //     .HasPrecision(5, 2);
 
-            // Datos iniciales para usuarios
-            modelBuilder.Entity<Usuario>().HasData(
-                new Usuario
-                {
-                    Id = 1,
-                    UsuarioLogin = "admin",
-                    ClaveHash = passwordService.HashPassword("12345678"),
-                    RolId = 1,
-                    EstaActivo = true
-                },
-                new Usuario
-                {
-                    Id = 2,
-                    UsuarioLogin = "empleado1",
-                    ClaveHash = passwordService.HashPassword("12345678"),
-                    RolId = 1,
-                    EstaActivo = true
-                },
-                new Usuario
-                {
-                    Id = 3,
-                    UsuarioLogin = "usuario2",
-                    ClaveHash = passwordService.HashPassword("Usuario456!"),
-                    RolId = 1,
-                    EstaActivo = true
-                }
-            );
-
-            // Ejemplo de configuración personalizada:
-            // Esto lo unico que hace es cambiar el nombre de la tabla en la base de datos
-            // modelBuilder.Entity<Customer>().ToTable("Customers");
+            // Los datos iniciales se crearán mediante un endpoint o script separado
+            // para evitar problemas con el hash de contraseñas
         }
 
 

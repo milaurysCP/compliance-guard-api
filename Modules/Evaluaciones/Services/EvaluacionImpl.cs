@@ -23,18 +23,7 @@ namespace ComplianceGuardPro.Modules.Evaluaciones.Services
                 .Include(e => e.Riesgo)
                 .Include(e => e.Cliente)
                 .Where(e => e.ClienteId == clienteId)
-                .Select(e => new EvaluacionDto
-                {
-                    Id = e.Id,
-                    RiesgoId = e.RiesgoId,
-                    ClienteId = e.ClienteId,
-                    Puntaje = e.Puntaje,
-                    FechaEvaluacion = e.FechaEvaluacion,
-                    UsuarioEvaluador = e.UsuarioEvaluador,
-                    Observaciones = e.Observaciones,
-                    RiesgoNombre = e.Riesgo.Nombre,
-                    ClienteNombre = e.Cliente.Nombre
-                })
+                .Select(e => _mapper.Map<EvaluacionDto>(e))
                 .ToListAsync();
 
             return evaluaciones;
@@ -87,18 +76,7 @@ namespace ComplianceGuardPro.Modules.Evaluaciones.Services
                 return null;
             }
 
-            return new EvaluacionDto
-            {
-                Id = evaluacion.Id,
-                RiesgoId = evaluacion.RiesgoId,
-                ClienteId = evaluacion.ClienteId,
-                Puntaje = evaluacion.Puntaje,
-                FechaEvaluacion = evaluacion.FechaEvaluacion,
-                UsuarioEvaluador = evaluacion.UsuarioEvaluador,
-                Observaciones = evaluacion.Observaciones,
-                RiesgoNombre = evaluacion.Riesgo.Nombre,
-                ClienteNombre = evaluacion.Cliente.Nombre
-            };
+            return _mapper.Map<EvaluacionDto>(evaluacion);
         }
     }
 }

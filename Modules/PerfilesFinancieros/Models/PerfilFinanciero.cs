@@ -9,8 +9,8 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Models
         [Key]
         public long Id { get; set; }
 
-        [StringLength(100)]
-        public string? NivelIngreso { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? NivelIngreso { get; set; }
 
         [StringLength(200)]
         public string? Fuente { get; set; }
@@ -19,4 +19,5 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Models
 
         [ForeignKey("ClienteId")]
         public virtual Cliente Cliente { get; set; } = null!;
-    }}
+    }
+}

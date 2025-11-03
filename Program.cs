@@ -44,8 +44,8 @@ using ComplianceGuardPro.Modules.Responsable.Services;
 using ComplianceGuardPro.Modules.Responsable.Mappings;
 using ComplianceGuardPro.Modules.Politica.Services;
 using ComplianceGuardPro.Modules.Politica.Mappings;
-using ComplianceGuardPro.Modules.ProgresoCapacitacion.Services;
-using ComplianceGuardPro.Modules.ProgresoCapacitacion.Mappings;
+// using ComplianceGuardPro.Modules.ProgresoCapacitacion.Services;
+// using ComplianceGuardPro.Modules.ProgresoCapacitacion.Mappings;
 using ComplianceGuardPro.Modules.Capacitacion.Services;
 using ComplianceGuardPro.Modules.Capacitacion.Mappings;
 using ComplianceGuardPro.Modules.Reportes.Services;
@@ -78,7 +78,7 @@ builder.Services.AddScoped<IActividadEconomica, ActividadEconomicaImpl>();
 builder.Services.AddScoped<IReferencia, ReferenciaImpl>();
 builder.Services.AddScoped<IResponsable, ResponsableImpl>();
 builder.Services.AddScoped<IRol, RolImpl>();
-builder.Services.AddScoped<IProgresoCapacitacion, ProgresoCapacitacionImpl>();
+// builder.Services.AddScoped<IProgresoCapacitacion, ProgresoCapacitacionImpl>();
 builder.Services.AddScoped<ICapacitacion, CapacitacionImpl>();
 builder.Services.AddScoped<ComplianceGuardPro.Modules.MensajesChat.Services.IMensajeChat, ComplianceGuardPro.Modules.MensajesChat.Services.MensajeChatImpl>();
 builder.Services.AddScoped<IReportes, ReportesImpl>();
@@ -91,36 +91,19 @@ builder.Services.AddControllers();
 
 // Registrar el DbContext
 // ==============================
-// 🔹 Determinar el origen de la conexión
+// 🔹 Configuración para SQL Server
 // ==============================
 string connectionString;
 
-var host = Environment.GetEnvironmentVariable("MYSQLHOST");
-var port = Environment.GetEnvironmentVariable("MYSQLPORT");
-var user = Environment.GetEnvironmentVariable("MYSQLUSER");
-var password = Environment.GetEnvironmentVariable("MYSQLPASSWORD");
-var database = Environment.GetEnvironmentVariable("MYSQLDATABASE");
-
-if (!string.IsNullOrEmpty(host) &&
-    !string.IsNullOrEmpty(user) &&
-    !string.IsNullOrEmpty(password) &&
-    !string.IsNullOrEmpty(database))
-{
-    // ✅ Usar las variables de entorno (Railway)
-    connectionString = $"server={host};port={port};database={database};user={user};password={password};";
-}
-else
-{
-    // ✅ Usar la conexión local del appsettings.json
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-        ?? throw new InvalidOperationException("DefaultConnection string not found in configuration");
-}
+// Usar la conexión local del appsettings.json
+connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? throw new InvalidOperationException("DefaultConnection string not found in configuration");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseSqlServer(connectionString));
 
 // Configura AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(ClienteMappingProfile), typeof(DireccionMappingProfile), typeof(ContactoMappingProfile), typeof(BeneficiarioMappingProfile), typeof(IntermediarioMappingProfile), typeof(ActividadEconomicaMappingProfile), typeof(PerfilFinancieroMappingProfile), typeof(OperacionMappingProfile), typeof(PagoMappingProfile), typeof(TransaccionMappingProfile), typeof(DebidaDiligenciaMappingProfile), typeof(RiesgoMappingProfile), typeof(MitigacionMappingProfile), typeof(EvaluacionMappingProfile), typeof(MensajeChatMappingProfile), typeof(ReferenciaMappingProfile), typeof(PersonaExpuestaPoliticamenteMappingProfile), typeof(ResponsableMappingProfile), typeof(PoliticaMappingProfile), typeof(ProgresoCapacitacionMappingProfile), typeof(CapacitacionMappingProfile), typeof(ReportesMappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(ClienteMappingProfile), typeof(DireccionMappingProfile), typeof(ContactoMappingProfile), typeof(BeneficiarioMappingProfile), typeof(IntermediarioMappingProfile), typeof(ActividadEconomicaMappingProfile), typeof(PerfilFinancieroMappingProfile), typeof(OperacionMappingProfile), typeof(PagoMappingProfile), typeof(TransaccionMappingProfile), typeof(DebidaDiligenciaMappingProfile), typeof(RiesgoMappingProfile), typeof(MitigacionMappingProfile), typeof(EvaluacionMappingProfile), typeof(MensajeChatMappingProfile), typeof(ReferenciaMappingProfile), typeof(PersonaExpuestaPoliticamenteMappingProfile), typeof(ResponsableMappingProfile), typeof(PoliticaMappingProfile), /* typeof(ProgresoCapacitacionMappingProfile), */ typeof(CapacitacionMappingProfile), typeof(ReportesMappingProfile));
 
 // Configura JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

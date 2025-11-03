@@ -14,6 +14,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.DTOs
         public string? Observaciones { get; set; }
         public decimal? Eficacia { get; set; }
         public string? RiesgoNombre { get; set; }
+        public long ClienteId { get; set; }
     }
 
     public class CreateMitigacionDto
@@ -40,5 +41,8 @@ namespace ComplianceGuardPro.Modules.Mitigacion.DTOs
 
         [Range(0, 100)]
         public decimal? Eficacia { get; set; }
+
+        [Required]
+        public long ClienteId { get; set; }
     }
 }

@@ -9,14 +9,27 @@ namespace ComplianceGuardPro.Modules.ActividadesEconomicas.Models
         [Key]
         public long Id { get; set; }
 
-        [StringLength(100)]
-        public string? Tipo { get; set; }
+        [StringLength(50)]
+        public string? Proveedor { get; set; }
 
-        [StringLength(255)]
-        public string? Descripcion { get; set; }
+        [StringLength(50)]
+        public string? PrincipalCliente { get; set; }
+
+        [StringLength(50)]
+        public string? CampoLaboral { get; set; }
+
+        [StringLength(50)]
+        public string? Proyecto { get; set; }
+
+        [StringLength(50)]
+        public string? Inscripciones { get; set; }
+
+        [StringLength(100)]
+        public string? OrigenFondos { get; set; }
 
         public long ClienteId { get; set; }
 
         [ForeignKey("ClienteId")]
         public virtual Cliente Cliente { get; set; } = null!;
-    }}
+    }
+}

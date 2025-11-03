@@ -20,6 +20,7 @@ namespace ComplianceGuardPro.Modules.Pagos.Services
         public async Task<List<PagoDto>> obtenerPagosPorOperacion(long operacionId)
         {
             var pagos = await _context.Pagos
+                .Include(p => p.Operacion)
                 .Where(p => p.OperacionId == operacionId)
                 .Select(p => _mapper.Map<PagoDto>(p))
                 .ToListAsync();
@@ -66,7 +67,9 @@ namespace ComplianceGuardPro.Modules.Pagos.Services
 
         public async Task<PagoDto?> obtenerPago(long id)
         {
-            var pago = await _context.Pagos.FirstOrDefaultAsync(p => p.Id == id);
+            var pago = await _context.Pagos
+                .Include(p => p.Operacion)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (pago == null)
             {

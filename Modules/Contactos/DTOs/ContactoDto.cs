@@ -7,6 +7,7 @@ public class ContactoDto
     public long Id { get; set; }
     public string? Tipo { get; set; } // Teléfono / Móvil / Correo
     public string? Valor { get; set; }
+    public long ClienteId { get; set; }
 }
 
 public class CreateContactoDto
@@ -18,4 +19,7 @@ public class CreateContactoDto
     [Required]
     [StringLength(200)]
     public string? Valor { get; set; }
+
+    [Required]
+    public long ClienteId { get; set; }
 }
