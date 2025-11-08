@@ -11,11 +11,12 @@ CREATE TABLE Roles (
 
 CREATE TABLE Usuarios (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Nombres NVARCHAR(50) NOT NULL,
-    Usuario NVARCHAR(100) NOT NULL UNIQUE,
+    UsuarioLogin NVARCHAR(100) NOT NULL UNIQUE,
+    Nombre NVARCHAR(200),
     ClaveHash NVARCHAR(255) NOT NULL,
     Token NVARCHAR(255),
     RolId BIGINT NOT NULL,
+    EstaActivo BIT NOT NULL DEFAULT 0,
     CONSTRAINT FK_Usuarios_Roles FOREIGN KEY (RolId) REFERENCES Roles(Id)
 );
 
@@ -24,30 +25,25 @@ CREATE TABLE Clientes (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
     TipoCliente NVARCHAR(50) NOT NULL, -- Persona / Empresa
     Nombre NVARCHAR(200) NOT NULL,
+    Url NVARCHAR(255),
     DocumentoIdentidad NVARCHAR(50),
-    RegistroComercial NVARCHAR(50),
-    RegistroOnapi NVARCHAR(50),
-    CasaMatriz NVARCHAR(50),
-    Siglas NVARCHAR(10),
-    Fecha DATE
+    RegistroComercial NVARCHAR(100),
+    FechaNacimiento DATETIME,
+    EstaActivo BIT NOT NULL DEFAULT 1,
+    Estado NVARCHAR(50) DEFAULT 'Activo',
+    FechaRegistro DATETIME DEFAULT GETDATE()
 );
 
 CREATE TABLE BeneficiariosFinales (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Nombres NVARCHAR(50),
-    Apellidos NVARCHAR(50),
-    Identificacion NVARCHAR(50),
-    Nacionalidad NVARCHAR(50),
+    Nombre NVARCHAR(200),
     ClienteId BIGINT NOT NULL,
     CONSTRAINT FK_BeneficiariosFinales_Clientes FOREIGN KEY (ClienteId) REFERENCES Clientes(Id)
 );
 
 CREATE TABLE Intermediarios (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Nombres NVARCHAR(50),
-    Apellidos NVARCHAR(50),
-    Identificacion NVARCHAR(50),
-    Nacionalidad NVARCHAR(50),
+    Nombre NVARCHAR(200),
     ClienteId BIGINT NOT NULL,
     CONSTRAINT FK_Intermediarios_Clientes FOREIGN KEY (ClienteId) REFERENCES Clientes(Id)
 );
@@ -78,7 +74,7 @@ CREATE TABLE Contactos (
 CREATE TABLE ActividadesEconomicas (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
     Proveedor NVARCHAR(50),
-    PrincipalCliente NAVARCHAR(50),
+    PrincipalCliente NVARCHAR(50),
     CampoLaboral NVARCHAR(50),
     Proyecto NVARCHAR(50),
     Inscripciones NVARCHAR(50),
@@ -159,13 +155,19 @@ CREATE TABLE Responsables (
 );
 
 -- Políticas, Riesgos y Cumplimiento
-CREATE TABLE DebidaDiligencia (
+CREATE TABLE DebidaDiligencias (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    Nombre NVARCHAR(200),
-    Descripcion NVARCHAR(255),
-    FechaCreacion DATETIME DEFAULT GETDATE(),
     ClienteId BIGINT NOT NULL,
-    CONSTRAINT FK_DebidaDiligencia_Clientes FOREIGN KEY (ClienteId) REFERENCES Clientes(Id)
+    Titulo NVARCHAR(200) NOT NULL,
+    Descripcion NVARCHAR(1000),
+    Estado NVARCHAR(50),
+    FechaInicio DATETIME NOT NULL,
+    FechaFin DATETIME,
+    Observaciones NVARCHAR(1000),
+    Conclusion NVARCHAR(1000),
+    ResponsableId BIGINT,
+    CONSTRAINT FK_DebidaDiligencias_Clientes FOREIGN KEY (ClienteId) REFERENCES Clientes(Id),
+    CONSTRAINT FK_DebidaDiligencias_Responsables FOREIGN KEY (ResponsableId) REFERENCES Responsables(Id) ON DELETE NO ACTION
 );
 
 CREATE TABLE Riesgos (
@@ -182,22 +184,22 @@ CREATE TABLE Riesgos (
     Efecto NVARCHAR(200),
     Disparador NVARCHAR(100),
     DisparadorDescripcion NVARCHAR(100),
-    FechaCreacion DATE,
+    FechaCreacion DATETIME,
     DebidaDiligenciaId BIGINT NOT NULL,
-    CONSTRAINT FK_Riesgo_DebidaDiligencia FOREIGN KEY (DebidaDiligenciaId) REFERENCES DebidaDiligencia(Id)
+    CONSTRAINT FK_Riesgos_DebidaDiligencias FOREIGN KEY (DebidaDiligenciaId) REFERENCES DebidaDiligencias(Id)
 );
 
-CREATE TABLE Mitigacion (
+CREATE TABLE Mitigaciones (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
     RiesgoId BIGINT NOT NULL,
     Accion NVARCHAR(255) NOT NULL,            
     Responsable NVARCHAR(150) NOT NULL,      
     Estado NVARCHAR(50) DEFAULT 'Pendiente', 
-    FechaInicio DATE,
-    FechaCierre DATE,
+    FechaInicio DATETIME,
+    FechaCierre DATETIME,
     Observaciones NVARCHAR(500),
-    Eficacia DECIMAL(5,2),                    -- 
-    CONSTRAINT FK_Mitigacion_Riesgos FOREIGN KEY (RiesgoId) REFERENCES Riesgos(Id)
+    Eficacia DECIMAL(5,2),
+    CONSTRAINT FK_Mitigaciones_Riesgos FOREIGN KEY (RiesgoId) REFERENCES Riesgos(Id)
 );
 
 CREATE TABLE Evaluaciones (
@@ -205,10 +207,10 @@ CREATE TABLE Evaluaciones (
     RiesgoId BIGINT NOT NULL,
     ClienteId BIGINT NOT NULL,
     Puntaje INT,
-    FechaEvaluacion DATE,
+    FechaEvaluacion DATETIME NOT NULL,
     UsuarioEvaluador NVARCHAR(100),
     Observaciones NVARCHAR(500),
-    CONSTRAINT FK_Evaluaciones_Riesgos FOREIGN KEY (RiesgoId) REFERENCES Riesgos(Id),
+    CONSTRAINT FK_Evaluaciones_Riesgos FOREIGN KEY (RiesgoId) REFERENCES Riesgos(Id) ON DELETE NO ACTION,
     CONSTRAINT FK_Evaluaciones_Clientes FOREIGN KEY (ClienteId) REFERENCES Clientes(Id)
 );
 
@@ -216,6 +218,40 @@ CREATE TABLE MensajesChat (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
     UsuarioId BIGINT NOT NULL,
     Mensaje NVARCHAR(500),
-    FechaEnvio DATE,
+    FechaEnvio DATETIME DEFAULT GETDATE(),
     CONSTRAINT FK_MensajesChat_Usuarios FOREIGN KEY (UsuarioId) REFERENCES Usuarios(Id)
+);
+
+-- Políticas
+CREATE TABLE Politicas (
+    Id BIGINT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(200) NOT NULL,
+    Descripcion NVARCHAR(500),
+    FechaCreacion DATETIME DEFAULT GETDATE()
+);
+
+-- Capacitaciones
+CREATE TABLE Capacitaciones (
+    Id BIGINT PRIMARY KEY IDENTITY(1,1),
+    Titulo NVARCHAR(200) NOT NULL,
+    Descripcion NVARCHAR(1000),
+    DuracionHoras INT NOT NULL,
+    FechaInicio DATETIME NOT NULL,
+    FechaFin DATETIME NOT NULL,
+    Instructor NVARCHAR(200),
+    Estado NVARCHAR(50),
+    FechaCreacion DATETIME DEFAULT GETDATE()
+);
+
+-- Documentos
+CREATE TABLE Documentos (
+    Id BIGINT PRIMARY KEY IDENTITY(1,1),
+    DebidaDiligenciaId BIGINT NOT NULL,
+    Nombre NVARCHAR(200) NOT NULL,
+    Tipo NVARCHAR(100),
+    RutaArchivo NVARCHAR(500),
+    Descripcion NVARCHAR(1000),
+    Verificado BIT NOT NULL DEFAULT 0,
+    FechaSubida DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Documentos_DebidaDiligencias FOREIGN KEY (DebidaDiligenciaId) REFERENCES DebidaDiligencias(Id)
 );

@@ -52,6 +52,7 @@ using ComplianceGuardPro.Modules.Reportes.Services;
 using ComplianceGuardPro.Modules.Reportes.Mappings;
 using ComplianceGuardPro.Modules.Documentos.Services;
 using ComplianceGuardPro.Modules.Documentos.Mappings;
+using ComplianceGuardPro.Modules.FAQ.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +86,7 @@ builder.Services.AddScoped<ICapacitacion, CapacitacionImpl>();
 builder.Services.AddScoped<ComplianceGuardPro.Modules.MensajesChat.Services.IMensajeChat, ComplianceGuardPro.Modules.MensajesChat.Services.MensajeChatImpl>();
 builder.Services.AddScoped<IReportes, ReportesImpl>();
 builder.Services.AddScoped<IDocumento, DocumentoImpl>();
+builder.Services.AddScoped<IFaqService, FaqServiceImpl>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddSingleton<JwtService>();
 

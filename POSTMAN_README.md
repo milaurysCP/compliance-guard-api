@@ -4,7 +4,7 @@ Esta colección contiene todos los endpoints de la API de Compliance Guard Pro o
 
 ## 📋 Requisitos Previos
 
-1. **API en funcionamiento**: Asegúrate de que la API esté ejecutándose en `https://localhost:5001` (o actualiza la variable `baseUrl` si es diferente)
+1. **API en funcionamiento**: Asegúrate de que la API esté ejecutándose en `https://oficial-cumplimiento-api-ehf8fgbhbefpe2aa.canadaeast-01.azurewebsites.net/` (o actualiza la variable `baseUrl` si es diferente)
 2. **Postman instalado**: Descarga e instala Postman desde https://www.postman.com/
 
 ## 🚀 Configuración
@@ -18,7 +18,7 @@ Esta colección contiene todos los endpoints de la API de Compliance Guard Pro o
 ### 2. Configurar variables
 La colección incluye dos variables de entorno:
 
-- **`baseUrl`**: URL base de la API (por defecto: `https://localhost:5001`)
+- **`baseUrl`**: URL base de la API (por defecto: `https://oficial-cumplimiento-api-ehf8fgbhbefpe2aa.canadaeast-01.azurewebsites.net/`)
 - **`token`**: Token JWT para autenticación (se llena automáticamente después del login)
 
 ### 3. Actualizar baseUrl (opcional)
