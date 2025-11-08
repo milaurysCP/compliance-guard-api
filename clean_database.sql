@@ -1,66 +1,50 @@
 -- ================================================
--- SCRIPT DE LIMPIEZA DE DATOS - COMPLIANCE GUARD PRO
+-- SCRIPT DE LIMPIEZA DE DATOS - COMPLIANCE GUARD PRO (Azure SQL)
 -- ================================================
--- Este script elimina todos los datos de prueba de la base de datos
--- CUIDADO: Este script eliminará TODOS los datos del sistema
--- Solo usar en ambiente de desarrollo
+-- Este script elimina todos los datos de prueba de la base de datos.
+-- ⚠️ CUIDADO: Este script eliminará TODOS los datos del sistema.
+-- Solo usar en ambiente de desarrollo / pruebas.
 
-USE ComplianceGuard_DB;
 
--- Desactivar restricciones de clave foránea temporalmente
-EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all"
+-- 1. Deshabilitar todas las restricciones de clave foránea
+PRINT 'Deshabilitando restricciones de clave foránea...';
+DECLARE @sql NVARCHAR(MAX) = N'';
+SELECT @sql += 'ALTER TABLE [' + TABLE_SCHEMA + '].[' + TABLE_NAME + '] NOCHECK CONSTRAINT ALL;
+'
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE';
+EXEC sp_executesql @sql;
 
--- Eliminar datos en orden inverso de dependencias
-DELETE FROM Documentos;
-DELETE FROM Mitigaciones;
-DELETE FROM Evaluaciones;
-DELETE FROM Riesgos;
-DELETE FROM DebidaDiligencias;
-DELETE FROM Pagos;
-DELETE FROM Transacciones;
-DELETE FROM Operaciones;
-DELETE FROM PerfilesFinancieros;
-DELETE FROM ActividadesEconomicas;
-DELETE FROM Contactos;
-DELETE FROM Direcciones;
-DELETE FROM BeneficiariosFinales;
-DELETE FROM Intermediarios;
-DELETE FROM Referencias;
-DELETE FROM PersonasExpuestasPoliticamente;
-DELETE FROM Responsables;
-DELETE FROM Clientes;
-DELETE FROM Capacitaciones;
-DELETE FROM Politicas;
-DELETE FROM MensajesChat;
-DELETE FROM Usuarios;
-DELETE FROM Roles;
 
--- Reactivar restricciones de clave foránea
-EXEC sp_MSforeachtable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all"
+-- 2. Eliminar datos (en cualquier orden)
+PRINT 'Eliminando datos de todas las tablas...';
+SET @sql = N'';
+SELECT @sql += 'DELETE FROM [' + TABLE_SCHEMA + '].[' + TABLE_NAME + '];
+'
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE';
+EXEC sp_executesql @sql;
 
--- Reiniciar contadores de identidad
-DBCC CHECKIDENT ('Roles', RESEED, 0);
-DBCC CHECKIDENT ('Usuarios', RESEED, 0);
-DBCC CHECKIDENT ('Clientes', RESEED, 0);
-DBCC CHECKIDENT ('BeneficiariosFinales', RESEED, 0);
-DBCC CHECKIDENT ('Intermediarios', RESEED, 0);
-DBCC CHECKIDENT ('Direcciones', RESEED, 0);
-DBCC CHECKIDENT ('Contactos', RESEED, 0);
-DBCC CHECKIDENT ('ActividadesEconomicas', RESEED, 0);
-DBCC CHECKIDENT ('PerfilesFinancieros', RESEED, 0);
-DBCC CHECKIDENT ('Operaciones', RESEED, 0);
-DBCC CHECKIDENT ('Pagos', RESEED, 0);
-DBCC CHECKIDENT ('Transacciones', RESEED, 0);
-DBCC CHECKIDENT ('Referencias', RESEED, 0);
-DBCC CHECKIDENT ('PersonasExpuestasPoliticamente', RESEED, 0);
-DBCC CHECKIDENT ('Responsables', RESEED, 0);
-DBCC CHECKIDENT ('DebidaDiligencias', RESEED, 0);
-DBCC CHECKIDENT ('Riesgos', RESEED, 0);
-DBCC CHECKIDENT ('Mitigaciones', RESEED, 0);
-DBCC CHECKIDENT ('Evaluaciones', RESEED, 0);
-DBCC CHECKIDENT ('MensajesChat', RESEED, 0);
-DBCC CHECKIDENT ('Politicas', RESEED, 0);
-DBCC CHECKIDENT ('Capacitaciones', RESEED, 0);
-DBCC CHECKIDENT ('Documentos', RESEED, 0);
 
-PRINT 'Base de datos limpiada exitosamente. Todos los datos han sido eliminados.';
+-- 3. Reiniciar contadores de identidad
+PRINT 'Reiniciando identidades...';
+SET @sql = N'';
+SELECT @sql += '
+IF EXISTS (SELECT * FROM sys.identity_columns WHERE object_id = OBJECT_ID(''' + TABLE_SCHEMA + '.' + TABLE_NAME + '''))
+    DBCC CHECKIDENT (''' + TABLE_SCHEMA + '.' + TABLE_NAME + ''', RESEED, 0);
+'
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE';
+EXEC sp_executesql @sql;
+
+
+-- 4. Reactivar restricciones
+PRINT 'Reactivando restricciones de clave foránea...';
+SET @sql = N'';
+SELECT @sql += 'ALTER TABLE [' + TABLE_SCHEMA + '].[' + TABLE_NAME + '] WITH CHECK CHECK CONSTRAINT ALL;
+'
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE';
+EXEC sp_executesql @sql;
+
+PRINT '✅ Base de datos limpiada exitosamente. Todos los datos han sido eliminados.';

@@ -3,7 +3,6 @@
 -- Generated from EF Core Models - Version 2025
 -- ===========================================
 
-USE ComplianceGuard_DB;
 
 -- ===========================================
 -- 1. ROLES
@@ -88,23 +87,23 @@ INSERT INTO Contactos (ClienteId, Tipo, Valor) VALUES
 -- ===========================================
 -- 8. ACTIVIDADES ECONOMICAS
 -- ===========================================
-INSERT INTO ActividadesEconomicas (ClienteId, Tipo, Descripcion) VALUES
-(1, 'Servicios Profesionales', 'Consultoría en gestión empresarial'),
-(2, 'Tecnología', 'Desarrollo de software y soluciones IT'),
-(3, 'Consultoría', 'Asesoría financiera y tributaria'),
-(4, 'Inversiones', 'Gestión de portafolios de inversión'),
-(5, 'Comercio', 'Importación y distribución de productos');
+INSERT INTO ActividadesEconomicas (ClienteId, Proveedor, PrincipalCliente, CampoLaboral, Proyecto, Inscripciones, OrigenFondos) VALUES
+(1, 'Proveedor A', 'Cliente Principal 1', 'Consultoría', 'Proyecto Gestión Empresarial', 'Registro Profesional', 'Honorarios profesionales'),
+(2, 'Proveedor Tech', 'Cliente Principal 2', 'Tecnología', 'Proyecto Desarrollo Software', 'Registro Comercial', 'Contratos corporativos'),
+(3, 'Proveedor Servicios', 'Cliente Principal 3', 'Consultoría', 'Proyecto Asesoría Financiera', 'Licencia Profesional', 'Servicios profesionales'),
+(4, 'Proveedor Inversión', 'Cliente Principal 4', 'Finanzas', 'Proyecto Gestión de Portafolios', 'Registro Financiero', 'Retornos de inversión'),
+(5, 'Proveedor Comercial', 'Cliente Principal 5', 'Comercio', 'Proyecto Importación', 'Registro de Importador', 'Ventas comerciales');
 
 
 -- ===========================================
 -- 9. PERFILES FINANCIEROS
 -- ===========================================
 INSERT INTO PerfilesFinancieros (ClienteId, NivelIngreso, Fuente) VALUES
-(1, 'Medio', 'Salario profesional'),
-(2, 'Alto', 'Ingresos corporativos'),
-(3, 'Medio-Alto', 'Honorarios profesionales'),
-(4, 'Alto', 'Retornos de inversión'),
-(5, 'Medio', 'Ingresos comerciales');
+(1, 50000.00, 'Salario profesional'),
+(2, 250000.00, 'Ingresos corporativos'),
+(3, 100000.00, 'Honorarios profesionales'),
+(4, 500000.00, 'Retornos de inversión'),
+(5, 75000.00, 'Ingresos comerciales');
 
 
 -- ===========================================
@@ -185,12 +184,12 @@ INSERT INTO DebidaDiligencias (ClienteId, Titulo, Descripcion, Estado, FechaInic
 -- ===========================================
 -- 17. RIESGOS
 -- ===========================================
-INSERT INTO Riesgos (ClienteId, DebidaDiligenciaId, Nombre, Descripcion, Estado, Nivel, FechaCreacion, Mitigacion) VALUES
-(1, 1, 'Riesgo de Lavado', 'Posible riesgo de lavado de activos', 'Mitigado', 'Medio', '2025-01-02', 'Monitoreo continuo'),
-(2, 2, 'Riesgo Operacional', 'Riesgo en operaciones tecnológicas', 'En Evaluación', 'Alto', '2025-01-12', 'Implementar controles adicionales'),
-(3, 3, 'Riesgo Reputacional', 'Riesgo por exposición política', 'Mitigado', 'Bajo', '2025-01-07', 'Monitoreo periódico'),
-(4, 4, 'Riesgo Financiero', 'Riesgo en inversiones especulativas', 'Pendiente', 'Medio', '2025-01-17', 'Diversificación de portafolio'),
-(5, 5, 'Riesgo Regulatorio', 'Riesgo de incumplimiento normativo', 'Mitigado', 'Bajo', '2025-01-10', 'Capacitación continua');
+INSERT INTO Riesgos (DebidaDiligenciaId, Nombre, Identificador, Tipo, Categoria, Estado, DescripcionRiesgo, Objetivo, Fase, Causa, Efecto, Disparador, DisparadorDescripcion, FechaCreacion) VALUES
+(1, 'Riesgo de Lavado de Activos', 'RSK-001', 'Operacional', 'Alto', 'Mitigado', 'Posible riesgo de lavado de activos detectado', 'Prevención', 'Identificación', 'Transacciones sospechosas', 'Pérdida reputacional', 'Monto elevado', 'Transacción superior a límite', '2025-01-02'),
+(2, 'Riesgo Operacional Tecnológico', 'RSK-002', 'Tecnológico', 'Medio', 'En Evaluación', 'Riesgo en operaciones tecnológicas', 'Control', 'Evaluación', 'Sistemas obsoletos', 'Interrupción del servicio', 'Fallo del sistema', 'Problemas de infraestructura', '2025-01-12'),
+(3, 'Riesgo Reputacional', 'RSK-003', 'Reputacional', 'Bajo', 'Mitigado', 'Riesgo por exposición política', 'Monitoreo', 'Seguimiento', 'Exposición pública', 'Daño a imagen', 'Publicación negativa', 'Medios de comunicación', '2025-01-07'),
+(4, 'Riesgo Financiero', 'RSK-004', 'Financiero', 'Alto', 'Pendiente', 'Riesgo en inversiones especulativas', 'Evaluación', 'Análisis', 'Volatilidad del mercado', 'Pérdidas financieras', 'Cambio de mercado', 'Fluctuaciones económicas', '2025-01-17'),
+(5, 'Riesgo Regulatorio', 'RSK-005', 'Cumplimiento', 'Medio', 'Mitigado', 'Riesgo de incumplimiento normativo', 'Cumplimiento', 'Control', 'Cambios normativos', 'Sanciones regulatorias', 'Nueva regulación', 'Actualización normativa', '2025-01-10');
 
 
 -- ===========================================
@@ -207,7 +206,7 @@ INSERT INTO Mitigaciones (RiesgoId, Accion, Responsable, Estado, FechaInicio, Fe
 -- ===========================================
 -- 19. EVALUACIONES
 -- ===========================================
-INSERT INTO Evaluaciones (ClienteId, RiesgoId, Puntaje, FechaEvaluacion, UsuarioEvaluador, Observaciones) VALUES
+INSERT INTO Evaluaciones (RiesgoId, ClienteId, Puntaje, FechaEvaluacion, UsuarioEvaluador, Observaciones) VALUES
 (1, 1, 75, '2025-01-15', 'compliance1', 'Evaluación satisfactoria'),
 (2, 2, 60, '2025-01-20', 'analista1', 'Requiere atención adicional'),
 (3, 3, 85, '2025-01-22', 'compliance1', 'Bajo riesgo identificado'),

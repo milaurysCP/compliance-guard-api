@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComplianceGuardPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251102165254_RemoveInitialData")]
-    partial class RemoveInitialData
+    [Migration("20251107221430_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,16 +33,32 @@ namespace ComplianceGuardPro.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("CampoLaboral")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<long>("ClienteId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<string>("Inscripciones")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Tipo")
+                    b.Property<string>("OrigenFondos")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PrincipalCliente")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Proveedor")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Proyecto")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -526,9 +542,8 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("NivelIngreso")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<decimal?>("NivelIngreso")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -593,50 +608,6 @@ namespace ComplianceGuardPro.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Politicas");
-                });
-
-            modelBuilder.Entity("ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<int?>("Calificacion")
-                        .HasColumnType("int");
-
-                    b.Property<long>("CapacitacionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Estado")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("FechaCompletado")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Observaciones")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<decimal>("ProgresoPorcentaje")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<long>("UsuarioId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CapacitacionId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("ProgresoCapacitaciones");
                 });
 
             modelBuilder.Entity("ComplianceGuardPro.Modules.Referencia.Models.Referencia", b =>
@@ -719,28 +690,45 @@ namespace ComplianceGuardPro.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("ClienteId")
+                    b.Property<string>("Categoria")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Causa")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<long>("DebidaDiligenciaId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("DebidaDiligenciaId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("DescripcionRiesgo")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Disparador")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("DisparadorDescripcion")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Efecto")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Estado")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<string>("Fase")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Mitigacion")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Nivel")
+                    b.Property<string>("Identificador")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -748,9 +736,15 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Objetivo")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasIndex("ClienteId");
+                    b.Property<string>("Tipo")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("DebidaDiligenciaId");
 
@@ -901,7 +895,8 @@ namespace ComplianceGuardPro.Migrations
 
                     b.HasOne("ComplianceGuardPro.Modules.Responsable.Models.Responsable", "Responsable")
                         .WithMany()
-                        .HasForeignKey("ResponsableId");
+                        .HasForeignKey("ResponsableId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Cliente");
 
@@ -941,7 +936,7 @@ namespace ComplianceGuardPro.Migrations
                     b.HasOne("ComplianceGuardPro.Modules.Riesgos.Models.Riesgo", "Riesgo")
                         .WithMany("Evaluaciones")
                         .HasForeignKey("RiesgoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -1026,25 +1021,6 @@ namespace ComplianceGuardPro.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion", b =>
-                {
-                    b.HasOne("ComplianceGuardPro.Modules.Capacitacion.Models.Capacitacion", "Capacitacion")
-                        .WithMany()
-                        .HasForeignKey("CapacitacionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ComplianceGuardPro.Modules.Usuarios.Models.Usuario", "Usuario")
-                        .WithMany("ProgresosCapacitacion")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Capacitacion");
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("ComplianceGuardPro.Modules.Referencia.Models.Referencia", b =>
                 {
                     b.HasOne("ComplianceGuardPro.Modules.Clientes.Models.Cliente", "Cliente")
@@ -1069,15 +1045,13 @@ namespace ComplianceGuardPro.Migrations
 
             modelBuilder.Entity("ComplianceGuardPro.Modules.Riesgos.Models.Riesgo", b =>
                 {
-                    b.HasOne("ComplianceGuardPro.Modules.Clientes.Models.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId");
-
-                    b.HasOne("ComplianceGuardPro.Modules.DebidaDiligencia.Models.DebidaDiligencia", null)
+                    b.HasOne("ComplianceGuardPro.Modules.DebidaDiligencia.Models.DebidaDiligencia", "DebidaDiligencia")
                         .WithMany("Riesgos")
-                        .HasForeignKey("DebidaDiligenciaId");
+                        .HasForeignKey("DebidaDiligenciaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("DebidaDiligencia");
                 });
 
             modelBuilder.Entity("ComplianceGuardPro.Modules.Transacciones.Models.Transaccion", b =>
@@ -1156,8 +1130,6 @@ namespace ComplianceGuardPro.Migrations
             modelBuilder.Entity("ComplianceGuardPro.Modules.Usuarios.Models.Usuario", b =>
                 {
                     b.Navigation("MensajesChat");
-
-                    b.Navigation("ProgresosCapacitacion");
                 });
 #pragma warning restore 612, 618
         }

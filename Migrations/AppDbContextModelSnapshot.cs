@@ -30,16 +30,32 @@ namespace ComplianceGuardPro.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("CampoLaboral")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<long>("ClienteId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<string>("Inscripciones")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Tipo")
+                    b.Property<string>("OrigenFondos")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PrincipalCliente")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Proveedor")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Proyecto")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -523,9 +539,8 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("NivelIngreso")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<decimal?>("NivelIngreso")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -672,28 +687,45 @@ namespace ComplianceGuardPro.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("ClienteId")
+                    b.Property<string>("Categoria")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Causa")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<long>("DebidaDiligenciaId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("DebidaDiligenciaId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Descripcion")
+                    b.Property<string>("DescripcionRiesgo")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Disparador")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("DisparadorDescripcion")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Efecto")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Estado")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("FechaCreacion")
+                    b.Property<string>("Fase")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Mitigacion")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Nivel")
+                    b.Property<string>("Identificador")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -701,9 +733,15 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Objetivo")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasIndex("ClienteId");
+                    b.Property<string>("Tipo")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("DebidaDiligenciaId");
 
@@ -854,7 +892,8 @@ namespace ComplianceGuardPro.Migrations
 
                     b.HasOne("ComplianceGuardPro.Modules.Responsable.Models.Responsable", "Responsable")
                         .WithMany()
-                        .HasForeignKey("ResponsableId");
+                        .HasForeignKey("ResponsableId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Cliente");
 
@@ -894,7 +933,7 @@ namespace ComplianceGuardPro.Migrations
                     b.HasOne("ComplianceGuardPro.Modules.Riesgos.Models.Riesgo", "Riesgo")
                         .WithMany("Evaluaciones")
                         .HasForeignKey("RiesgoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cliente");
@@ -1003,15 +1042,13 @@ namespace ComplianceGuardPro.Migrations
 
             modelBuilder.Entity("ComplianceGuardPro.Modules.Riesgos.Models.Riesgo", b =>
                 {
-                    b.HasOne("ComplianceGuardPro.Modules.Clientes.Models.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId");
-
-                    b.HasOne("ComplianceGuardPro.Modules.DebidaDiligencia.Models.DebidaDiligencia", null)
+                    b.HasOne("ComplianceGuardPro.Modules.DebidaDiligencia.Models.DebidaDiligencia", "DebidaDiligencia")
                         .WithMany("Riesgos")
-                        .HasForeignKey("DebidaDiligenciaId");
+                        .HasForeignKey("DebidaDiligenciaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("DebidaDiligencia");
                 });
 
             modelBuilder.Entity("ComplianceGuardPro.Modules.Transacciones.Models.Transaccion", b =>

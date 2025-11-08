@@ -89,6 +89,20 @@ namespace ComplianceGuardPro.Data
             //     .Property(e => e.ProgresoPorcentaje)
             //     .HasPrecision(5, 2);
 
+            // Configurar la relación de Evaluaciones para evitar ciclos de cascada
+            modelBuilder.Entity<Evaluacion>()
+                .HasOne(e => e.Riesgo)
+                .WithMany(r => r.Evaluaciones)
+                .HasForeignKey(e => e.RiesgoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configurar la relación de DebidaDiligencia con Responsable
+            modelBuilder.Entity<DebidaDiligencia>()
+                .HasOne(dd => dd.Responsable)
+                .WithMany()
+                .HasForeignKey(dd => dd.ResponsableId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Los datos iniciales se crearán mediante un endpoint o script separado
             // para evitar problemas con el hash de contraseñas
         }

@@ -50,6 +50,8 @@ using ComplianceGuardPro.Modules.Capacitacion.Services;
 using ComplianceGuardPro.Modules.Capacitacion.Mappings;
 using ComplianceGuardPro.Modules.Reportes.Services;
 using ComplianceGuardPro.Modules.Reportes.Mappings;
+using ComplianceGuardPro.Modules.Documentos.Services;
+using ComplianceGuardPro.Modules.Documentos.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +84,7 @@ builder.Services.AddScoped<IRol, RolImpl>();
 builder.Services.AddScoped<ICapacitacion, CapacitacionImpl>();
 builder.Services.AddScoped<ComplianceGuardPro.Modules.MensajesChat.Services.IMensajeChat, ComplianceGuardPro.Modules.MensajesChat.Services.MensajeChatImpl>();
 builder.Services.AddScoped<IReportes, ReportesImpl>();
+builder.Services.AddScoped<IDocumento, DocumentoImpl>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddSingleton<JwtService>();
 
@@ -103,7 +106,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Configura AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(ClienteMappingProfile), typeof(DireccionMappingProfile), typeof(ContactoMappingProfile), typeof(BeneficiarioMappingProfile), typeof(IntermediarioMappingProfile), typeof(ActividadEconomicaMappingProfile), typeof(PerfilFinancieroMappingProfile), typeof(OperacionMappingProfile), typeof(PagoMappingProfile), typeof(TransaccionMappingProfile), typeof(DebidaDiligenciaMappingProfile), typeof(RiesgoMappingProfile), typeof(MitigacionMappingProfile), typeof(EvaluacionMappingProfile), typeof(MensajeChatMappingProfile), typeof(ReferenciaMappingProfile), typeof(PersonaExpuestaPoliticamenteMappingProfile), typeof(ResponsableMappingProfile), typeof(PoliticaMappingProfile), /* typeof(ProgresoCapacitacionMappingProfile), */ typeof(CapacitacionMappingProfile), typeof(ReportesMappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(ClienteMappingProfile), typeof(DireccionMappingProfile), typeof(ContactoMappingProfile), typeof(BeneficiarioMappingProfile), typeof(IntermediarioMappingProfile), typeof(ActividadEconomicaMappingProfile), typeof(PerfilFinancieroMappingProfile), typeof(OperacionMappingProfile), typeof(PagoMappingProfile), typeof(TransaccionMappingProfile), typeof(DebidaDiligenciaMappingProfile), typeof(RiesgoMappingProfile), typeof(MitigacionMappingProfile), typeof(EvaluacionMappingProfile), typeof(MensajeChatMappingProfile), typeof(ReferenciaMappingProfile), typeof(PersonaExpuestaPoliticamenteMappingProfile), typeof(ResponsableMappingProfile), typeof(PoliticaMappingProfile), /* typeof(ProgresoCapacitacionMappingProfile), */ typeof(CapacitacionMappingProfile), typeof(ReportesMappingProfile), typeof(DocumentoMappingProfile));
 
 // Configura JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
