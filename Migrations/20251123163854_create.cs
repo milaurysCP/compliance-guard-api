@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ComplianceGuardPro.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,15 +37,14 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TipoCliente = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Nombre = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    TipoPersona = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Siglas = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DocumentoIdentidad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    RegistroComercial = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EstaActivo = table.Column<bool>(type: "bit", nullable: false),
-                    Estado = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Rnc = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    RegistroMercantil = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CasaMatriz = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,12 +86,13 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Sector = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CampoLaboral = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    OrigenFondos = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Proveedor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     PrincipalCliente = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    CampoLaboral = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Proyecto = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Inscripciones = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    OrigenFondos = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ClienteId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -112,7 +112,11 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Tipo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Nombre = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Apellidos = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Identificacion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Nacionalidad = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ClienteId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -199,6 +203,12 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TipoOperacion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    EndidadFinanciera = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CodigoOperacion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    DescripcionOperacion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    PropositoOperacion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Tipo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Codigo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClienteId = table.Column<long>(type: "bigint", nullable: false)
@@ -220,6 +230,8 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Ningreso = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Fuentes = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     NivelIngreso = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Fuente = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     ClienteId = table.Column<long>(type: "bigint", nullable: false)
@@ -241,6 +253,11 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CargoPeps = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    TipoPeps = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    NombrePeps = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Decreto = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    InstitucionPeps = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Nombre = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Cargo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Ordenanza = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -285,12 +302,17 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ResponsableTransaccion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    NombresResposable = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ApellidosResponsable = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DireccionResponsable = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    IdentificacionResponsable = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Correo = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
+                    Telefono = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Cargo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Direccion = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Telefono = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Cargo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Correo = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     DocumentoIdentificacion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ClienteId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -360,10 +382,12 @@ namespace ComplianceGuardPro.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Moneda = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    TipoPago = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CodigoPago = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Tipo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Codigo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Moneda = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     OperacionId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -553,6 +577,20 @@ namespace ComplianceGuardPro.Migrations
                 name: "IX_BeneficiariosFinales_ClienteId",
                 table: "BeneficiariosFinales",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_DocumentoIdentidad",
+                table: "Clientes",
+                column: "DocumentoIdentidad",
+                unique: true,
+                filter: "[DocumentoIdentidad] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_Rnc",
+                table: "Clientes",
+                column: "Rnc",
+                unique: true,
+                filter: "[Rnc] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contactos_ClienteId",

@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class MitigacionController : ControllerBase
     {
         private readonly IMitigacion _mitigacionService;

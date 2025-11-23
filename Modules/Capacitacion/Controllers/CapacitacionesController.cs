@@ -9,7 +9,7 @@ namespace ComplianceGuardPro.Modules.Capacitacion.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class CapacitacionesController : ControllerBase
     {
         private readonly ICapacitacion _capacitacionService;

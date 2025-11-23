@@ -9,14 +9,22 @@ namespace ComplianceGuardPro.Modules.Pagos.Models
         [Key]
         public long Id { get; set; }
 
+        [StringLength(50)]
+        public string? Moneda { get; set; }
+
+        [StringLength(100)]
+        public string? TipoPago { get; set; }
+
+        [StringLength(50)]
+        public string? CodigoPago { get; set; }
+
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Monto { get; set; }
+
+        // Campos legacy
         public string? Tipo { get; set; }
 
         public string? Codigo { get; set; }
-
-        public string? Moneda { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
-        public decimal? Monto { get; set; }
 
         public long OperacionId { get; set; }
 

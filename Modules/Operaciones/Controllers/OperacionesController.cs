@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Operaciones.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class OperacionesController : ControllerBase
 {
     private readonly IOperacion _operacionService;

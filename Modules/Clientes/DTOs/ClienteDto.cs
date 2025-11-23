@@ -8,57 +8,135 @@ using ComplianceGuardPro.Modules.PerfilesFinancieros.DTOs;
 
 namespace ComplianceGuardPro.Modules.Clientes.DTOs;
 
-// DTO para mostrar en una lista (ligero)
-    public class ClienteSummaryDto
-    {
-        public long Id { get; set; }
-        public required string TipoCliente { get; set; }
-        public required string Nombre { get; set; }
-        public string? DocumentoIdentidad { get; set; }
-    }
+// ============================================
+// DTOs ANIDADOS PARA CREAR CLIENTE
+// ============================================
 
-    // DTO para mostrar el detalle completo de un cliente
-    public class ClienteDetailDto
-    {
-        public long Id { get; set; }
-        public required string TipoCliente { get; set; }
-        public required string Nombre { get; set; }
-        public string? Url { get; set; }
-        public string? DocumentoIdentidad { get; set; }
-        public string? RegistroComercial { get; set; }
-        public DateTime? FechaNacimiento { get; set; }
+public class DatosBasicosDto
+{
+    public long? Id { get; set; }
+    public string? Nombre { get; set; }
+    public string? TipoPersona { get; set; }
+    public string? Siglas { get; set; }
+    public string? DocumentoIdentidad { get; set; }
+    public DateTime? FechaCreacion { get; set; }
+    public string? Rnc { get; set; }
+    public string? RegistroMercantil { get; set; }
+    public string? CasaMatriz { get; set; }
+}
 
-        // Incluimos listas de DTOs relacionados
-        public ICollection<DireccionDto> Direcciones { get; set; } = new List<DireccionDto>();
-        public ICollection<ContactoDto> Contactos { get; set; } = new List<ContactoDto>();
-    }
-    
-    // DTO para crear un cliente
-    public class CreateClienteDto
-    {
-        [Required]
-        [StringLength(50)]
-        public required string TipoCliente { get; set; }
+public class DireccionDto
+{
+    public long? Id { get; set; }
+    public string? Calle { get; set; }
+    public string? Numero { get; set; }
+    public string? Sector { get; set; }
+    public string? CodigoPostal { get; set; }
+    public string? Pais { get; set; }
+    public string? Provincia { get; set; }
+    public string? Municipio { get; set; }
+}
 
-        [Required]
-        [StringLength(200)]
-        public required string Nombre { get; set; }
+public class ContactoDto
+{
+    public long? Id { get; set; }
+    public string? TipoContacto { get; set; }
+    public string? ValorContacto { get; set; }
+}
 
-        [StringLength(50)]
-        public string? DocumentoIdentidad { get; set; }
+public class ActividadEconomicaDto
+{
+    public long? Id { get; set; }
+    public string? Sector { get; set; }
+    public string? CampoLaboral { get; set; }
+    public string? OrigenFondos { get; set; }
+}
 
-        // Se pueden añadir DTOs anidados para crear entidades relacionadas al mismo tiempo
-        public List<CreateDireccionDto>? Direcciones { get; set; }
-        public List<CreateContactoDto>? Contactos { get; set; }
-    }
+public class SOFinancieroDto
+{
+    public long? Id { get; set; }
+    public string? TipoSOFinanciero { get; set; }
+    public string? NombreSOFinanciero { get; set; }
+    public string? ApellidosSOFinanciero { get; set; }
+    public string? IdentificacionSOFinanciero { get; set; }
+    public string? NacionalidadSOFinanciero { get; set; }
+}
 
-    // DTO para actualizar un cliente
-    public class UpdateClienteDto
-    {
-        [Required]
-        [StringLength(200)]
-        public required string Nombre { get; set; }
+public class PerfilFinancieroDto
+{
+    public long? Id { get; set; }
+    public string? Ningreso { get; set; }
+    public string? Fuentes { get; set; }
+}
 
-        [StringLength(255)]
-        public string? Url { get; set; }
-    }
+public class OperacionesDto
+{
+    public long? Id { get; set; }
+    public string? TipoOperacion { get; set; }
+    public string? EndidadFinanciera { get; set; }
+    public string? CodigoOperacion { get; set; }
+    public string? DescripcionOperacion { get; set; }
+    public string? PropositoOperacion { get; set; }
+    public decimal Monto { get; set; }
+}
+
+public class PagosDto
+{
+    public long? Id { get; set; }
+    public string? Moneda { get; set; }
+    public string? TipoPago { get; set; }
+    public string? CodigoPago { get; set; }
+    public decimal Monto { get; set; }
+}
+
+public class PepsDto
+{
+    public long? Id { get; set; }
+    public string? CargoPeps { get; set; }
+    public string? TipoPeps { get; set; }
+    public string? NombrePeps { get; set; }
+    public string? Decreto { get; set; }
+    public string? InstitucionPeps { get; set; }
+}
+
+public class ResponsableDto
+{
+    public long? Id { get; set; }
+    public string? ResponsableTransaccion { get; set; }
+    public string? NombresResposable { get; set; }
+    public string? ApellidosResponsable { get; set; }
+    public string? DireccionResponsable { get; set; }
+    public string? IdentificacionResponsable { get; set; }
+    public string? Correo { get; set; }
+    public string? Telefono { get; set; }
+    public string? Cargo { get; set; }
+}
+
+// ============================================
+// DTO PRINCIPAL PARA CREAR CLIENTE
+// ============================================
+
+public class ClienteDto
+{
+    public DatosBasicosDto? DatosBasicos { get; set; }
+    public DireccionDto? Direccion { get; set; }
+    public List<ContactoDto>? Contactos { get; set; }
+    public ActividadEconomicaDto? ActividadEconomica { get; set; }
+    public List<SOFinancieroDto>? SOFinanciero { get; set; }
+    public List<PerfilFinancieroDto>? PerfilFinanciero { get; set; }
+    public OperacionesDto? Operaciones { get; set; }
+    public PagosDto? Pagos { get; set; }
+    public PepsDto? Peps { get; set; }
+    public ResponsableDto? Responsable { get; set; }
+}
+
+// ============================================
+// DTO RESUMIDO PARA LISTADOS
+// ============================================
+public class ClienteSummaryDto
+{
+    public long Id { get; set; }
+    public string? TipoPersona { get; set; }
+    public string? Nombre { get; set; }
+    public string? DocumentoIdentidad { get; set; }
+}

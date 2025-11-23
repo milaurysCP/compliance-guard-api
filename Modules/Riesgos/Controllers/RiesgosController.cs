@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Riesgos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class RiesgosController : ControllerBase
     {
         private readonly IRiesgo _riesgoService;

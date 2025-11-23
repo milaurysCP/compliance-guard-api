@@ -5,8 +5,10 @@ namespace ComplianceGuardPro.Modules.Clientes.Services;
 public interface ICliente
 {
     Task<List<ClienteSummaryDto>> obtenerClientes();
-    Task crearCliente(CreateClienteDto createClienteDto);
-    Task<bool> actualizarCliente(long id, UpdateClienteDto updateClienteDto);
-    Task<ClienteDetailDto?> obtenerDetalleCliente(long id);
+    Task crearClienteCompleto(ClienteDto clienteDto);
+    Task<bool> actualizarClienteCompleto(long id, ClienteDto clienteDto);
     Task<bool> eliminarCliente(long id);
+    Task<List<ClienteSummaryDto>> buscarCliente(string filtro);
+    Task<ClienteDto?> obtenerClienteCompleto(long id);
+    Task<List<ClienteDto>> buscarClienteCompleto(string filtro);
 }

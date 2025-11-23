@@ -9,6 +9,13 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Models
         [Key]
         public long Id { get; set; }
 
+        [StringLength(100)]
+        public string? Ningreso { get; set; }
+
+        [StringLength(200)]
+        public string? Fuentes { get; set; }
+
+        // Campo legacy
         [Column(TypeName = "decimal(18,2)")]
         public decimal? NivelIngreso { get; set; }
 

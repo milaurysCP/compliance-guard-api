@@ -1,0 +1,569 @@
+{
+  "paises": [
+    "República Dominicana",
+    "Afghanistan",
+    "Åland Islands",
+    "Albania",
+    "Algeria",
+    "American Samoa",
+    "Andorra",
+    "Angola",
+    "Anguilla",
+    "Antarctica",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Aruba",
+    "Australia",
+    "Austria",
+    "Azerbaijan",
+    "Bahamas (the)",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Belarus",
+    "Belgium",
+    "Belize",
+    "Benin",
+    "Bermuda",
+    "Bhutan",
+    "Bolivia (Plurinational State of)",
+    "Bonaire, Sint Eustatius and Saba",
+    "Bosnia and Herzegovina",
+    "Botswana",
+    "Bouvet Island",
+    "Brazil",
+    "British Indian Ocean Territory (the)",
+    "Brunei Darussalam",
+    "Bulgaria",
+    "Burkina Faso",
+    "Burundi",
+    "Cabo Verde",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Cayman Islands (the)",
+    "Central African Republic (the)",
+    "Chad",
+    "Chile",
+    "China",
+    "Christmas Island",
+    "Cocos (Keeling) Islands (the)",
+    "Colombia",
+    "Comoros (the)",
+    "Congo (the Democratic Republic of the)",
+    "Congo (the)",
+    "Cook Islands (the)",
+    "Costa Rica",
+    "Croatia",
+    "Cuba",
+    "Curaçao",
+    "Cyprus",
+    "Czechia",
+    "Côte d'Ivoire",
+    "Denmark",
+    "Djibouti",
+    "Dominica",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Estonia",
+    "Eswatini",
+    "Ethiopia",
+    "Falkland Islands (the) [Malvinas]",
+    "Faroe Islands (the)",
+    "Fiji",
+    "Finland",
+    "France",
+    "French Guiana",
+    "French Polynesia",
+    "French Southern Territories (the)",
+    "Gabon",
+    "Gambia (the)",
+    "Georgia",
+    "Germany",
+    "Ghana",
+    "Gibraltar",
+    "Greece",
+    "Greenland",
+    "Grenada",
+    "Guadeloupe",
+    "Guam",
+    "Guatemala",
+    "Guernsey",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana",
+    "Haiti",
+    "Heard Island and McDonald Islands",
+    "Holy See (the)",
+    "Honduras",
+    "Hong Kong",
+    "Hungary",
+    "Iceland",
+    "India",
+    "Indonesia",
+    "Iran (Islamic Republic of)",
+    "Iraq",
+    "Ireland",
+    "Isle of Man",
+    "Israel",
+    "Italy",
+    "Jamaica",
+    "Japan",
+    "Jersey",
+    "Jordan",
+    "Kazakhstan",
+    "Kenya",
+    "Kiribati",
+    "Korea (the Democratic People's Republic of)",
+    "Korea (the Republic of)",
+    "Kuwait",
+    "Kyrgyzstan",
+    "Lao People's Democratic Republic (the)",
+    "Latvia",
+    "Lebanon",
+    "Lesotho",
+    "Liberia",
+    "Libya",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Macao",
+    "Madagascar",
+    "Malawi",
+    "Malaysia",
+    "Maldives",
+    "Mali",
+    "Malta",
+    "Marshall Islands (the)",
+    "Martinique",
+    "Mauritania",
+    "Mauritius",
+    "Mayotte",
+    "Mexico",
+    "Micronesia (Federated States of)",
+    "Moldova (the Republic of)",
+    "Monaco",
+    "Mongolia",
+    "Montenegro",
+    "Montserrat",
+    "Morocco",
+    "Mozambique",
+    "Myanmar",
+    "Namibia",
+    "Nauru",
+    "Nepal",
+    "Netherlands (the)",
+    "New Caledonia",
+    "New Zealand",
+    "Nicaragua",
+    "Niger (the)",
+    "Nigeria",
+    "Niue",
+    "Norfolk Island",
+    "Northern Mariana Islands (the)",
+    "Norway",
+    "Oman",
+    "Pakistan",
+    "Palau",
+    "Palestine, State of",
+    "Panama",
+    "Papua New Guinea",
+    "Paraguay",
+    "Peru",
+    "Philippines (the)",
+    "Pitcairn",
+    "Poland",
+    "Portugal",
+    "Puerto Rico",
+    "Qatar",
+    "Republic of North Macedonia",
+    "Romania",
+    "Russian Federation (the)",
+    "Rwanda",
+    "Réunion",
+    "Saint Barthélemy",
+    "Saint Helena, Ascension and Tristan da Cunha",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Martin (French part)",
+    "Saint Pierre and Miquelon",
+    "Saint Vincent and the Grenadines",
+    "Samoa",
+    "San Marino",
+    "Sao Tome and Principe",
+    "Saudi Arabia",
+    "Senegal",
+    "Serbia",
+    "Seychelles",
+    "Sierra Leone",
+    "Singapore",
+    "Sint Maarten (Dutch part)",
+    "Slovakia",
+    "Slovenia",
+    "Solomon Islands",
+    "Somalia",
+    "South Africa",
+    "South Georgia and the South Sandwich Islands",
+    "South Sudan",
+    "Spain",
+    "Sri Lanka",
+    "Sudan (the)",
+    "Suriname",
+    "Svalbard and Jan Mayen",
+    "Sweden",
+    "Switzerland",
+    "Syrian Arab Republic",
+    "Taiwan (Province of China)",
+    "Tajikistan",
+    "Tanzania, United Republic of",
+    "Thailand",
+    "Timor-Leste",
+    "Togo",
+    "Tokelau",
+    "Tonga",
+    "Trinidad and Tobago",
+    "Tunisia",
+    "Turkey",
+    "Turkmenistan",
+    "Turks and Caicos Islands (the)",
+    "Tuvalu",
+    "Uganda",
+    "Ukraine",
+    "United Arab Emirates (the)",
+    "United Kingdom of Great Britain and Northern Ireland (the)",
+    "United States Minor Outlying Islands (the)",
+    "United States of America (the)",
+    "Uruguay",
+    "Uzbekistan",
+    "Vanuatu",
+    "Venezuela (Bolivarian Republic of)",
+    "Viet Nam",
+    "Virgin Islands (British)",
+    "Virgin Islands (U.S.)",
+    "Wallis and Futuna",
+    "Western Sahara",
+    "Yemen",
+    "Zambia",
+    "Zimbabwe"
+  ],
+  "provinciasRD": [
+    {
+      "provincia": "Distrito Nacional",
+      "municipios": [
+        {"municipio": "Santo Domingo de Guzmán"}
+      ]
+    },
+    {
+      "provincia": "Santo Domingo",
+      "municipios": [
+        { "municipio": "Santo Domingo Este"},
+        { "municipio": "Santo Domingo Norte"},
+        { "municipio": "Santo Domingo Oeste"},
+        { "municipio": "Boca Chica"}
+      ]
+    },
+    {
+      "provincia": "Azua",
+      "municipios": [
+        { "municipio": "Azua"},
+        { "municipio": "Estebanía"},
+        { "municipio": "Guayabal"},
+        { "municipio": "Las Charcas"},
+        { "municipio": "Las Yayas de Viajama"},
+        { "municipio": "Padre Las Casas"},
+        { "municipio": "Peralta"},
+        { "municipio": "Pueblo Viejo"},
+        { "municipio": "Sabana Yegua"},
+        { "municipio": "Tábara Arriba"}
+      ]
+    },
+    {
+      "provincia": "Bahoruco",
+      "municipios": [
+        { "municipio": "Neiba"},
+        { "municipio": "Galván"},
+        { "municipio": "Los Ríos"},
+        { "municipio": "Tamayo"},
+        { "municipio": "Villa Jaragua"}
+      ]
+    },
+    {
+      "provincia": "Barahona",
+      "municipios": [
+        { "municipio": "Barahona"},
+        { "municipio": "Cabral"},
+        { "municipio": "El Peñón"},
+        { "municipio": "Enriquillo"},
+        { "municipio": "Fundación"},
+        { "municipio": "Jaquimeyes"},
+        { "municipio": "La Ciénaga"},
+        { "municipio": "Las Salinas"},
+        { "municipio": "Paraíso"},
+        { "municipio": "Polo"},
+        { "municipio": "Vicente Noble"}
+      ]
+    },
+    {
+      "provincia": "Dajabón",
+      "municipios": [
+        { "municipio": "Dajabón"},
+        { "municipio": "El Pino"},
+        { "municipio": "Loma de Cabrera"},
+        { "municipio": "Partido"},
+        { "municipio": "Restauración"}
+      ]
+    },
+    {
+      "provincia": "Duarte",
+      "municipios": [
+        { "municipio": "San Francisco de Macorís"},
+        { "municipio": "Arenoso"},
+        { "municipio": "Castillo"},
+        { "municipio": "Eugenio María de Hostos"},
+        { "municipio": "Las Guáranas"},
+        { "municipio": "Pimentel"},
+        { "municipio": "Villa Riva"}
+      ]
+    },
+    {
+      "provincia": "Elias Piña",
+      "municipios": [
+        { "municipio": "Comendador"},
+        { "municipio": "Bánica"},
+        { "municipio": "El Llano"},
+        { "municipio": "Hondo Valle"},
+        { "municipio": "Juan Santiago"},
+        { "municipio": "Pedro Santana"}
+      ]
+    },
+    {
+      "provincia": "El Seibo",
+      "municipios": [
+        { "municipio": "El Seibo"},
+        { "municipio": "Miches"}
+      ]
+    },
+    {
+      "provincia": "Espaillat",
+      "municipios": [
+        { "municipio": "Moca"},
+        { "municipio": "Cayetano Germosén"},
+        { "municipio": "Gaspar Hernández"},
+        { "municipio": "Jamao Al Norte"}
+      ]
+    },
+    {
+      "provincia": "Hato Mayor",
+      "municipios": [
+        { "municipio": "Hato Mayor del Rey"},
+        { "municipio": "El Valle"},
+        { "municipio": "Sabana de la Mar"}
+      ]
+    },
+    {
+      "provincia": "Hermanas Mirabal",
+      "municipios": [
+        { "municipio": "Salcedo"},
+        { "municipio": "Tenares"},
+        { "municipio": "Villa Tapia"}
+      ]
+    },
+    {
+      "provincia": "Independencia",
+      "municipios": [
+        { "municipio": "Jimaní"},
+        { "municipio": "Cristóbal"},
+        { "municipio": "Duvergé"},
+        { "municipio": "La Descubierta"},
+        { "municipio": "Mella"},
+        { "municipio": "Postrer Río"}
+      ]
+    },
+    {
+      "provincia": "La Altagracia",
+      "municipios": [
+        { "municipio": "Higuey"},
+        { "municipio": "San Rafael del Yuma"}
+      ]
+    },
+    {
+      "provincia": "La Romana",
+      "municipios": [
+        { "municipio": "La Romana"},
+        { "municipio": "Guaymate"},
+        { "municipio": "Villa Hermosa"}
+      ]
+    },
+    {
+      "provincia": "La Vega",
+      "municipios": [
+        { "municipio": "la Vega"},
+        { "municipio": "Constanza"},
+        { "municipio": "Jarabacoa"},
+        { "municipio": "Jima Abajo"}
+      ]
+    },
+    {
+      "provincia": "María Trinidad Sánchez",
+      "municipios": [
+        { "municipio": "Nagua"},
+        { "municipio": "Cabrera"},
+        { "municipio": "El Factor"},
+        { "municipio": "Río San Juan"}
+      ]
+    },
+    {
+      "provincia": "Monseñor Nouel",
+      "municipios": [
+        { "municipio": "Bonao"},
+        { "municipio": "Maimón"},
+        { "municipio": "Piedra Blanca"}
+      ]
+    },
+    {
+      "provincia": "Monte Cristi",
+      "municipios": [
+        { "municipio": "San Fernando de Monte Cristi"},
+        { "municipio": "Castañuelas"},
+        { "municipio": "Guayubín"},
+        { "municipio": "Las Matas de Santa Cruz"},
+        { "municipio": "Pepillo Salcedo"},
+        { "municipio": "Villa Vásquez"}
+      ]
+    },
+    {
+      "provincia": "Monte Plata",
+      "municipios": [
+        { "municipio": "Monte Plata"},
+        { "municipio": "Bayaguana"},
+        { "municipio": "Sabana Grande de Boyá"},
+        { "municipio": "Yamasá"},
+        { "municipio": "Peralvillo"}
+      ]
+    },
+    {
+      "provincia": "Pedernales",
+      "municipios": [
+        { "municipio": "Pedernales"},
+        { "municipio": "Oviedo"}
+      ]
+    },
+    {
+      "provincia": "Peravia",
+      "municipios": [
+        { "municipio": "Baní"},
+        { "municipio": "Matanzas"},
+        { "municipio": "Nizao"}
+      ]
+    },
+    {
+      "provincia": "Puerto Plata",
+      "municipios": [
+        { "municipio": "Puerto Plata"},
+        { "municipio": "Altamira"},
+        { "municipio": "Guananico"},
+        { "municipio": "Imbert"},
+        { "municipio": "Los Hidalgos"},
+        { "municipio": "Luperón"},
+        { "municipio": "Sosúa"},
+        { "municipio": "Villa Isabela"},
+        { "municipio": "Villa Montellano"}
+      ]
+    },
+    {
+      "provincia": "Samaná",
+      "municipios": [
+        { "municipio": "Santa Barbara de Samaná"},
+        { "municipio": "Sánchez"},
+        { "municipio": "Las Terrenas"}
+      ]
+    },
+    {
+      "provincia": "San Cristóbal",
+      "municipios": [
+        { "municipio": "San Cristóbal"},
+        { "municipio": "Bajos de Haina"},
+        { "municipio": "Cambita Garabitos"},
+        { "municipio": "Los Cacaos"},
+        { "municipio": "Palenque"},
+        { "municipio": "Sabana Grande de Palenque"},
+        { "municipio": "Villa Altagracia"},
+        { "municipio": "San Gregorio de Nigua"},
+        { "municipio": "Yaguate"}
+      ]
+    },
+    {
+      "provincia": "San José de Ocoa",
+      "municipios": [
+        { "municipio": "San José de Ocoa"},
+        { "municipio": "Rancho Arriba"},
+        { "municipio": "Sabana Larga"}
+      ]
+    },
+    {
+      "provincia": "San Juan",
+      "municipios": [
+        { "municipio": "San Juan de la Maguana"},
+        { "municipio": "Bohechío"},
+        { "municipio": "El Cercado"},
+        { "municipio": "Juan de Herrera"},
+        { "municipio": "Las Matas de Farfán"},
+        { "municipio": "Vallejuelo"}
+      ]
+    },
+    {
+      "provincia": "San Pedro de Macorís",
+      "municipios": [
+        { "municipio": "San Pedro de Macorís"},
+        { "municipio": "Consuelo"},
+        { "municipio": "Guayacanes"},
+        { "municipio": "Quisqueya"},
+        { "municipio": "Ramón Santana"},
+        { "municipio": "San José de los Llanos"}
+      ]
+    },
+    {
+      "provincia": "Sánchez Ramírez",
+      "municipios": [
+        { "municipio": "Cotuí"},
+        { "municipio": "Cevicos"},
+        { "municipio": "Fantino"},
+        { "municipio": "La Mata"}
+      ]
+    },
+    {
+      "provincia": "Santiago",
+      "municipios": [
+        { "municipio": "Santiago"},
+        { "municipio": "Bisonó (Navarrete)"},
+        { "municipio": "Jánico"},
+        { "municipio": "Licey al Medio"},
+        { "municipio": "Puñal"},
+        { "municipio": "Sabana Iglesia"},
+        { "municipio": "San José de las Matas"},
+        { "municipio": "Tamboril"},
+        { "municipio": "Villa González"}
+      ]
+    },
+    {
+      "provincia": "Santiago Rodríguez",
+      "municipios": [
+        { "municipio": "San Ignacio de Sabaneta"},
+        { "municipio": "Los Almácigos"},
+        { "municipio": "Monción"}
+      ]
+    },
+    {
+      "provincia": "Valverde",
+      "municipios": [
+        { "municipio": "Mao"},
+        { "municipio": "Esperanza"},
+        { "municipio": "laguna Salada"}
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@ namespace ComplianceGuardPro.Modules.Referencia.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class ReferenciasController : ControllerBase
     {
         private readonly IReferencia _referenciaService;

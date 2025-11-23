@@ -103,6 +103,17 @@ namespace ComplianceGuardPro.Data
                 .HasForeignKey(dd => dd.ResponsableId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Configurar índices únicos para Cliente
+            modelBuilder.Entity<Cliente>()
+                .HasIndex(c => c.DocumentoIdentidad)
+                .IsUnique()
+                .HasFilter("[DocumentoIdentidad] IS NOT NULL");
+
+            modelBuilder.Entity<Cliente>()
+                .HasIndex(c => c.Rnc)
+                .IsUnique()
+                .HasFilter("[Rnc] IS NOT NULL");
+
             // Los datos iniciales se crearán mediante un endpoint o script separado
             // para evitar problemas con el hash de contraseñas
         }

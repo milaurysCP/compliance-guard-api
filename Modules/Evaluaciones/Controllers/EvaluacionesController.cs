@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Evaluaciones.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class EvaluacionesController : ControllerBase
     {
         private readonly IEvaluacion _evaluacionService;

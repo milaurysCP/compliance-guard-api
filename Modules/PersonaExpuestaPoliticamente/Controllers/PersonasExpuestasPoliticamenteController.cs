@@ -9,7 +9,7 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class PersonasExpuestasPoliticamenteController : ControllerBase
     {
         private readonly IPersonaExpuestaPoliticamente _personaService;

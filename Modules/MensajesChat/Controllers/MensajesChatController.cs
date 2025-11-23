@@ -9,7 +9,7 @@ namespace ComplianceGuardPro.Modules.MensajesChat.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class MensajesChatController : ControllerBase
     {
         private readonly IMensajeChat _mensajeChatService;

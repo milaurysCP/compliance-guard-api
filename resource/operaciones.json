@@ -1,0 +1,123 @@
+{
+  "Sector Financiero": {
+    "Bancos Comerciales": [
+      "Préstamos Personales",
+      "Préstamos Hipotecarios",
+      "Préstamos para Vehículos",
+      "Depósitos de Efectivo",
+      "Certificados Financieros",
+      "Pago de Cheques",
+      "Cambio de Divisas",
+      "Transferencias Internacionales"
+    ],
+    "Asociaciones de Ahorros y Prestamos": [
+      "Préstamos Personales",
+      "Préstamos Hipotecarios",
+      "Préstamos para Vehículos",
+      "Depósitos de Efectivo",
+      "Certificados Financieros",
+      "Pago de Cheques",
+      "Cambio de Divisas",
+      "Transferencias Internacionales"
+    ],
+    "Cooperativas": [
+      "Préstamos Personales",
+      "Depósitos en Efectivo",
+      "Certificados Financieros",
+      "Seguros",
+      "Compra de Enseres del Hogar"
+    ],
+    "Compañías de Seguros y Corredores": [
+      "Seguros de Vida",
+      "Seguros de Salud",
+      "Seguros de Vehículos",
+      "Seguros de Propiedades",
+      "Seguros de Responsabilidad",
+      "Seguros Comerciales",
+      "Seguros por Desastres Naturales",
+      "Reaseguros",
+      "Intermediación",
+      "Consultoría",
+      "Reclamaciones",
+      "Pago de Póliza",
+      "Administración de Riesgos"
+    ],
+    "Sociedades Administradoras de Fondos de Inversión": [
+      "Creación y Administración de Fondos",
+      "Diversificación de Inversiones",
+      "Asesoramiento de Inversiones",
+      "Gestión de Carteras"
+    ],
+    "Puestos de Bolsa e Intermediarios de Valores": [
+      "Compra de Valores",
+      "Venta de Valores",
+      "Ejecución de Órdenes",
+      "Gestión de Carteras"
+    ]
+  },
+
+  "Sector No Financiero": {
+    "Casinos de Juego": [
+      "Compra de Fichas",
+      "Venta de Fichas",
+      "Apuestas de Póker",
+      "Apuestas de Blackjack",
+      "Pago de Premios"
+    ],
+    "Bancas de Lotería": [
+      "Venta de Boletos",
+      "Pago de Premios"
+    ],
+    "Empresas de Factoring": [
+      "Compra de Facturas",
+      "Anticipo de Fondos",
+      "Cobro de Facturas",
+      "Financiamiento"
+    ],
+    "Agentes Inmobiliarios": [
+      "Compra de Inmuebles",
+      "Venta de Inmuebles",
+      "Gestión de Propiedades",
+      "Intermediación de Compra",
+      "Alquiler de Propiedades"
+    ],
+    "Comerciante de Joyas y Joyerías": [
+      "Compra de Joyas",
+      "Venta de Joyas",
+      "Compra de Oro",
+      "Compra de Plata",
+      "Compra de Diamantes",
+      "Diseño de Joyas"
+    ],
+    "Abogados, Notarios y Contadores": [
+      "Compra",
+      "Venta",
+      "Administración de Dinero",
+      "Creación de Compañías",
+      "Representación Legal",
+      "Actos Notariales",
+      "Legalización de Firmas",
+      "Contabilidad",
+      "Declaraciones Fiscales",
+      "Planificación Fiscal",
+      "Auditorías",
+      "Igualas"
+    ],
+    "Casas de Empeño": [
+      "Préstamo con Garantía",
+      "Subasta de Bienes",
+      "Venta de Bienes No Recuperados"
+    ],
+    "Constructores": [
+      "Compra de Terreno",
+      "Construcción de Residenciales",
+      "Construcción de Plazas Comerciales",
+      "Venta de Terrenos",
+      "Venta de Apartamentos",
+      "Venta de Casas",
+      "Remodelación de Propiedad",
+      "Diseño Arquitectónico",
+      "Financiamiento de Inmuebles"
+    ]
+  }
+}

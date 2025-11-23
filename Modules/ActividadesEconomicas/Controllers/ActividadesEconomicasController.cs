@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.ActividadesEconomicas.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class ActividadesEconomicasController : ControllerBase
 {
     private readonly IActividadEconomica _actividadService;

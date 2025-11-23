@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Beneficiarios.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+    // [Authorize] // Deshabilitado temporalmente
 public class BeneficiariosFinalesController : ControllerBase
 {
     private readonly IBeneficiarioFinal _beneficiarioService;

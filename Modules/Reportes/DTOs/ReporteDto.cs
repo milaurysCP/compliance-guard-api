@@ -24,9 +24,8 @@ namespace ComplianceGuardPro.Modules.Reportes.DTOs
     {
         public long Id { get; set; }
         public string? Nombre { get; set; }
-        public string? TipoCliente { get; set; }
-        public string? Estado { get; set; }
-        public DateTime FechaRegistro { get; set; }
+        public string? TipoPersona { get; set; }
+        public DateTime? FechaCreacion { get; set; }
         public int TotalOperaciones { get; set; }
         public decimal MontoTotalOperaciones { get; set; }
         public string? NivelRiesgo { get; set; }

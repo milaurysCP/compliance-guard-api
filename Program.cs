@@ -59,6 +59,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Registra el service en el contenedor de dependencias para permitir su inyección en los controladores
 builder.Services.AddScoped<Iusuario, UsuarioImpl>();
 builder.Services.AddScoped<ICliente, ClienteImpl>();
+builder.Services.AddScoped<ICatalogoService, CatalogoServiceImpl>();
 builder.Services.AddScoped<IDireccion, DireccionImpl>();
 builder.Services.AddScoped<IContacto, ContactoImpl>();
 builder.Services.AddScoped<IActividadEconomica, ActividadEconomicaImpl>();
@@ -155,9 +156,9 @@ if (app.Environment.IsDevelopment())
 // Habilita CORS globalmente para aceptar solicitudes de cualquier origen antes de mapear los controladores
 app.UseCors("AllowAll");
 
-// Habilita autenticación y autorización
-app.UseAuthentication();
-app.UseAuthorization();
+// Habilita autenticación y autorización - COMENTADO TEMPORALMENTE PARA ENDPOINTS PÚBLICOS
+// app.UseAuthentication();
+// app.UseAuthorization();
 
 // Habilita el mapeo de rutas para los controladores de la API
 app.MapControllers();

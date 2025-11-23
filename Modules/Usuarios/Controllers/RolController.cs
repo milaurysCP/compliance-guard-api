@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Usuarios.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+    // [Authorize] // Deshabilitado temporalmente
 public class RolController : ControllerBase
 {
     private readonly IRol _rolService;

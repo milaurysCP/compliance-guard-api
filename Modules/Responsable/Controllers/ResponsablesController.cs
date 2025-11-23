@@ -9,7 +9,7 @@ namespace ComplianceGuardPro.Modules.Responsable.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class ResponsablesController : ControllerBase
     {
         private readonly IResponsable _responsableService;

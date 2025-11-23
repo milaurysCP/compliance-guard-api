@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.FAQ.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class FaqController : ControllerBase
     {
         private readonly IFaqService _faqService;

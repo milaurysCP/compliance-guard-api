@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class DebidaDiligenciaController : ControllerBase
     {
         private readonly IDebidaDiligencia _debidaDiligenciaService;

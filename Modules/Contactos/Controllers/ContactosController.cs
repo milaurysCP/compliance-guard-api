@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Contactos.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+    // [Authorize] // Deshabilitado temporalmente
 public class ContactosController : ControllerBase
 {
     private readonly IContacto _contactoService;

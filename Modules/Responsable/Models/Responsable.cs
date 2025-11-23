@@ -10,13 +10,22 @@ namespace ComplianceGuardPro.Modules.Responsable.Models
         public long Id { get; set; }
 
         [StringLength(100)]
-        public string? Nombre { get; set; }
+        public string? ResponsableTransaccion { get; set; }
 
         [StringLength(100)]
-        public string? Apellido { get; set; }
+        public string? NombresResposable { get; set; }
+
+        [StringLength(100)]
+        public string? ApellidosResponsable { get; set; }
 
         [StringLength(200)]
-        public string? Direccion { get; set; }
+        public string? DireccionResponsable { get; set; }
+
+        [StringLength(100)]
+        public string? IdentificacionResponsable { get; set; }
+
+        [StringLength(150)]
+        public string? Correo { get; set; }
 
         [StringLength(50)]
         public string? Telefono { get; set; }
@@ -24,8 +33,15 @@ namespace ComplianceGuardPro.Modules.Responsable.Models
         [StringLength(100)]
         public string? Cargo { get; set; }
 
-        [StringLength(150)]
-        public string? Correo { get; set; }
+        // Campos legacy
+        [StringLength(100)]
+        public string? Nombre { get; set; }
+
+        [StringLength(100)]
+        public string? Apellido { get; set; }
+
+        [StringLength(200)]
+        public string? Direccion { get; set; }
 
         [StringLength(100)]
         public string? DocumentoIdentificacion { get; set; }

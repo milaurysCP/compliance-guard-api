@@ -84,16 +84,14 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
             return await _context.Clientes
                 .Include(c => c.Operaciones)
                 .ThenInclude(o => o.Pagos)
-                .Where(c => c.EstaActivo)
                 .Select(c => new ClienteReporteDto
                 {
                     Id = c.Id,
                     Nombre = c.Nombre,
-                    TipoCliente = c.TipoCliente,
-                    Estado = c.Estado,
-                    FechaRegistro = c.FechaRegistro,
+                    TipoPersona = c.TipoPersona,
+                    FechaCreacion = c.FechaCreacion,
                     TotalOperaciones = c.Operaciones.Count,
-                    MontoTotalOperaciones = c.Operaciones.SelectMany(o => o.Pagos).Sum(p => p.Monto.GetValueOrDefault()),
+                    MontoTotalOperaciones = c.Operaciones.SelectMany(o => o.Pagos).Sum(p => p.Monto),
                     NivelRiesgo = "Medio" // TODO: Calcular nivel de riesgo basado en evaluaciones
                 })
                 .ToListAsync();
@@ -181,9 +179,8 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
                 var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
                 table.AddCell(new PdfPCell(new Phrase("ID", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
                 table.AddCell(new PdfPCell(new Phrase("Nombre", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
-                table.AddCell(new PdfPCell(new Phrase("Tipo", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
-                table.AddCell(new PdfPCell(new Phrase("Estado", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
-                table.AddCell(new PdfPCell(new Phrase("Fecha Registro", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Tipo Persona", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Fecha Creación", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
                 table.AddCell(new PdfPCell(new Phrase("Total Operaciones", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
                 table.AddCell(new PdfPCell(new Phrase("Monto Total", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
                 table.AddCell(new PdfPCell(new Phrase("Nivel Riesgo", headerFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
@@ -193,13 +190,12 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
                 foreach (var cliente in clientes)
                 {
                     table.AddCell(new Phrase(cliente.Id.ToString(), dataFont));
-                    table.AddCell(new Phrase(cliente.Nombre, dataFont));
-                    table.AddCell(new Phrase(cliente.TipoCliente, dataFont));
-                    table.AddCell(new Phrase(cliente.Estado, dataFont));
-                    table.AddCell(new Phrase(cliente.FechaRegistro.ToString("dd/MM/yyyy"), dataFont));
+                    table.AddCell(new Phrase(cliente.Nombre ?? "", dataFont));
+                    table.AddCell(new Phrase(cliente.TipoPersona ?? "", dataFont));
+                    table.AddCell(new Phrase(cliente.FechaCreacion?.ToString("dd/MM/yyyy") ?? "", dataFont));
                     table.AddCell(new Phrase(cliente.TotalOperaciones.ToString(), dataFont));
                     table.AddCell(new Phrase($"${cliente.MontoTotalOperaciones:N2}", dataFont));
-                    table.AddCell(new Phrase(cliente.NivelRiesgo, dataFont));
+                    table.AddCell(new Phrase(cliente.NivelRiesgo ?? "", dataFont));
                 }
 
                 document.Add(table);
@@ -556,12 +552,11 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
             // Headers
             worksheet.Cell(1, 1).Value = "ID";
             worksheet.Cell(1, 2).Value = "Nombre";
-            worksheet.Cell(1, 3).Value = "Tipo";
-            worksheet.Cell(1, 4).Value = "Estado";
-            worksheet.Cell(1, 5).Value = "Fecha Registro";
-            worksheet.Cell(1, 6).Value = "Total Operaciones";
-            worksheet.Cell(1, 7).Value = "Monto Total";
-            worksheet.Cell(1, 8).Value = "Nivel Riesgo";
+            worksheet.Cell(1, 3).Value = "Tipo Persona";
+            worksheet.Cell(1, 4).Value = "Fecha Creación";
+            worksheet.Cell(1, 5).Value = "Total Operaciones";
+            worksheet.Cell(1, 6).Value = "Monto Total";
+            worksheet.Cell(1, 7).Value = "Nivel Riesgo";
 
             // Data
             for (int i = 0; i < clientes.Count; i++)
@@ -569,12 +564,11 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
                 var cliente = clientes[i];
                 worksheet.Cell(i + 2, 1).Value = cliente.Id;
                 worksheet.Cell(i + 2, 2).Value = cliente.Nombre;
-                worksheet.Cell(i + 2, 3).Value = cliente.TipoCliente;
-                worksheet.Cell(i + 2, 4).Value = cliente.Estado;
-                worksheet.Cell(i + 2, 5).Value = cliente.FechaRegistro.ToString("dd/MM/yyyy");
-                worksheet.Cell(i + 2, 6).Value = cliente.TotalOperaciones;
-                worksheet.Cell(i + 2, 7).Value = cliente.MontoTotalOperaciones;
-                worksheet.Cell(i + 2, 8).Value = cliente.NivelRiesgo;
+                worksheet.Cell(i + 2, 3).Value = cliente.TipoPersona;
+                worksheet.Cell(i + 2, 4).Value = cliente.FechaCreacion?.ToString("dd/MM/yyyy") ?? "";
+                worksheet.Cell(i + 2, 5).Value = cliente.TotalOperaciones;
+                worksheet.Cell(i + 2, 6).Value = cliente.MontoTotalOperaciones;
+                worksheet.Cell(i + 2, 7).Value = cliente.NivelRiesgo;
             }
 
             // Auto-fit columns

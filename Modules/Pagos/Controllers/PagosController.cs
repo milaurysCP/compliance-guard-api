@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Pagos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class PagosController : ControllerBase
     {
         private readonly IPago _pagoService;

@@ -9,8 +9,20 @@ namespace ComplianceGuardPro.Modules.Beneficiarios.Models;
         [Key]
         public long Id { get; set; }
 
+        [StringLength(100)]
+        public string? Tipo { get; set; }
+
         [StringLength(200)]
         public string? Nombre { get; set; }
+
+        [StringLength(200)]
+        public string? Apellidos { get; set; }
+
+        [StringLength(50)]
+        public string? Identificacion { get; set; }
+
+        [StringLength(100)]
+        public string? Nacionalidad { get; set; }
 
         public long ClienteId { get; set; }
 

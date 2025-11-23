@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Documentos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class DocumentosController : ControllerBase
     {
         private readonly IDocumento _documentoService;

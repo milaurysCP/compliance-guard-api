@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Intermediarios.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class IntermediariosController : ControllerBase
     {
         private readonly IIntermediario _intermediarioService;

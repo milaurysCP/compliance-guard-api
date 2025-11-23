@@ -47,7 +47,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public async Task<IActionResult> ObtenerDetalleUsuario(long id)
     {
         var detalleUsuario = await _usuarioService.obtenerDetalleUsuario(id);
@@ -59,7 +59,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public async Task<IActionResult> ObtenerUsuarios()
     {
         var usuarios = await _usuarioService.obtenerUsuarios();
@@ -67,7 +67,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet("perfil")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public async Task<IActionResult> ObtenerPerfilUsuario()
     {
         // Obtener el ID del usuario desde el token JWT
@@ -87,7 +87,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public async Task<IActionResult> ActualizarUsuario(long id, [FromBody] UpdateUsuarioDto actualizarUsuarioDto)
     {
         if (!ModelState.IsValid)
@@ -105,7 +105,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPut("{id}/password")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public async Task<IActionResult> ActualizarClave(long id, [FromBody] UpdatePasswordDto updatePasswordDto)
     {
         if (!ModelState.IsValid)
@@ -123,7 +123,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPut("{id}/status")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public async Task<IActionResult> CambiarEstado(long id, [FromBody] CambiarEstadoDto cambiarEstadoDto)
     {
         if (!ModelState.IsValid)
@@ -141,7 +141,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public async Task<IActionResult> EliminarUsuario(long id)
     {
         var resultado = await _usuarioService.eliminarUsuario(id);

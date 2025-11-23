@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComplianceGuardPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251107221430_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251123163854_create")]
+    partial class create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,8 +34,8 @@ namespace ComplianceGuardPro.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("CampoLaboral")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<long>("ClienteId")
                         .HasColumnType("bigint");
@@ -45,8 +45,8 @@ namespace ComplianceGuardPro.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("OrigenFondos")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("PrincipalCliente")
                         .HasMaxLength(50)
@@ -59,6 +59,10 @@ namespace ComplianceGuardPro.Migrations
                     b.Property<string>("Proyecto")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Sector")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -75,12 +79,28 @@ namespace ComplianceGuardPro.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Apellidos")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<long>("ClienteId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Identificacion")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Nacionalidad")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Nombre")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Tipo")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -139,42 +159,46 @@ namespace ComplianceGuardPro.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("CasaMatriz")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("DocumentoIdentidad")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("EstaActivo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Estado")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("FechaNacimiento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaRegistro")
+                    b.Property<DateTime?>("FechaCreacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("RegistroComercial")
+                    b.Property<string>("RegistroMercantil")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("TipoCliente")
-                        .IsRequired()
+                    b.Property<string>("Rnc")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Url")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<string>("Siglas")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TipoPersona")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DocumentoIdentidad")
+                        .IsUnique()
+                        .HasFilter("[DocumentoIdentidad] IS NOT NULL");
+
+                    b.HasIndex("Rnc")
+                        .IsUnique()
+                        .HasFilter("[Rnc] IS NOT NULL");
 
                     b.ToTable("Clientes");
                 });
@@ -487,8 +511,31 @@ namespace ComplianceGuardPro.Migrations
                     b.Property<string>("Codigo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CodigoOperacion")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DescripcionOperacion")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("EndidadFinanciera")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("Monto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PropositoOperacion")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Tipo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoOperacion")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -508,10 +555,15 @@ namespace ComplianceGuardPro.Migrations
                     b.Property<string>("Codigo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Moneda")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("CodigoPago")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal?>("Monto")
+                    b.Property<string>("Moneda")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<long>("OperacionId")
@@ -519,6 +571,10 @@ namespace ComplianceGuardPro.Migrations
 
                     b.Property<string>("Tipo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TipoPago")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -542,6 +598,14 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("Fuentes")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Ningreso")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<decimal?>("NivelIngreso")
                         .HasColumnType("decimal(18,2)");
 
@@ -564,10 +628,22 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("CargoPeps")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<long>("ClienteId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Decreto")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Institucion")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("InstitucionPeps")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -575,7 +651,15 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("NombrePeps")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("Ordenanza")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("TipoPeps")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -648,6 +732,10 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("ApellidosResponsable")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Cargo")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -663,11 +751,27 @@ namespace ComplianceGuardPro.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("DireccionResponsable")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("DocumentoIdentificacion")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("IdentificacionResponsable")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Nombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NombresResposable")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ResponsableTransaccion")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

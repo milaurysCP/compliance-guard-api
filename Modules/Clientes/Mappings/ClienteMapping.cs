@@ -8,10 +8,7 @@ public class ClienteMappingProfile : Profile
 {
     public ClienteMappingProfile()
     {
-        // Mapeos de Cliente
+        // Mapeo de Cliente
         CreateMap<Cliente, ClienteSummaryDto>();
-        CreateMap<Cliente, ClienteDetailDto>();
-        CreateMap<CreateClienteDto, Cliente>();
-        CreateMap<UpdateClienteDto, Cliente>();
     }
 }

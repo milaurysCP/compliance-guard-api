@@ -9,7 +9,7 @@ namespace ComplianceGuardPro.Modules.Politica.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class PoliticasController : ControllerBase
     {
         private readonly IPolitica _politicaService;

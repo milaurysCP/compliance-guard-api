@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class PerfilesFinancierosController : ControllerBase
 {
     private readonly IPerfilFinanciero _perfilService;

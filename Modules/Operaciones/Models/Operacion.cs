@@ -10,6 +10,25 @@ namespace ComplianceGuardPro.Modules.Operaciones.Models
         [Key]
         public long Id { get; set; }
 
+        [StringLength(100)]
+        public string? TipoOperacion { get; set; }
+
+        [StringLength(200)]
+        public string? EndidadFinanciera { get; set; }
+
+        [StringLength(50)]
+        public string? CodigoOperacion { get; set; }
+
+        [StringLength(500)]
+        public string? DescripcionOperacion { get; set; }
+
+        [StringLength(500)]
+        public string? PropositoOperacion { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Monto { get; set; }
+
+        // Campos legacy
         public string? Tipo { get; set; }
 
         public string? Codigo { get; set; }

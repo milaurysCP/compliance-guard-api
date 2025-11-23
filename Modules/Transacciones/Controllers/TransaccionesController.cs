@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Transacciones.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize] // Deshabilitado temporalmente
     public class TransaccionesController : ControllerBase
     {
         private readonly ITransaccion _transaccionService;

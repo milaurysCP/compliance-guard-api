@@ -1,0 +1,96 @@
+{
+  "1_organos_ejecutivos_nacionales": [
+    "Presidente de la República",
+    "Vicepresidente(s) de la República",
+    "Ministros/as",
+    "Viceministros/as",
+    "Secretarios/as ejecutivos/as de ministerios",
+    "Jefes de despacho o Directores Generales con rango ministerial",
+    "Coordinadores/as o titulares de oficinas nacionales estratégicas"
+  ],
+  "2_organos_legislativos": [
+    "Presidente del Senado",
+    "Presidente de la Cámara de Diputados",
+    "Senadores/as",
+    "Diputados/as",
+    "Secretarios Generales u autoridades directivas del Congreso"
+  ],
+  "3_gobiernos_locales_administracion_regional": [
+    "Gobernadores/as provinciales",
+    "Alcaldes/as",
+    "Vicealcaldes/as",
+    "Regidores/as y concejales de primer nivel ejecutivo",
+    "Directores municipales o distritales de servicios públicos"
+  ],
+  "4_poder_judicial_ministerio_publico_organos_constitucionales": [
+    "Jueces/as de la Suprema Corte de Justicia",
+    "Magistrados/as del Tribunal Constitucional",
+    "Magistrados/as del Tribunal Superior Electoral",
+    "Jueces/as y magistrados de altas cortes",
+    "Procurador/a General de la República",
+    "Subprocuradores/as",
+    "Fiscales de alto rango",
+    "Miembros del Consejo Nacional de la Magistratura"
+  ],
+  "5_fuerzas_armadas_y_seguridad_publica": [
+    "Jefe del Estado Mayor General de las Fuerzas Armadas",
+    "Comandantes Generales / Jefes de Ejército, Armada y Fuerza Aérea",
+    "Oficiales de alta jerarquía (generales, almirantes, coroneles superiores)",
+    "Director/a General de la Policía Nacional",
+    "Directores de inteligencia y seguridad nacional"
+  ],
+  "6_relaciones_exteriores_diplomacia": [
+    "Presidentes de asambleas internacionales",
+    "Ministros/as de Relaciones Exteriores",
+    "Embajadores/as",
+    "Cónsules Generales",
+    "Chargé d’affaires",
+    "Representantes permanentes ante organismos internacionales",
+    "Altos funcionarios diplomáticos"
+  ],
+  "7_empresas_estatales_y_entes_publicos": [
+    "Presidentes/as de empresas estatales",
+    "Directores/as y Gerentes Generales",
+    "Miembros de Consejos de Administración",
+    "Directores de bancos estatales",
+    "Directores de institutos financieros públicos",
+    "Titulares de organismos reguladores ejecutivos"
+  ],
+  "8_autoridades_regulatorias_descentralizadas": [
+    "Gobernador/a del Banco Central",
+    "Presidentes/Directores de Superintendencias",
+    "Miembros de Juntas Monetarias y Comisiones Regulatorias"
+  ],
+  "9_organismos_electorales_autonomos": [
+    "Presidente y miembros de la Junta Central Electoral",
+    "Miembros del Tribunal Superior Electoral",
+    "Directores de organismos autónomos de control (UAF, etc.)"
+  ],
+  "10_organizaciones_internacionales_multilaterales": [
+    "Altos funcionarios con funciones prominentes en territorio nacional"
+  ],
+  "11_ejecutivos_publicos_paraestatales": [
+    "Directores y gerentes de juntas directivas de empresas con participación estatal",
+    "Representantes del Estado en entidades privadas"
+  ],
+  "12_funcionarios_contratacion_publica": [
+    "Titulares de unidades ejecutoras de contratación pública",
+    "Jefes de compras y funcionarios responsables de adjudicaciones"
+  ],
+  "13_dirigentes_partidos_politicos": [
+    "Presidentes de partidos políticos",
+    "Secretarios generales",
+    "Tesorero/as",
+    "Miembros de juntas directivas de partidos"
+  ],
+  "14_exfuncionarios_tres_anos": [
+    "Personas que dejaron cargos PEP en los últimos tres años"
+  ],
+  "personas_relacionadas": [
+    "Familiares próximos (cónyuge, padres, hijos, hermanos)",
+    "Parientes políticos",
+    "Socios de negocios",
+    "Asesores",
+    "Personas con relaciones financieras relevantes con el PEP"
+  ]
+}

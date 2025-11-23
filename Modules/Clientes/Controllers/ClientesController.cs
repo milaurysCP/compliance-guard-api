@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Clientes.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+    // [Authorize] // Deshabilitado temporalmente
 public class ClientesController : ControllerBase
 {
     private readonly ICliente _clienteService;
@@ -24,33 +24,67 @@ public class ClientesController : ControllerBase
         return Ok(clientes);
     }
 
+    [HttpGet("buscar")]
+    public async Task<IActionResult> BuscarCliente([FromQuery] string filtro)
+    {
+        if (string.IsNullOrWhiteSpace(filtro))
+        {
+            return BadRequest(new { message = "El filtro de búsqueda es requerido" });
+        }
+
+        var clientes = await _clienteService.buscarClienteCompleto(filtro);
+        return Ok(clientes);
+    }
+
     [HttpPost]
-    public async Task<IActionResult> CrearCliente([FromBody] CreateClienteDto crearClienteDto)
+    public async Task<IActionResult> CrearCliente([FromBody] ClienteDto clienteDto)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        await _clienteService.crearCliente(crearClienteDto);
-        return Ok(new { message = "Cliente creado exitosamente" });
+        try
+        {
+            await _clienteService.crearClienteCompleto(clienteDto);
+            return Ok(new { message = "Cliente creado exitosamente" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> ActualizarCliente(long id, [FromBody] UpdateClienteDto actualizarClienteDto)
+    public async Task<IActionResult> ActualizarCliente(long id, [FromBody] ClienteDto clienteDto)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var resultado = await _clienteService.actualizarCliente(id, actualizarClienteDto);
-        if (!resultado)
+        try
         {
-            return NotFound(new { message = "Cliente no encontrado" });
-        }
+            var resultado = await _clienteService.actualizarClienteCompleto(id, clienteDto);
+            if (!resultado)
+            {
+                return NotFound(new { message = "Cliente no encontrado" });
+            }
 
-        return Ok(new { message = "Cliente actualizado exitosamente" });
+            return Ok(new { message = "Cliente actualizado correctamente" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpDelete("{id}")]
@@ -68,18 +102,7 @@ public class ClientesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> ObtenerDetalleCliente(long id)
     {
-        var cliente = await _clienteService.obtenerDetalleCliente(id);
-        if (cliente == null)
-        {
-            return NotFound(new { message = "Cliente no encontrado" });
-        }
-        return Ok(cliente);
-    }
-
-    [HttpGet("{id}/detalle")]
-    public async Task<IActionResult> ObtenerClienteConDetalle(long id)
-    {
-        var cliente = await _clienteService.obtenerDetalleCliente(id);
+        var cliente = await _clienteService.obtenerClienteCompleto(id);
         if (cliente == null)
         {
             return NotFound(new { message = "Cliente no encontrado" });

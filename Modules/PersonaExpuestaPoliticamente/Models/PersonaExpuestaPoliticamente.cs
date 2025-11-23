@@ -10,6 +10,22 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Models
         public long Id { get; set; }
 
         [StringLength(200)]
+        public string? CargoPeps { get; set; }
+
+        [StringLength(100)]
+        public string? TipoPeps { get; set; }
+
+        [StringLength(200)]
+        public string? NombrePeps { get; set; }
+
+        [StringLength(100)]
+        public string? Decreto { get; set; }
+
+        [StringLength(200)]
+        public string? InstitucionPeps { get; set; }
+
+        // Campos legacy
+        [StringLength(200)]
         public string? Nombre { get; set; }
 
         [StringLength(100)]

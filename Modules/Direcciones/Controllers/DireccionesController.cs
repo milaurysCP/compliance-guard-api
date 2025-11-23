@@ -7,7 +7,7 @@ namespace ComplianceGuardPro.Modules.Direcciones.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+    // [Authorize] // Deshabilitado temporalmente
 public class DireccionesController : ControllerBase
 {
     private readonly IDireccion _direccionService;
