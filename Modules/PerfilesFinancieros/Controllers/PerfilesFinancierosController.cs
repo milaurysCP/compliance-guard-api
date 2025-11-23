@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.PerfilesFinancieros.DTOs;
 using ComplianceGuardPro.Modules.PerfilesFinancieros.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
     }
 
     [HttpGet("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerPerfilesPorCliente(long clienteId)
     {
         var perfiles = await _perfilService.obtenerPerfilesPorCliente(clienteId);
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerPerfilFinanciero(long id)
     {
         var perfil = await _perfilService.obtenerPerfilFinanciero(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearPerfilFinanciero([FromBody] CreatePerfilFinancieroDto crearPerfilDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
     }
 
     [HttpPost("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearPerfilFinancieroPorCliente(long clienteId, [FromBody] CreatePerfilFinancieroDto crearPerfilDto)
     {
         if (!ModelState.IsValid)
@@ -62,6 +67,7 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarPerfilFinanciero(long id, [FromBody] CreatePerfilFinancieroDto actualizarPerfilDto)
     {
         if (!ModelState.IsValid)
@@ -79,6 +85,7 @@ namespace ComplianceGuardPro.Modules.PerfilesFinancieros.Controllers
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarPerfilFinanciero(long id)
     {
         var resultado = await _perfilService.eliminarPerfilFinanciero(id);

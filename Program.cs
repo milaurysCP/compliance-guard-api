@@ -124,7 +124,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!)),
+            // Desactivar el mapeo automático de claims para que "role" no se convierta en otro nombre
+            RoleClaimType = "role",
+            NameClaimType = "unique_name"
         };
     });
 
@@ -157,8 +160,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 
 // Habilita autenticación y autorización - COMENTADO TEMPORALMENTE PARA ENDPOINTS PÚBLICOS
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Habilita el mapeo de rutas para los controladores de la API
 app.MapControllers();

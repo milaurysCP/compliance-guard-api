@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Documentos.DTOs;
 using ComplianceGuardPro.Modules.Documentos.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Documentos.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.Documentos.Controllers
         }
 
         [HttpGet("debida-diligencia/{debidaDiligenciaId}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerDocumentosPorDebidaDiligencia(long debidaDiligenciaId)
         {
             var documentos = await _documentoService.obtenerDocumentosPorDebidaDiligencia(debidaDiligenciaId);
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.Documentos.Controllers
         }
 
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerDocumento(long id)
         {
             var documento = await _documentoService.obtenerDocumento(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.Documentos.Controllers
         }
 
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> CrearDocumento([FromBody] CreateDocumentoDto crearDocumentoDto)
         {
             if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.Documentos.Controllers
         }
 
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ActualizarDocumento(long id, [FromBody] CreateDocumentoDto actualizarDocumentoDto)
         {
             if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.Documentos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> EliminarDocumento(long id)
         {
             var resultado = await _documentoService.eliminarDocumento(id);

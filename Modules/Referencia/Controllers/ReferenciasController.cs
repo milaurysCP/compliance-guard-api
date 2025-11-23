@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Referencia.DTOs;
 using ComplianceGuardPro.Modules.Referencia.Services;
+using ComplianceGuardPro.Shared.Authorization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace ComplianceGuardPro.Modules.Referencia.Controllers
 
         // GET: api/referencia
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<ReferenciaDto>>> GetReferencias()
         {
             var referencias = await _referenciaService.GetAllAsync();
@@ -29,6 +31,7 @@ namespace ComplianceGuardPro.Modules.Referencia.Controllers
 
         // GET: api/referencia/cliente/{clienteId}
         [HttpGet("cliente/{clienteId}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<ReferenciaDto>>> GetReferenciasByCliente(long clienteId)
         {
             var referencias = await _referenciaService.GetByClienteIdAsync(clienteId);
@@ -37,6 +40,7 @@ namespace ComplianceGuardPro.Modules.Referencia.Controllers
 
         // GET: api/referencia/{id}
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<ReferenciaDto>> GetReferencia(long id)
         {
             var referencia = await _referenciaService.GetByIdAsync(id);
@@ -49,6 +53,7 @@ namespace ComplianceGuardPro.Modules.Referencia.Controllers
 
         // POST: api/referencia
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<ReferenciaDto>> CreateReferencia(CreateReferenciaDto createReferenciaDto)
         {
             var referencia = await _referenciaService.CreateAsync(createReferenciaDto);
@@ -57,6 +62,7 @@ namespace ComplianceGuardPro.Modules.Referencia.Controllers
 
         // PUT: api/referencia/{id}
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> UpdateReferencia(long id, CreateReferenciaDto updateReferenciaDto)
         {
             var referencia = await _referenciaService.UpdateAsync(id, updateReferenciaDto);
@@ -69,6 +75,7 @@ namespace ComplianceGuardPro.Modules.Referencia.Controllers
 
         // DELETE: api/referencia/{id}
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> DeleteReferencia(long id)
         {
             var result = await _referenciaService.DeleteAsync(id);

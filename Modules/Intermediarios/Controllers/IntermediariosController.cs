@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Intermediarios.DTOs;
 using ComplianceGuardPro.Modules.Intermediarios.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Intermediarios.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.Intermediarios.Controllers
     }
 
     [HttpGet("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerIntermediariosPorCliente(long clienteId)
     {
         var intermediarios = await _intermediarioService.obtenerIntermediariosPorCliente(clienteId);
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.Intermediarios.Controllers
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerIntermediario(long id)
     {
         var intermediario = await _intermediarioService.obtenerIntermediario(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.Intermediarios.Controllers
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearIntermediario([FromBody] CreateIntermediarioDto crearIntermediarioDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.Intermediarios.Controllers
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarIntermediario(long id, [FromBody] CreateIntermediarioDto actualizarIntermediarioDto)
     {
         if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.Intermediarios.Controllers
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarIntermediario(long id)
     {
         var resultado = await _intermediarioService.eliminarIntermediario(id);

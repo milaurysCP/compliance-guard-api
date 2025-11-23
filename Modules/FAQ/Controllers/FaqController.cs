@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.FAQ.Services;
 using ComplianceGuardPro.Modules.FAQ.DTOs;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.FAQ.Controllers
 {
@@ -24,6 +25,7 @@ namespace ComplianceGuardPro.Modules.FAQ.Controllers
         /// </summary>
         /// <returns>Lista completa de FAQs</returns>
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetAllFaqs()
         {
             try
@@ -53,6 +55,7 @@ namespace ComplianceGuardPro.Modules.FAQ.Controllers
         /// <param name="q">Término de búsqueda (busca en preguntas y respuestas)</param>
         /// <returns>Lista de FAQs que coinciden con la búsqueda</returns>
         [HttpGet("search")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> SearchFaqs([FromQuery] string q)
         {
             try
@@ -83,6 +86,7 @@ namespace ComplianceGuardPro.Modules.FAQ.Controllers
         /// <param name="createFaqDto">Datos de la nueva FAQ</param>
         /// <returns>Resultado de la operación</returns>
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> AddFaq([FromBody] CreateFaqDto createFaqDto)
         {
             try
@@ -132,6 +136,7 @@ namespace ComplianceGuardPro.Modules.FAQ.Controllers
         /// <param name="updateFaqDto">Datos para actualizar la FAQ</param>
         /// <returns>Resultado de la operación</returns>
         [HttpPut]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> UpdateFaq([FromBody] UpdateFaqDto updateFaqDto)
         {
             try
@@ -181,6 +186,7 @@ namespace ComplianceGuardPro.Modules.FAQ.Controllers
         /// <param name="pregunta">Pregunta a eliminar</param>
         /// <returns>Resultado de la operación</returns>
         [HttpDelete]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> DeleteFaq([FromQuery] string pregunta)
         {
             try

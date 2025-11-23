@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Riesgos.DTOs;
 using ComplianceGuardPro.Modules.Riesgos.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Riesgos.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.Riesgos.Controllers
         }
 
     [HttpGet]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerRiesgos()
     {
         var riesgos = await _riesgoService.obtenerRiesgos();
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.Riesgos.Controllers
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerRiesgo(long id)
     {
         var riesgo = await _riesgoService.obtenerRiesgo(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.Riesgos.Controllers
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearRiesgo([FromBody] CreateRiesgoDto crearRiesgoDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.Riesgos.Controllers
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarRiesgo(long id, [FromBody] CreateRiesgoDto actualizarRiesgoDto)
     {
         if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.Riesgos.Controllers
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarRiesgo(long id)
     {
         var resultado = await _riesgoService.eliminarRiesgo(id);

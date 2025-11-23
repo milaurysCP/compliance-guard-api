@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Beneficiarios.DTOs;
 using ComplianceGuardPro.Modules.Beneficiarios.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Beneficiarios.Controllers;
 
@@ -18,6 +19,7 @@ public class BeneficiariosFinalesController : ControllerBase
     }
 
     [HttpGet("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerBeneficiariosPorCliente(long clienteId)
     {
         var beneficiarios = await _beneficiarioService.obtenerBeneficiariosPorCliente(clienteId);
@@ -25,6 +27,7 @@ public class BeneficiariosFinalesController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerBeneficiarioFinal(long id)
     {
         var beneficiario = await _beneficiarioService.obtenerBeneficiarioFinal(id);
@@ -36,6 +39,7 @@ public class BeneficiariosFinalesController : ControllerBase
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearBeneficiarioFinal([FromBody] CreateBeneficiarioFinalDto crearBeneficiarioDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ public class BeneficiariosFinalesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarBeneficiarioFinal(long id, [FromBody] CreateBeneficiarioFinalDto actualizarBeneficiarioDto)
     {
         if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ public class BeneficiariosFinalesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarBeneficiarioFinal(long id)
     {
         var resultado = await _beneficiarioService.eliminarBeneficiarioFinal(id);

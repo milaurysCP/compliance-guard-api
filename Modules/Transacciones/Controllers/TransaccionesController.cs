@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Transacciones.DTOs;
 using ComplianceGuardPro.Modules.Transacciones.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Transacciones.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.Transacciones.Controllers
         }
 
     [HttpGet("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerTransaccionesPorCliente(long clienteId)
     {
         var transacciones = await _transaccionService.obtenerTransaccionesPorCliente(clienteId);
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.Transacciones.Controllers
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerTransaccion(long id)
     {
         var transaccion = await _transaccionService.obtenerTransaccion(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.Transacciones.Controllers
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearTransaccion([FromBody] CreateTransaccionDto crearTransaccionDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.Transacciones.Controllers
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarTransaccion(long id, [FromBody] CreateTransaccionDto actualizarTransaccionDto)
     {
         if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.Transacciones.Controllers
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarTransaccion(long id)
     {
         var resultado = await _transaccionService.eliminarTransaccion(id);

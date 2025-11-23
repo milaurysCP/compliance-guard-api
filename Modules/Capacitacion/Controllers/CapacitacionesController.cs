@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Capacitacion.DTOs;
 using ComplianceGuardPro.Modules.Capacitacion.Services;
+using ComplianceGuardPro.Shared.Authorization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace ComplianceGuardPro.Modules.Capacitacion.Controllers
 
         // GET: api/capacitacion
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<CapacitacionDto>>> GetCapacitaciones()
         {
             var capacitaciones = await _capacitacionService.GetAllAsync();
@@ -29,6 +31,7 @@ namespace ComplianceGuardPro.Modules.Capacitacion.Controllers
 
         // GET: api/capacitacion/{id}
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<CapacitacionDto>> GetCapacitacion(long id)
         {
             var capacitacion = await _capacitacionService.GetByIdAsync(id);
@@ -41,6 +44,7 @@ namespace ComplianceGuardPro.Modules.Capacitacion.Controllers
 
         // POST: api/capacitacion
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<CapacitacionDto>> CreateCapacitacion(CreateCapacitacionDto createCapacitacionDto)
         {
             var capacitacion = await _capacitacionService.CreateAsync(createCapacitacionDto);
@@ -49,6 +53,7 @@ namespace ComplianceGuardPro.Modules.Capacitacion.Controllers
 
         // PUT: api/capacitacion/{id}
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> UpdateCapacitacion(long id, CreateCapacitacionDto updateCapacitacionDto)
         {
             var capacitacion = await _capacitacionService.UpdateAsync(id, updateCapacitacionDto);
@@ -61,6 +66,7 @@ namespace ComplianceGuardPro.Modules.Capacitacion.Controllers
 
         // DELETE: api/capacitacion/{id}
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> DeleteCapacitacion(long id)
         {
             var result = await _capacitacionService.DeleteAsync(id);

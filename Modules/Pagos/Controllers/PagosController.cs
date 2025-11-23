@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Pagos.DTOs;
 using ComplianceGuardPro.Modules.Pagos.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Pagos.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.Pagos.Controllers
         }
 
         [HttpGet("operacion/{operacionId}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerPagosPorOperacion(long operacionId)
         {
             var pagos = await _pagoService.obtenerPagosPorOperacion(operacionId);
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.Pagos.Controllers
         }
 
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerPago(long id)
         {
             var pago = await _pagoService.obtenerPago(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.Pagos.Controllers
         }
 
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> CrearPago([FromBody] CreatePagoDto crearPagoDto)
         {
             if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.Pagos.Controllers
         }
 
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ActualizarPago(long id, [FromBody] CreatePagoDto actualizarPagoDto)
         {
             if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.Pagos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> EliminarPago(long id)
         {
             var resultado = await _pagoService.eliminarPago(id);

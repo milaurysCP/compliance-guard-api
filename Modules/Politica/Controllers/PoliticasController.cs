@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Politica.DTOs;
 using ComplianceGuardPro.Modules.Politica.Services;
+using ComplianceGuardPro.Shared.Authorization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace ComplianceGuardPro.Modules.Politica.Controllers
 
         // GET: api/politica
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<PoliticaDto>>> GetPoliticas()
         {
             var politicas = await _politicaService.GetAllAsync();
@@ -29,6 +31,7 @@ namespace ComplianceGuardPro.Modules.Politica.Controllers
 
         // GET: api/politica/{id}
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<PoliticaDto>> GetPolitica(long id)
         {
             var politica = await _politicaService.GetByIdAsync(id);
@@ -41,6 +44,7 @@ namespace ComplianceGuardPro.Modules.Politica.Controllers
 
         // POST: api/politica
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<PoliticaDto>> CreatePolitica(CreatePoliticaDto createPoliticaDto)
         {
             var politica = await _politicaService.CreateAsync(createPoliticaDto);
@@ -49,6 +53,7 @@ namespace ComplianceGuardPro.Modules.Politica.Controllers
 
         // PUT: api/politica/{id}
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> UpdatePolitica(long id, CreatePoliticaDto updatePoliticaDto)
         {
             var politica = await _politicaService.UpdateAsync(id, updatePoliticaDto);
@@ -61,6 +66,7 @@ namespace ComplianceGuardPro.Modules.Politica.Controllers
 
         // DELETE: api/politica/{id}
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> DeletePolitica(long id)
         {
             var result = await _politicaService.DeleteAsync(id);

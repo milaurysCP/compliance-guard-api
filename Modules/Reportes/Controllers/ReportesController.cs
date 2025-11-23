@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ComplianceGuardPro.Modules.Reportes.DTOs;
 using ComplianceGuardPro.Modules.Reportes.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Reportes.Controllers
 {
@@ -16,6 +17,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("dashboard")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetDashboardReport()
         {
             try
@@ -31,6 +33,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("clientes")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetClientesReport()
         {
             try
@@ -46,6 +49,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("riesgos")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetRiesgosReport()
         {
             try
@@ -61,6 +65,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("debida-diligencia/{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetDebidaDiligenciaReport(long id)
         {
             try
@@ -81,6 +86,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("dashboard/excel")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetDashboardReportExcel()
         {
             try
@@ -96,6 +102,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("clientes/excel")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetClientesReportExcel()
         {
             try
@@ -111,6 +118,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("riesgos/excel")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetRiesgosReportExcel()
         {
             try
@@ -126,6 +134,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Controllers
         }
 
         [HttpGet("debida-diligencia/{id}/excel")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> GetDebidaDiligenciaReportExcel(long id)
         {
             try

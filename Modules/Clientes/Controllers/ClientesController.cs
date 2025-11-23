@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Clientes.DTOs;
 using ComplianceGuardPro.Modules.Clientes.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Clientes.Controllers;
 
@@ -18,6 +19,7 @@ public class ClientesController : ControllerBase
     }
 
     [HttpGet]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerClientes()
     {
         var clientes = await _clienteService.obtenerClientes();
@@ -25,6 +27,7 @@ public class ClientesController : ControllerBase
     }
 
     [HttpGet("buscar")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> BuscarCliente([FromQuery] string filtro)
     {
         if (string.IsNullOrWhiteSpace(filtro))
@@ -37,6 +40,7 @@ public class ClientesController : ControllerBase
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearCliente([FromBody] ClienteDto clienteDto)
     {
         if (!ModelState.IsValid)
@@ -60,6 +64,7 @@ public class ClientesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarCliente(long id, [FromBody] ClienteDto clienteDto)
     {
         if (!ModelState.IsValid)
@@ -88,6 +93,7 @@ public class ClientesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarCliente(long id)
     {
         var resultado = await _clienteService.eliminarCliente(id);
@@ -100,6 +106,7 @@ public class ClientesController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerDetalleCliente(long id)
     {
         var cliente = await _clienteService.obtenerClienteCompleto(id);

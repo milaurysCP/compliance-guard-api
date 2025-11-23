@@ -26,7 +26,8 @@ namespace ComplianceGuardPro.Shared.Services
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, usuario.UsuarioLogin),
                 new Claim("rolId", usuario.RolId.ToString()),
-                new Claim("nombreRol", usuario.NombreRol ?? ""),
+                new Claim("role", usuario.NombreRol ?? ""), // Claim requerido para RoleAuthorizeAttribute
+                new Claim("nombreRol", usuario.NombreRol ?? ""), // Mantener compatibilidad
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

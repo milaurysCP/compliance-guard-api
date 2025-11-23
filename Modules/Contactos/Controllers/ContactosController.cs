@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Contactos.DTOs;
 using ComplianceGuardPro.Modules.Contactos.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Contactos.Controllers;
 
@@ -18,6 +19,7 @@ public class ContactosController : ControllerBase
     }
 
     [HttpGet("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerContactosPorCliente(long clienteId)
     {
         var contactos = await _contactoService.obtenerContactosPorCliente(clienteId);
@@ -25,6 +27,7 @@ public class ContactosController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerContacto(long id)
     {
         var contacto = await _contactoService.obtenerContacto(id);
@@ -36,6 +39,7 @@ public class ContactosController : ControllerBase
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearContacto([FromBody] CreateContactoDto crearContactoDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ public class ContactosController : ControllerBase
     }
 
     [HttpPost("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearContactoPorCliente(long clienteId, [FromBody] CreateContactoDto crearContactoDto)
     {
         if (!ModelState.IsValid)
@@ -62,6 +67,7 @@ public class ContactosController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarContacto(long id, [FromBody] CreateContactoDto actualizarContactoDto)
     {
         if (!ModelState.IsValid)
@@ -79,6 +85,7 @@ public class ContactosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarContacto(long id)
     {
         var resultado = await _contactoService.eliminarContacto(id);

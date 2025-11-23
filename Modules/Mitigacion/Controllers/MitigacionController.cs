@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Mitigacion.DTOs;
 using ComplianceGuardPro.Modules.Mitigacion.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Mitigacion.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Controllers
         }
 
         [HttpGet("riesgo/{riesgoId}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerMitigacionesPorRiesgo(long riesgoId)
         {
             var mitigaciones = await _mitigacionService.obtenerMitigacionesPorRiesgo(riesgoId);
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Controllers
         }
 
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerMitigacion(long id)
         {
             var mitigacion = await _mitigacionService.obtenerMitigacion(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Controllers
         }
 
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> CrearMitigacion([FromBody] CreateMitigacionDto crearMitigacionDto)
         {
             if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Controllers
         }
 
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ActualizarMitigacion(long id, [FromBody] CreateMitigacionDto actualizarMitigacionDto)
         {
             if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> EliminarMitigacion(long id)
         {
             var resultado = await _mitigacionService.eliminarMitigacion(id);

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.MensajesChat.DTOs;
 using ComplianceGuardPro.Modules.MensajesChat.Services;
+using ComplianceGuardPro.Shared.Authorization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace ComplianceGuardPro.Modules.MensajesChat.Controllers
 
         // GET: api/mensajechat
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<MensajeChatDto>>> GetMensajes()
         {
             var mensajes = await _mensajeChatService.obtenerMensajes();
@@ -29,6 +31,7 @@ namespace ComplianceGuardPro.Modules.MensajesChat.Controllers
 
         // GET: api/mensajechat/usuario/{usuarioId}
         [HttpGet("usuario/{usuarioId}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<MensajeChatDto>>> GetMensajesPorUsuario(long usuarioId)
         {
             var mensajes = await _mensajeChatService.obtenerMensajesPorUsuario(usuarioId);
@@ -37,6 +40,7 @@ namespace ComplianceGuardPro.Modules.MensajesChat.Controllers
 
         // GET: api/mensajechat/{id}
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<MensajeChatDto>> GetMensaje(long id)
         {
             var mensaje = await _mensajeChatService.obtenerMensaje(id);
@@ -49,6 +53,7 @@ namespace ComplianceGuardPro.Modules.MensajesChat.Controllers
 
         // POST: api/mensajechat
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult> CreateMensaje(CreateMensajeChatDto createMensajeDto)
         {
             await _mensajeChatService.crearMensaje(createMensajeDto);

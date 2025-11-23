@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.DTOs;
 using ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Services;
+using ComplianceGuardPro.Shared.Authorization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Controllers
 
         // GET: api/personaexpuestapoliticamente
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<PersonaExpuestaPoliticamenteDto>>> GetPersonasExpuestasPoliticamente()
         {
             var personas = await _personaService.GetAllAsync();
@@ -29,6 +31,7 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Controllers
 
         // GET: api/personaexpuestapoliticamente/cliente/{clienteId}
         [HttpGet("cliente/{clienteId}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<PersonaExpuestaPoliticamenteDto>>> GetPersonasExpuestasPoliticamenteByCliente(long clienteId)
         {
             var personas = await _personaService.GetByClienteIdAsync(clienteId);
@@ -37,6 +40,7 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Controllers
 
         // GET: api/personaexpuestapoliticamente/{id}
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<PersonaExpuestaPoliticamenteDto>> GetPersonaExpuestaPoliticamente(long id)
         {
             var persona = await _personaService.GetByIdAsync(id);
@@ -49,6 +53,7 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Controllers
 
         // POST: api/personaexpuestapoliticamente
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<PersonaExpuestaPoliticamenteDto>> CreatePersonaExpuestaPoliticamente(CreatePersonaExpuestaPoliticamenteDto createPersonaDto)
         {
             var persona = await _personaService.CreateAsync(createPersonaDto);
@@ -57,6 +62,7 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Controllers
 
         // PUT: api/personaexpuestapoliticamente/{id}
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> UpdatePersonaExpuestaPoliticamente(long id, CreatePersonaExpuestaPoliticamenteDto updatePersonaDto)
         {
             var persona = await _personaService.UpdateAsync(id, updatePersonaDto);
@@ -69,6 +75,7 @@ namespace ComplianceGuardPro.Modules.PersonaExpuestaPoliticamente.Controllers
 
         // DELETE: api/personaexpuestapoliticamente/{id}
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> DeletePersonaExpuestaPoliticamente(long id)
         {
             var result = await _personaService.DeleteAsync(id);

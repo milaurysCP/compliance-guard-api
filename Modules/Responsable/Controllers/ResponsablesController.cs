@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Responsable.DTOs;
 using ComplianceGuardPro.Modules.Responsable.Services;
+using ComplianceGuardPro.Shared.Authorization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace ComplianceGuardPro.Modules.Responsable.Controllers
 
         // GET: api/responsable
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<ResponsableDto>>> GetResponsables()
         {
             var responsables = await _responsableService.GetAllAsync();
@@ -29,6 +31,7 @@ namespace ComplianceGuardPro.Modules.Responsable.Controllers
 
         // GET: api/responsable/cliente/{clienteId}
         [HttpGet("cliente/{clienteId}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<List<ResponsableDto>>> GetResponsablesByCliente(long clienteId)
         {
             var responsables = await _responsableService.GetByClienteIdAsync(clienteId);
@@ -37,6 +40,7 @@ namespace ComplianceGuardPro.Modules.Responsable.Controllers
 
         // GET: api/responsable/{id}
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<ResponsableDto>> GetResponsable(long id)
         {
             var responsable = await _responsableService.GetByIdAsync(id);
@@ -49,6 +53,7 @@ namespace ComplianceGuardPro.Modules.Responsable.Controllers
 
         // POST: api/responsable
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<ActionResult<ResponsableDto>> CreateResponsable(CreateResponsableDto createResponsableDto)
         {
             var responsable = await _responsableService.CreateAsync(createResponsableDto);
@@ -57,6 +62,7 @@ namespace ComplianceGuardPro.Modules.Responsable.Controllers
 
         // PUT: api/responsable/{id}
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> UpdateResponsable(long id, CreateResponsableDto updateResponsableDto)
         {
             var responsable = await _responsableService.UpdateAsync(id, updateResponsableDto);
@@ -69,6 +75,7 @@ namespace ComplianceGuardPro.Modules.Responsable.Controllers
 
         // DELETE: api/responsable/{id}
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> DeleteResponsable(long id)
         {
             var result = await _responsableService.DeleteAsync(id);

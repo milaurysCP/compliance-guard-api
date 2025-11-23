@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Operaciones.DTOs;
 using ComplianceGuardPro.Modules.Operaciones.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Operaciones.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.Operaciones.Controllers
     }
 
     [HttpGet("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerOperacionesPorCliente(long clienteId)
     {
         var operaciones = await _operacionService.obtenerOperacionesPorCliente(clienteId);
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.Operaciones.Controllers
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerOperacion(long id)
     {
         var operacion = await _operacionService.obtenerOperacion(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.Operaciones.Controllers
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearOperacion([FromBody] CreateOperacionDto crearOperacionDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.Operaciones.Controllers
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarOperacion(long id, [FromBody] CreateOperacionDto actualizarOperacionDto)
     {
         if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.Operaciones.Controllers
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarOperacion(long id)
     {
         var resultado = await _operacionService.eliminarOperacion(id);

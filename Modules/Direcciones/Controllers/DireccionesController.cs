@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Direcciones.DTOs;
 using ComplianceGuardPro.Modules.Direcciones.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Direcciones.Controllers;
 
@@ -18,6 +19,7 @@ public class DireccionesController : ControllerBase
     }
 
     [HttpGet("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerDireccionesPorCliente(long clienteId)
     {
         var direcciones = await _direccionService.obtenerDireccionesPorCliente(clienteId);
@@ -25,6 +27,7 @@ public class DireccionesController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerDireccion(long id)
     {
         var direccion = await _direccionService.obtenerDireccion(id);
@@ -36,6 +39,7 @@ public class DireccionesController : ControllerBase
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearDireccion([FromBody] CreateDireccionDto crearDireccionDto)
     {
         if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ public class DireccionesController : ControllerBase
     }
 
     [HttpPost("cliente/{clienteId}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearDireccionPorCliente(long clienteId, [FromBody] CreateDireccionDto crearDireccionDto)
     {
         if (!ModelState.IsValid)
@@ -62,6 +67,7 @@ public class DireccionesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarDireccion(long id, [FromBody] CreateDireccionDto actualizarDireccionDto)
     {
         if (!ModelState.IsValid)
@@ -79,6 +85,7 @@ public class DireccionesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarDireccion(long id)
     {
         var resultado = await _direccionService.eliminarDireccion(id);

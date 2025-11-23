@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.DebidaDiligencia.DTOs;
 using ComplianceGuardPro.Modules.DebidaDiligencia.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
 {
@@ -18,6 +19,7 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
         }
 
         [HttpGet]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerDebidaDiligencias()
         {
             var debidaDiligencias = await _debidaDiligenciaService.obtenerDebidaDiligencias();
@@ -25,6 +27,7 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
         }
 
         [HttpGet("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ObtenerDebidaDiligencia(long id)
         {
             var debidaDiligencia = await _debidaDiligenciaService.obtenerDebidaDiligencia(id);
@@ -36,6 +39,7 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
         }
 
         [HttpPost]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> CrearDebidaDiligencia([FromBody] CreateDebidaDiligenciaDto crearDebidaDiligenciaDto)
         {
             if (!ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
         }
 
         [HttpPut("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
         public async Task<IActionResult> ActualizarDebidaDiligencia(long id, [FromBody] CreateDebidaDiligenciaDto actualizarDebidaDiligenciaDto)
         {
             if (!ModelState.IsValid)
@@ -65,6 +70,7 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
         public async Task<IActionResult> EliminarDebidaDiligencia(long id)
         {
             var resultado = await _debidaDiligenciaService.eliminarDebidaDiligencia(id);

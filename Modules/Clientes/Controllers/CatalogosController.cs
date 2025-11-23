@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Clientes.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Clientes.Controllers;
 
@@ -17,6 +18,7 @@ public class CatalogosController : ControllerBase
     }
 
     [HttpGet("actividad-economica")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public IActionResult ObtenerActividadEconomica()
     {
         var actividades = _catalogoService.ObtenerActividadEconomica();
@@ -24,6 +26,7 @@ public class CatalogosController : ControllerBase
     }
 
     [HttpGet("operaciones")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public IActionResult ObtenerOperaciones()
     {
         var operaciones = _catalogoService.ObtenerOperaciones();
@@ -31,6 +34,7 @@ public class CatalogosController : ControllerBase
     }
 
     [HttpGet("paises")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public IActionResult ObtenerPaises()
     {
         var paises = _catalogoService.ObtenerPaises();
@@ -38,6 +42,7 @@ public class CatalogosController : ControllerBase
     }
 
     [HttpGet("provincias")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public IActionResult ObtenerProvincias([FromQuery] string? pais = null)
     {
         if (pais == null || pais == "República Dominicana")
@@ -50,6 +55,7 @@ public class CatalogosController : ControllerBase
     }
 
     [HttpGet("municipios")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public IActionResult ObtenerMunicipios([FromQuery] string provincia)
     {
         if (string.IsNullOrWhiteSpace(provincia))
@@ -62,6 +68,7 @@ public class CatalogosController : ControllerBase
     }
 
     [HttpGet("peps")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public IActionResult ObtenerPeps()
     {
         var peps = _catalogoService.ObtenerPeps();

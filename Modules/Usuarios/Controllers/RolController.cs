@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.Usuarios.DTOs;
 using ComplianceGuardPro.Modules.Usuarios.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Usuarios.Controllers;
 
@@ -18,6 +19,7 @@ public class RolController : ControllerBase
     }
 
     [HttpGet]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerRoles()
     {
         try
@@ -32,6 +34,7 @@ public class RolController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerRol(long id)
     {
         try
@@ -50,6 +53,7 @@ public class RolController : ControllerBase
     }
 
     [HttpPost]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CrearRol([FromBody] CreateRolDto createRolDto)
     {
         try
@@ -69,6 +73,7 @@ public class RolController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarRol(long id, [FromBody] CreateRolDto updateRolDto)
     {
         try
@@ -93,6 +98,7 @@ public class RolController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarRol(long id)
     {
         try

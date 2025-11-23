@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ComplianceGuardPro.Modules.Usuarios.DTOs;
 using ComplianceGuardPro.Modules.Usuarios.Services;
+using ComplianceGuardPro.Shared.Authorization;
 
 namespace ComplianceGuardPro.Modules.Usuarios.Controllers;
 
@@ -47,7 +48,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    // [Authorize] // Deshabilitado temporalmente
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerDetalleUsuario(long id)
     {
         var detalleUsuario = await _usuarioService.obtenerDetalleUsuario(id);
@@ -59,7 +60,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet]
-    // [Authorize] // Deshabilitado temporalmente
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerUsuarios()
     {
         var usuarios = await _usuarioService.obtenerUsuarios();
@@ -67,7 +68,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpGet("perfil")]
-    // [Authorize] // Deshabilitado temporalmente
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ObtenerPerfilUsuario()
     {
         // Obtener el ID del usuario desde el token JWT
@@ -87,7 +88,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    // [Authorize] // Deshabilitado temporalmente
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarUsuario(long id, [FromBody] UpdateUsuarioDto actualizarUsuarioDto)
     {
         if (!ModelState.IsValid)
@@ -105,7 +106,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPut("{id}/password")]
-    // [Authorize] // Deshabilitado temporalmente
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> ActualizarClave(long id, [FromBody] UpdatePasswordDto updatePasswordDto)
     {
         if (!ModelState.IsValid)
@@ -123,7 +124,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPut("{id}/status")]
-    // [Authorize] // Deshabilitado temporalmente
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO, Roles.ANALISTA, Roles.TECNICO, Roles.OFICIAL_SUPLENTE)]
     public async Task<IActionResult> CambiarEstado(long id, [FromBody] CambiarEstadoDto cambiarEstadoDto)
     {
         if (!ModelState.IsValid)
@@ -141,7 +142,7 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    // [Authorize] // Deshabilitado temporalmente
+    [RoleAuthorize(Roles.OFICIAL_CUMPLIMIENTO)]
     public async Task<IActionResult> EliminarUsuario(long id)
     {
         var resultado = await _usuarioService.eliminarUsuario(id);
