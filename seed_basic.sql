@@ -27,12 +27,12 @@ INSERT INTO Usuarios (UsuarioLogin, ClaveHash, EstaActivo, Nombre, RolId, Token)
 -- ===========================================
 -- 3. CLIENTES
 -- ===========================================
-INSERT INTO Clientes (TipoCliente, Nombre, Url, DocumentoIdentidad, RegistroComercial, FechaNacimiento, EstaActivo, Estado, FechaRegistro) VALUES
-('Persona', 'Juan Pérez Martínez', 'https://empresa1.com', '001-1234567-8', 'Registro 12345', '1985-03-15', 1, 'Activo', GETDATE()),
-('Empresa', 'Tech Solutions S.A.', 'https://techsolutions.com', NULL, 'Registro 67890', NULL, 1, 'Activo', GETDATE()),
-('Persona', 'María Fernanda Díaz', 'https://consultora.com', '002-9876543-2', 'Registro 54321', '1990-07-22', 1, 'Activo', GETDATE()),
-('Empresa', 'Inversiones Globales Ltda.', 'https://inversionesglobales.com', NULL, 'Registro 11223', NULL, 1, 'Activo', GETDATE()),
-('Persona', 'Roberto Sánchez Torres', 'https://robertosanchez.com', '003-4567890-1', 'Registro 33445', '1978-11-30', 1, 'Activo', GETDATE());
+INSERT INTO Clientes (Nombre, TipoPersona, Siglas, DocumentoIdentidad, FechaCreacion, Rnc, RegistroMercantil, CasaMatriz) VALUES
+('Juan Pérez Martínez', 'Persona Natural', NULL, '001-1234567-8', '2020-01-15', NULL, NULL, NULL),
+('Tech Solutions S.A.', 'Persona Jurídica', 'TS', '002-9876543-2', '2018-05-20', '131234567', 'RM-2018-001', 'República Dominicana'),
+('María Fernanda Díaz', 'Persona Natural', NULL, '003-4567890-1', '2019-03-10', NULL, NULL, NULL),
+('Inversiones Globales Ltda.', 'Persona Jurídica', 'IG', '004-1122334-4', '2017-11-30', '131987654', 'RM-2017-045', 'República Dominicana'),
+('Roberto Sánchez Torres', 'Persona Natural', NULL, '005-5566778-8', '2021-07-22', NULL, NULL, NULL);
 
 
 -- ===========================================

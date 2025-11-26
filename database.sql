@@ -23,15 +23,14 @@ CREATE TABLE Usuarios (
 -- Clientes
 CREATE TABLE Clientes (
     Id BIGINT PRIMARY KEY IDENTITY(1,1),
-    TipoCliente NVARCHAR(50) NOT NULL, -- Persona / Empresa
-    Nombre NVARCHAR(200) NOT NULL,
-    Url NVARCHAR(255),
+    Nombre NVARCHAR(200),
+    TipoPersona NVARCHAR(50), -- Persona Natural / Jurídica
+    Siglas NVARCHAR(50),
     DocumentoIdentidad NVARCHAR(50),
-    RegistroComercial NVARCHAR(100),
-    FechaNacimiento DATETIME,
-    EstaActivo BIT NOT NULL DEFAULT 1,
-    Estado NVARCHAR(50) DEFAULT 'Activo',
-    FechaRegistro DATETIME DEFAULT GETDATE()
+    FechaCreacion DATETIME,
+    Rnc NVARCHAR(50),
+    RegistroMercantil NVARCHAR(100),
+    CasaMatriz NVARCHAR(200)
 );
 
 CREATE TABLE BeneficiariosFinales (

@@ -43,43 +43,34 @@ sqlcmd -S localhost,1433 -U sa -P "YourStrong@Passw0rd" -i clean_database.sql
 
 El script `seed_basic.sql` incluye datos validados para:
 
-#### 🔐 Usuarios y Roles (5 usuarios, 5 roles)
+#### 🔐 Usuarios y Roles (4 usuarios, 4 roles)
 - **admin** / 12345678 - Administrador
-- **supervisor1** / 12345678 - Supervisor
-- **usuario1** / 12345678 - Usuario
-- **auditor1** / 12345678 - Auditor
+- **compliance1** / 12345678 - Compliance Officer
 - **analista1** / 12345678 - Analista
+- **auditor1** / 12345678 - Auditor
 
-#### 📋 Políticas (6 políticas)
+#### 📋 Políticas (2 políticas)
 - Prevención de Lavado de Activos
 - Conocimiento del Cliente (KYC)
-- Gestión de Riesgos
-- Monitoreo de Transacciones
-- Reporte de Operaciones Sospechosas
-- Capacitación y Entrenamiento
 
-#### 🎓 Capacitaciones (5 capacitaciones)
-- Fundamentos de Compliance y AML
-- Debida Diligencia del Cliente Avanzada
-- Gestión de Riesgos Operacionales
-- Detección de Transacciones Sospechosas
-- Normativas Internacionales FATF
+#### 🎓 Capacitaciones (0 capacitaciones)
+- El módulo de capacitaciones está disponible pero sin datos de seed
 
-#### 👥 Clientes (8 clientes)
-- 4 Personas naturales
-- 4 Empresas
-- Con perfiles de riesgo variados
+#### 👥 Clientes (5 clientes)
+- 2 Personas naturales
+- 3 Personas jurídicas
+- Con estructura actualizada según modelo vigente
 
 #### 🏢 Datos Relacionados Validados
-- **Direcciones** (9 registros) - con columnas correctas
-- **Contactos** (16 registros) - información de contacto
-- **Actividades Económicas** (8 registros) - sectores económicos
-- **Beneficiarios Finales** (7 registros) - estructura corporativa
-- **Perfiles Financieros** (8 registros) - información financiera
-- **Riesgos** (8 registros con diferentes niveles)
-- **Operaciones** (8 operaciones básicas)
-- **Transacciones** (8 transacciones)
-- **Evaluaciones** (8 evaluaciones de compliance)
+- **Direcciones** (5 registros) - con columnas correctas según modelo actual
+- **Contactos** (10 registros) - información de contacto
+- **Actividades Económicas** (5 registros) - sectores económicos
+- **Beneficiarios Finales** (5 registros) - estructura corporativa
+- **Perfiles Financieros** (5 registros) - información financiera
+- **Riesgos** (5 registros con diferentes niveles)
+- **Operaciones** (5 operaciones básicas)
+- **Transacciones** (5 transacciones)
+- **Evaluaciones** (5 evaluaciones de compliance)
 
 ## Opción Alternativa: API Endpoints
 
