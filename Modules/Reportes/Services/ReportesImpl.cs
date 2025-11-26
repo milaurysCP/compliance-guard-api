@@ -386,7 +386,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
             }
         }
 
-        public async Task<byte[]> GenerateDashboardPdfAsync(DashboardDto data)
+        public Task<byte[]> GenerateDashboardPdfAsync(DashboardDto data)
         {
             using (var memoryStream = new MemoryStream())
             {
@@ -470,7 +470,7 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
                 document.Add(table);
                 document.Close();
 
-                return memoryStream.ToArray();
+                return Task.FromResult(memoryStream.ToArray());
             }
         }
 

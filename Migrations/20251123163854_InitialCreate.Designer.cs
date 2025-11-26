@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComplianceGuardPro.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251123163854_create")]
-    partial class create
+    [Migration("20251123163854_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
