@@ -1,11 +1,7 @@
 using AutoMapper;
 using ComplianceGuardPro.Data;
 using ComplianceGuardPro.Modules.Referencia.DTOs;
-using ComplianceGuardPro.Modules.Referencia.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ComplianceGuardPro.Modules.Referencia.Services
 {
@@ -23,7 +19,6 @@ namespace ComplianceGuardPro.Modules.Referencia.Services
         public async Task<List<ReferenciaDto>> GetAllAsync()
         {
             var referencias = await _context.Referencias
-                .Include(r => r.Cliente)
                 .ToListAsync();
 
             return _mapper.Map<List<ReferenciaDto>>(referencias);
@@ -32,7 +27,6 @@ namespace ComplianceGuardPro.Modules.Referencia.Services
         public async Task<List<ReferenciaDto>> GetByClienteIdAsync(long clienteId)
         {
             var referencias = await _context.Referencias
-                .Include(r => r.Cliente)
                 .Where(r => r.ClienteId == clienteId)
                 .ToListAsync();
 
@@ -42,7 +36,6 @@ namespace ComplianceGuardPro.Modules.Referencia.Services
         public async Task<ReferenciaDto?> GetByIdAsync(long id)
         {
             var referencia = await _context.Referencias
-                .Include(r => r.Cliente)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             return referencia == null ? null : _mapper.Map<ReferenciaDto>(referencia);
@@ -53,9 +46,6 @@ namespace ComplianceGuardPro.Modules.Referencia.Services
             var referencia = _mapper.Map<Models.Referencia>(createDto);
             _context.Referencias.Add(referencia);
             await _context.SaveChangesAsync();
-
-            // Recargar con la navegación incluida
-            await _context.Entry(referencia).Reference(r => r.Cliente).LoadAsync();
 
             return _mapper.Map<ReferenciaDto>(referencia);
         }
@@ -68,9 +58,6 @@ namespace ComplianceGuardPro.Modules.Referencia.Services
 
             _mapper.Map(updateDto, referencia);
             await _context.SaveChangesAsync();
-
-            // Recargar con la navegación incluida
-            await _context.Entry(referencia).Reference(r => r.Cliente).LoadAsync();
 
             return _mapper.Map<ReferenciaDto>(referencia);
         }

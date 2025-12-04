@@ -21,17 +21,35 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Services
         {
             var debidaDiligencias = await _context.DebidaDiligencias
                 .Include(dd => dd.Cliente)
-                .Select(dd => _mapper.Map<DebidaDiligenciaDto>(dd))
+                .Include(dd => dd.Riesgos)
+                .Include(dd => dd.Documentos)
                 .ToListAsync();
 
-            return debidaDiligencias;
+            return debidaDiligencias.Select(dd => _mapper.Map<DebidaDiligenciaDto>(dd)).ToList();
         }
 
         public async Task<DebidaDiligenciaDto?> obtenerDebidaDiligencia(long id)
         {
             var debidaDiligencia = await _context.DebidaDiligencias
                 .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.Direcciones)
+                .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.Contactos)
+                .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.ActividadesEconomicas)
+                .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.BeneficiariosFinales)
+                .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.PerfilesFinancieros)
+                .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.Operaciones)
+                        .ThenInclude(o => o.Pagos)
+                .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.PersonasExpuestasPoliticamente)
+                .Include(dd => dd.Cliente)
+                    .ThenInclude(c => c.Responsables)
                 .Include(dd => dd.Riesgos)
+                .Include(dd => dd.Documentos)
                 .FirstOrDefaultAsync(dd => dd.Id == id);
 
             if (debidaDiligencia == null)
@@ -42,11 +60,11 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Services
             return _mapper.Map<DebidaDiligenciaDto>(debidaDiligencia);
         }
 
-
-        //! TODO: Mejorar el mapeo y la gestión de relaciones
-        public async Task crearDebidaDiligencia(CreateDebidaDiligenciaDto createDebidaDiligenciaDto)
+        public async Task crearDebidaDiligencia(CreateDebidaDiligenciaDto createDebidaDiligenciaDto, long usuarioId)
         {
             var debidaDiligencia = _mapper.Map<ComplianceGuardPro.Modules.DebidaDiligencia.Models.DebidaDiligencia>(createDebidaDiligenciaDto);
+            debidaDiligencia.FechaRegistro = DateTime.UtcNow;
+            
             _context.DebidaDiligencias.Add(debidaDiligencia);
             await _context.SaveChangesAsync();
         }

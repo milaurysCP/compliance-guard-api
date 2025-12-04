@@ -8,8 +8,7 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Mappings
         public MitigacionMappingProfile()
         {
             CreateMap<Models.Mitigacion, MitigacionDto>()
-                .ForMember(dest => dest.RiesgoNombre, opt => opt.MapFrom(src => src.Riesgo.Nombre))
-                .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(src => src.Riesgo.DebidaDiligencia.ClienteId));
+                .ForMember(dest => dest.RiesgoNombre, opt => opt.MapFrom(src => src.Riesgo.Nombre));
 
             CreateMap<CreateMitigacionDto, Models.Mitigacion>();
         }

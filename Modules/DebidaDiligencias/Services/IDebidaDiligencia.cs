@@ -6,7 +6,7 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Services
     {
         Task<List<DebidaDiligenciaDto>> obtenerDebidaDiligencias();
         Task<DebidaDiligenciaDto?> obtenerDebidaDiligencia(long id);
-        Task crearDebidaDiligencia(CreateDebidaDiligenciaDto createDebidaDiligenciaDto);
+        Task crearDebidaDiligencia(CreateDebidaDiligenciaDto createDebidaDiligenciaDto, long usuarioId);
         Task<bool> actualizarDebidaDiligencia(long id, CreateDebidaDiligenciaDto updateDebidaDiligenciaDto);
         Task<bool> eliminarDebidaDiligencia(long id);
     }

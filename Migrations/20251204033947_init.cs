@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ComplianceGuardPro.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -149,6 +149,51 @@ namespace ComplianceGuardPro.Migrations
                         principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DebidaDiligencias",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SujetoNombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SujetoIdentificacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SujetoListas = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SujetoOtraInformacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipoPersona = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Jurisdiccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RiesgoProducto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SectorEconomico = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CampoLaboral = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrigenesRecurso = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NivelIngreso = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Fuente = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipoPago = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipoMoneda = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TipoPeps = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CargoPeps = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InstitucionPeps = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Consulta = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RelacionTerceros = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Actividad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Pais = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Canal = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Observaciones = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    PuntajeRiesgo = table.Column<int>(type: "int", nullable: false),
+                    NivelRiesgo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TipoDiligencia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClienteId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DebidaDiligencias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DebidaDiligencias_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -377,85 +422,6 @@ namespace ComplianceGuardPro.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pagos",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Moneda = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TipoPago = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CodigoPago = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Tipo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Codigo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OperacionId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pagos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pagos_Operaciones_OperacionId",
-                        column: x => x.OperacionId,
-                        principalTable: "Operaciones",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DebidaDiligencias",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Titulo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FechaFin = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Estado = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Observaciones = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    Conclusion = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ClienteId = table.Column<long>(type: "bigint", nullable: false),
-                    ResponsableId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DebidaDiligencias", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DebidaDiligencias_Clientes_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Clientes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DebidaDiligencias_Responsables_ResponsableId",
-                        column: x => x.ResponsableId,
-                        principalTable: "Responsables",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MensajesChat",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UsuarioId = table.Column<long>(type: "bigint", nullable: false),
-                    Mensaje = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    FechaEnvio = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MensajesChat", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MensajesChat_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Documentos",
                 columns: table => new
                 {
@@ -487,19 +453,10 @@ namespace ComplianceGuardPro.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Identificador = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Tipo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Categoria = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Estado = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DescripcionRiesgo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Objetivo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Fase = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Causa = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Efecto = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Disparador = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    DisparadorDescripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DebidaDiligenciaId = table.Column<long>(type: "bigint", nullable: false)
+                    Frecuencia = table.Column<int>(type: "int", nullable: true),
+                    Nivel = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Impacto = table.Column<int>(type: "int", nullable: true),
+                    DebidaDiligenciaId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -508,6 +465,51 @@ namespace ComplianceGuardPro.Migrations
                         name: "FK_Riesgos_DebidaDiligencias_DebidaDiligenciaId",
                         column: x => x.DebidaDiligenciaId,
                         principalTable: "DebidaDiligencias",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pagos",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Moneda = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    TipoPago = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CodigoPago = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Tipo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Codigo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OperacionId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pagos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pagos_Operaciones_OperacionId",
+                        column: x => x.OperacionId,
+                        principalTable: "Operaciones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MensajesChat",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UsuarioId = table.Column<long>(type: "bigint", nullable: false),
+                    Mensaje = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    FechaEnvio = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MensajesChat", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MensajesChat_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -539,7 +541,7 @@ namespace ComplianceGuardPro.Migrations
                         column: x => x.RiesgoId,
                         principalTable: "Riesgos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -601,11 +603,6 @@ namespace ComplianceGuardPro.Migrations
                 name: "IX_DebidaDiligencias_ClienteId",
                 table: "DebidaDiligencias",
                 column: "ClienteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DebidaDiligencias_ResponsableId",
-                table: "DebidaDiligencias",
-                column: "ResponsableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Direcciones_ClienteId",
@@ -737,6 +734,9 @@ namespace ComplianceGuardPro.Migrations
                 name: "Referencias");
 
             migrationBuilder.DropTable(
+                name: "Responsables");
+
+            migrationBuilder.DropTable(
                 name: "Transacciones");
 
             migrationBuilder.DropTable(
@@ -753,9 +753,6 @@ namespace ComplianceGuardPro.Migrations
 
             migrationBuilder.DropTable(
                 name: "DebidaDiligencias");
-
-            migrationBuilder.DropTable(
-                name: "Responsables");
 
             migrationBuilder.DropTable(
                 name: "Clientes");

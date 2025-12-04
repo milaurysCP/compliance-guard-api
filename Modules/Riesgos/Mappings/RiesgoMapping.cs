@@ -8,9 +8,7 @@ namespace ComplianceGuardPro.Modules.Riesgos.Mappings
     {
         public RiesgoMappingProfile()
         {
-            CreateMap<Riesgo, RiesgoDto>()
-                .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(src => src.DebidaDiligencia.ClienteId));
-
+            CreateMap<Riesgo, RiesgoDto>();
             CreateMap<CreateRiesgoDto, Riesgo>();
         }
     }

@@ -66,7 +66,7 @@ namespace ComplianceGuardPro.Data
         public DbSet<PersonaExpuestaPoliticamente> PersonasExpuestasPoliticamente { get; set; }
         public DbSet<Politica> Politicas { get; set; }
         // public DbSet<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion> ProgresoCapacitaciones { get; set; }
-        public DbSet<Referencia> Referencias { get; set; }
+        public DbSet<ComplianceGuardPro.Modules.Referencia.Models.Referencia> Referencias { get; set; }
         public DbSet<Responsable> Responsables { get; set; }
         public DbSet<Riesgo> Riesgos { get; set; }
         public DbSet<Mitigacion> Mitigaciones { get; set; }
@@ -88,20 +88,6 @@ namespace ComplianceGuardPro.Data
             // modelBuilder.Entity<ComplianceGuardPro.Modules.ProgresoCapacitacion.Models.ProgresoCapacitacion>()
             //     .Property(e => e.ProgresoPorcentaje)
             //     .HasPrecision(5, 2);
-
-            // Configurar la relación de Evaluaciones para evitar ciclos de cascada
-            modelBuilder.Entity<Evaluacion>()
-                .HasOne(e => e.Riesgo)
-                .WithMany(r => r.Evaluaciones)
-                .HasForeignKey(e => e.RiesgoId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Configurar la relación de DebidaDiligencia con Responsable
-            modelBuilder.Entity<DebidaDiligencia>()
-                .HasOne(dd => dd.Responsable)
-                .WithMany()
-                .HasForeignKey(dd => dd.ResponsableId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             // Configurar índices únicos para Cliente
             modelBuilder.Entity<Cliente>()

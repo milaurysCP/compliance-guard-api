@@ -10,6 +10,7 @@ using ComplianceGuardPro.Modules.ActividadesEconomicas.Models;
 using ComplianceGuardPro.Modules.PerfilesFinancieros.Models;
 using ComplianceGuardPro.Modules.Operaciones.Models;
 using ComplianceGuardPro.Modules.Pagos.Models;
+using ReferenciaModel = ComplianceGuardPro.Modules.Referencia.Models.Referencia;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComplianceGuardPro.Modules.Clientes.Services;
@@ -390,7 +391,13 @@ public class ClienteImpl : ICliente
         _context.Transacciones.RemoveRange(cliente.Transacciones);
         _context.PersonasExpuestasPoliticamente.RemoveRange(cliente.PersonasExpuestasPoliticamente);
         _context.Responsables.RemoveRange(cliente.Responsables);
-        _context.Referencias.RemoveRange(cliente.Referencias);
+        
+        // Eliminar referencias individualmente
+        foreach (var referencia in cliente.Referencias.ToList())
+        {
+            _context.Entry(referencia).State = EntityState.Deleted;
+        }
+        
         _context.Intermediarios.RemoveRange(cliente.Intermediarios);
         _context.Evaluaciones.RemoveRange(cliente.Evaluaciones);
 

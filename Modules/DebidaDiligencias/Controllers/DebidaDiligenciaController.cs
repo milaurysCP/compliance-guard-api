@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using ComplianceGuardPro.Modules.DebidaDiligencia.DTOs;
 using ComplianceGuardPro.Modules.DebidaDiligencia.Services;
 using ComplianceGuardPro.Shared.Authorization;
@@ -47,7 +46,14 @@ namespace ComplianceGuardPro.Modules.DebidaDiligencia.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _debidaDiligenciaService.crearDebidaDiligencia(crearDebidaDiligenciaDto);
+            // Obtener el ID del usuario desde el token JWT
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (userIdClaim == null || !long.TryParse(userIdClaim.Value, out var usuarioId))
+            {
+                return Unauthorized(new { message = "Token inválido o usuario no autenticado" });
+            }
+
+            await _debidaDiligenciaService.crearDebidaDiligencia(crearDebidaDiligenciaDto, usuarioId);
             return Ok(new { message = "Debida diligencia creada exitosamente" });
         }
 

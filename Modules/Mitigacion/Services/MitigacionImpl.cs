@@ -24,12 +24,10 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Services
         {
             var mitigaciones = await _context.Mitigaciones
                 .Include(m => m.Riesgo)
-                    .ThenInclude(r => r.DebidaDiligencia)
                 .Where(m => m.RiesgoId == riesgoId)
-                .Select(m => _mapper.Map<MitigacionDto>(m))
                 .ToListAsync();
 
-            return mitigaciones;
+            return mitigaciones.Select(m => _mapper.Map<MitigacionDto>(m)).ToList();
         }
 
         public async Task crearMitigacion(CreateMitigacionDto createMitigacionDto)
@@ -71,7 +69,6 @@ namespace ComplianceGuardPro.Modules.Mitigacion.Services
         {
             var mitigacion = await _context.Mitigaciones
                 .Include(m => m.Riesgo)
-                    .ThenInclude(r => r.DebidaDiligencia)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (mitigacion == null)

@@ -23,12 +23,9 @@ namespace ComplianceGuardPro.Modules.Riesgos.Services
         public async Task<List<RiesgoDto>> obtenerRiesgos()
         {
             var riesgos = await _context.Riesgos
-                .Include(r => r.DebidaDiligencia)
-                .Include(r => r.Evaluaciones)
-                .Select(r => _mapper.Map<RiesgoDto>(r))
                 .ToListAsync();
 
-            return riesgos;
+            return riesgos.Select(r => _mapper.Map<RiesgoDto>(r)).ToList();
         }
 
         public async Task crearRiesgo(CreateRiesgoDto createRiesgoDto)
@@ -56,18 +53,10 @@ namespace ComplianceGuardPro.Modules.Riesgos.Services
         public async Task<bool> eliminarRiesgo(long id)
         {
             var riesgo = await _context.Riesgos
-                .Include(r => r.Evaluaciones)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             if (riesgo == null)
             {
-                return false;
-            }
-
-            // Verificar si tiene evaluaciones asociadas
-            if (riesgo.Evaluaciones.Any())
-            {
-                // No permitir eliminación si tiene evaluaciones
                 return false;
             }
 
@@ -80,8 +69,6 @@ namespace ComplianceGuardPro.Modules.Riesgos.Services
         public async Task<RiesgoDto?> obtenerRiesgo(long id)
         {
             var riesgo = await _context.Riesgos
-                .Include(r => r.DebidaDiligencia)
-                .Include(r => r.Evaluaciones)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             if (riesgo == null)

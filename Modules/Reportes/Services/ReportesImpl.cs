@@ -100,21 +100,18 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
         public async Task<List<RiesgoReporteDto>> GetRiesgosDataAsync()
         {
             var riesgos = await _context.Riesgos
-                .Include(r => r.DebidaDiligencia)
-                    .ThenInclude(dd => dd.Cliente)
-                .Include(r => r.Mitigaciones)
                 .ToListAsync();
 
             return riesgos.Select(r => new RiesgoReporteDto
             {
                 Id = r.Id,
-                Descripcion = r.DescripcionRiesgo,
-                Nivel = r.Categoria,
-                Estado = r.Estado,
-                ClienteNombre = r.DebidaDiligencia?.Cliente?.Nombre ?? "N/A",
-                Mitigacion = r.Mitigaciones.FirstOrDefault()?.Accion ?? "Sin mitigación",
-                FechaIdentificacion = r.FechaCreacion ?? DateTime.MinValue,
-                FechaMitigacion = r.Mitigaciones.FirstOrDefault()?.FechaCierre
+                Descripcion = r.Nombre,
+                Nivel = r.Nivel,
+                Estado = "Activo",
+                ClienteNombre = "N/A",
+                Mitigacion = "Sin mitigación",
+                FechaIdentificacion = DateTime.Now,
+                FechaMitigacion = null
             }).ToList();
         }
 
@@ -122,7 +119,6 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
         {
             var dd = await _context.DebidaDiligencias
                 .Include(dd => dd.Cliente)
-                .Include(dd => dd.Responsable)
                 .Include(dd => dd.Riesgos)
                 .Include(dd => dd.Documentos)
                 .FirstOrDefaultAsync(dd => dd.Id == id);
@@ -133,19 +129,19 @@ namespace ComplianceGuardPro.Modules.Reportes.Services
             {
                 Id = dd.Id,
                 ClienteNombre = dd.Cliente?.Nombre,
-                Estado = dd.Estado,
-                FechaInicio = dd.FechaInicio,
-                FechaCompletado = dd.FechaFin,
-                Responsable = dd.Responsable?.Nombre,
+                Estado = dd.TipoDiligencia,
+                FechaInicio = dd.FechaRegistro,
+                FechaCompletado = null,
+                Responsable = "N/A",
                 Documentos = dd.Documentos.Select(d => new DocumentoDto
                 {
                     Tipo = d.Tipo,
                     Nombre = d.Nombre,
                     Verificado = d.Verificado
                 }).ToList(),
-                Evaluaciones = new List<EvaluacionDto>(), // TODO: Agregar relación con Evaluaciones
-                Referencias = new List<ReferenciaDto>(), // TODO: Agregar relación con Referencias
-                Conclusion = dd.Conclusion ?? dd.Observaciones
+                Evaluaciones = new List<EvaluacionDto>(),
+                Referencias = new List<ReferenciaDto>(),
+                Conclusion = dd.Observaciones
             };
         }
 

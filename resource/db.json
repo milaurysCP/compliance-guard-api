@@ -1,0 +1,412 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "nombres": "Jose Perez",
+      "correo": "jp@gm.com",
+      "clave": "Adm123",
+      "telefono": "809652124",
+      "direccion": "C/1 La Tor",
+      "rol": "Oficial de Cumplimiento",
+      "permisos": {
+        "registroCliente": [
+          "Create",
+          "Read",
+          "Update",
+          "Delete"
+        ],
+        "debidaDiligencia": [
+          "Create",
+          "Read",
+          "Update",
+          "Delete"
+        ],
+        "dashboard": [
+          "Full Access"
+        ],
+        "registroUsuario": [
+          "Create",
+          "Read",
+          "Update",
+          "Delete"
+        ]
+      }
+    },
+    {
+      "id": "2",
+      "nombres": "Luis Vera",
+      "correo": "lv@gm.com",
+      "clave": "Analist123",
+      "telefono": "809654217",
+      "direccion": "C/2 La Isla",
+      "rol": "Analista",
+      "permisos": {
+        "registroCliente": [
+          "Create",
+          "Read",
+          "Update"
+        ],
+        "debidaDiligencia": [
+          "Read",
+          "Update"
+        ],
+        "dashboard": [
+          "Create",
+          "Read",
+          "Update"
+        ],
+        "registroUsuario": [
+          "Read"
+        ]
+      }
+    },
+    {
+      "id": "3",
+      "nombres": "Ana Lopez",
+      "correo": "al@gm.com",
+      "clave": "user123",
+      "telefono": "809652129",
+      "direccion": "C/4 Pedmo",
+      "rol": "Oficial Suplente",
+      "permisos": {
+        "registroCliente": [
+          "Create",
+          "Read"
+        ],
+        "debidaDiligencia": [
+          "Read"
+        ],
+        "dashboard": [
+          "Read"
+        ],
+        "registroUsuario": []
+      }
+    },
+    {
+      "id": "4",
+      "nombres": "Pedro Leo",
+      "correo": "pl@gm.com",
+      "clave": "tec1235",
+      "telefono": "809624579",
+      "direccion": "C/4 Pedmo",
+      "rol": "Técnico",
+      "permisos": {
+        "registroCliente": [
+          "Read"
+        ],
+        "debidaDiligencia": [
+          "Read"
+        ],
+        "dashboard": [
+          "Read"
+        ],
+        "registroUsuario": []
+      }
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "nombre": "Administrador",
+      "descripcion": "Acceso total al sistema y configuración completa."
+    },
+    {
+      "id": "2",
+      "nombre": "Analista",
+      "descripcion": "Acceso a módulos operativos y consultas de información."
+    },
+    {
+      "id": "3",
+      "nombre": "Técnico",
+      "descripcion": "Acceso limitado a consultas y seguimiento técnico."
+    },
+    {
+      "id": "4",
+      "nombre": "Oficial de Cumplimiento",
+      "descripcion": "Gestión de usuarios, debida diligencia y reportes de riesgo."
+    }
+  ],
+  "registroClientes": [
+    {
+      "id": "1",
+      "nombre": "Juan Ramírez",
+      "documento": "001-1567894-2",
+      "telefono": "8095642231",
+      "direccion": "C/ Sol #12, Sto. Dgo.",
+      "actividad": "Comercio",
+      "estado": "Activo"
+    }
+  ],
+  "debidaDiligencia": [
+    {
+      "id": "1",
+      "clienteId": 1,
+      "nivelRiesgo": "Medio",
+      "ultimaEvaluacion": "2025-11-10",
+      "observaciones": "Cliente con historial estable y documentación actualizada."
+    }
+  ],
+  "dashboard": [
+    {
+      "id": "1",
+      "modulo": "Resumen General",
+      "acceso": "Full Access"
+    }
+  ],
+  "clientes": [
+    {
+      "id": "1",
+      "datosBasicos": {
+        "nombre": "Cooperativa La Solucion",
+        "tipoPersona": "Persona Jurídica",
+        "siglas": "COOPSOL",
+        "documentoIdentidad": "1254784",
+        "fechaCreacion": "2020-10-2",
+        "rnc": "12548745",
+        "registroMercantil": "32512547",
+        "casaMatriz": "Santo Domingo"
+      },
+      "direccion": {
+        "calle": "Calle Sabaleta",
+        "numero": "12",
+        "sector": "Invivienda",
+        "codigoPostal": "125487",
+        "pais": "República Dominicana",
+        "provincia": "Santo Domingo",
+        "municipio": "Santo Domingo Este"
+      },
+      "contactos": [
+        {
+          "tipoContacto": "Teléfono",
+          "valorContacto": "8092584521"
+        }
+      ],
+      "actividadEconomica": {
+        "sector": "sector_1_primario",
+        "campoLaboral": "",
+        "origenFondos": ""
+      },
+      "sofinanciero": [
+        {
+          "tipoSOFinanciero": "",
+          "nombreSOFinanciero": "",
+          "apellidosSOFinanciero": "",
+          "identificacionSOFinanciero": "",
+          "nacionalidadSOFinanciero": ""
+        }
+      ],
+      "perfilFinanciero": [
+        {
+          "ningreso": "",
+          "fuentes": ""
+        }
+      ],
+      "operaciones": {
+        "tipoOperacion": "Sector Financiero",
+        "entidadFinanciera": "Bancos Comerciales",
+        "codigoOperacion": "",
+        "descripcionOperacion": "Préstamos Personales",
+        "propositoOperacion": "",
+        "monto": ""
+      },
+      "pagos": {
+        "moneda": "",
+        "tipoPago": "",
+        "codigoPago": "",
+        "monto": ""
+      },
+      "peps": {
+        "tipoPeps": "",
+        "cargoPeps": "",
+        "nombrePeps": "",
+        "decreto": "",
+        "institucionPeps": ""
+      },
+      "responsable": {
+        "responsableTransaccion": "",
+        "nombresResposable": "",
+        "apellidosResponsable": "",
+        "direccionResponsable": "",
+        "identificacionResponsable": "",
+        "correo": "",
+        "telefono": "",
+        "cargo": ""
+      }
+    },
+    {
+      "id": "2",
+      "datosBasicos": {
+        "nombre": "Jose Lopez",
+        "tipoPersona": "Persona Física",
+        "siglas": "",
+        "documentoIdentidad": "10400000269",
+        "fechaCreacion": "2025-12-11",
+        "rnc": "1266542",
+        "registroMercantil": "",
+        "casaMatriz": ""
+      },
+      "direccion": {
+        "calle": "Calle Isabela Aguiar",
+        "numero": "4",
+        "sector": "Los Almacigos",
+        "codigoPostal": "125487",
+        "pais": "República Dominicana",
+        "provincia": "Duarte",
+        "municipio": "Hostos"
+      },
+      "contactos": [
+        {
+          "tipoContacto": "",
+          "valorContacto": ""
+        }
+      ],
+      "actividadEconomica": {
+        "sector": "sector_1_primario",
+        "campoLaboral": "",
+        "origenFondos": ""
+      },
+      "sofinanciero": [
+        {
+          "tipoSOFinanciero": "",
+          "nombreSOFinanciero": "",
+          "apellidosSOFinanciero": "",
+          "identificacionSOFinanciero": "",
+          "nacionalidadSOFinanciero": ""
+        }
+      ],
+      "perfilFinanciero": [
+        {
+          "ningreso": "",
+          "fuentes": ""
+        }
+      ],
+      "operaciones": {
+        "tipoOperacion": "Sector Financiero",
+        "entidadFinanciera": "Bancos Comerciales",
+        "codigoOperacion": "",
+        "descripcionOperacion": "Préstamos Personales",
+        "propositoOperacion": "",
+        "monto": ""
+      },
+      "pagos": {
+        "moneda": "",
+        "tipoPago": "",
+        "codigoPago": "",
+        "monto": ""
+      },
+      "peps": {
+        "tipoPeps": "",
+        "cargoPeps": "",
+        "nombrePeps": "",
+        "decreto": "",
+        "institucionPeps": ""
+      },
+      "responsable": {
+        "responsableTransaccion": "",
+        "nombresResposable": "",
+        "apellidosResponsable": "",
+        "direccionResponsable": "",
+        "identificacionResponsable": "",
+        "correo": "",
+        "telefono": "",
+        "cargo": ""
+      }
+    }
+  ],
+  "riesgos": [
+    {
+      "id": 1,
+      "nombre": "Lavado de Activos",
+      "frecuencia": 85,
+      "impacto": 90,
+      "nivel": "Alto",
+      "clienteId": 1
+    },
+    {
+      "id": 2,
+      "nombre": "Financiamiento del Terrorismo",
+      "frecuencia": 40,
+      "impacto": 35,
+      "nivel": "Medio",
+      "clienteId": 2
+    },
+    {
+      "id": 3,
+      "nombre": "Riesgo Operativo",
+      "frecuencia": 60,
+      "impacto": 70,
+      "nivel": "Alto",
+      "clienteId": 1
+    }
+  ],
+  "controles": [
+    {
+      "id": 1,
+      "nombre": "Validación de identidad",
+      "estado": "Activo",
+      "implementado": 100
+    },
+    {
+      "id": 2,
+      "nombre": "Monitoreo transaccional",
+      "estado": "En Proceso",
+      "implementado": 60
+    },
+    {
+      "id": 3,
+      "nombre": "Actualización periódica de clientes",
+      "estado": "No Implementado",
+      "implementado": 25
+    }
+  ],
+  "riesgoFinanciero": [
+    {
+      "id": 1,
+      "tipo": "Liquidez",
+      "valor": 70,
+      "tendencia": "Ascendente",
+      "fecha": "2025-10-01"
+    },
+    {
+      "id": 2,
+      "tipo": "Solvencia",
+      "valor": 50,
+      "tendencia": "Estable",
+      "fecha": "2025-10-01"
+    }
+  ],
+  "riesgoCrediticio": [
+    {
+      "id": 1,
+      "clienteId": 1,
+      "probabilidadIncumplimiento": 12,
+      "exposicion": 450000,
+      "perdidaEsperada": 54000
+    }
+  ],
+  "efectividad": [
+    {
+      "id": 1,
+      "control": "Monitoreo transaccional",
+      "efectividad": 78,
+      "fecha": "2025-10-12"
+    },
+    {
+      "id": 2,
+      "control": "Validación documental",
+      "efectividad": 90,
+      "fecha": "2025-11-01"
+    }
+  ],
+  "activos": [
+    {
+      "id": 1,
+      "nombre": "Data Cliente",
+      "responsable": "John Doe",
+      "frecuencia": 20,
+      "activo": "Información",
+      "implementado": "100%",
+      "analista": "53%"
+    }
+  ]
+}
